@@ -1,3 +1,4 @@
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:west_fun/screens/home_screen.dart';
@@ -8,11 +9,16 @@ void main() {
       const MaterialApp(
         locale: Locale('fr'),
         supportedLocales: [Locale('fr'), Locale('en')],
+        localizationsDelegates: [
+          GlobalMaterialLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+        ],
         home: HomeScreen(),
       ),
     );
 
-    expect(find.text('West-Fun'), findsOneWidget);
+    expect(find.text('West-Fun'), findsNWidgets(2));
     expect(find.text('Jouer'), findsOneWidget);
   });
 }

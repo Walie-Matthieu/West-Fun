@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:west_fun/l10n/app_text.dart';
 import 'package:west_fun/models/game_models.dart';
 import 'package:west_fun/screens/mode_selection_screen.dart';
+import 'package:west_fun/widgets/app_gradient_background.dart';
 
 class ThemeSelectionScreen extends StatelessWidget {
   const ThemeSelectionScreen({super.key, required this.playerNames});
@@ -13,14 +14,7 @@ class ThemeSelectionScreen extends StatelessWidget {
     final t = AppText.of(context);
     return Scaffold(
       appBar: AppBar(title: Text(t.themes)),
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Color(0xFF8E2DE2), Color(0xFF4A00E0)],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-        ),
+      body: AppGradientBackground(
         child: ListView(
           padding: const EdgeInsets.all(16),
           children: [

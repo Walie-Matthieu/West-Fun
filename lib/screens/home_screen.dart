@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:west_fun/l10n/app_text.dart';
 import 'package:west_fun/screens/player_setup_screen.dart';
+import 'package:west_fun/widgets/app_gradient_background.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -9,14 +10,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final t = AppText.of(context);
     return Scaffold(
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Color(0xFF8E2DE2), Color(0xFF4A00E0)],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-        ),
+      body: AppGradientBackground(
         child: Center(
           child: Column(
             mainAxisSize: MainAxisSize.min,

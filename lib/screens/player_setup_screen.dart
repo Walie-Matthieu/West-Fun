@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:west_fun/l10n/app_text.dart';
 import 'package:west_fun/screens/theme_selection_screen.dart';
+import 'package:west_fun/widgets/app_gradient_background.dart';
 
 class PlayerSetupScreen extends StatefulWidget {
   const PlayerSetupScreen({super.key});
@@ -28,14 +29,7 @@ class _PlayerSetupScreenState extends State<PlayerSetupScreen> {
     final t = AppText.of(context);
     return Scaffold(
       appBar: AppBar(title: Text(t.players)),
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Color(0xFF8E2DE2), Color(0xFF4A00E0)],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-        ),
+      body: AppGradientBackground(
         child: Padding(
           padding: const EdgeInsets.all(16),
           child: Column(

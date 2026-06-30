@@ -3,6 +3,7 @@ import 'package:west_fun/l10n/app_text.dart';
 import 'package:west_fun/models/game_engine.dart';
 import 'package:west_fun/models/game_models.dart';
 import 'package:west_fun/screens/end_game_screen.dart';
+import 'package:west_fun/widgets/app_gradient_background.dart';
 import 'package:west_fun/widgets/scoreboard.dart';
 
 class GameplayScreen extends StatefulWidget {
@@ -41,60 +42,68 @@ class _GameplayScreenState extends State<GameplayScreen> {
     final voterCount = _engine.players.length - 1;
     return Scaffold(
       appBar: AppBar(title: Text(widget.mode.label)),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Scoreboard(players: _engine.players),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Text('${t.activePlayer}: ${_engine.activePlayer.name}'),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: Card(
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Text(
-                  _engine.currentQuestion,
-                  style: Theme.of(context).textTheme.titleLarge,
+      body: AppGradientBackground(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Scoreboard(players: _engine.players),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Text(
+                '${t.activePlayer}: ${_engine.activePlayer.name}',
+                style: const TextStyle(color: Colors.white),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Text(
+                    _engine.currentQuestion,
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
                 ),
               ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Text('${t.agreeVotes}: $_agreeVotes / $voterCount ${t.others}'),
-          ),
-          Slider(
-            value: _agreeVotes.toDouble(),
-            min: 0,
-            max: voterCount.toDouble(),
-            divisions: voterCount,
-            onChanged: (value) {
-              setState(() {
-                _agreeVotes = value.round();
-              });
-            },
-          ),
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: ElevatedButton(
-              onPressed: () {
-                _engine.applyVote(agreeVotes: _agreeVotes, voterCount: voterCount);
-                if (_engine.isFinished) {
-                  Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (_) => EndGameScreen(players: _engine.ranking)),
-                  );
-                  return;
-                }
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Text(
+                '${t.agreeVotes}: $_agreeVotes / $voterCount ${t.others}',
+                style: const TextStyle(color: Colors.white),
+              ),
+            ),
+            Slider(
+              value: _agreeVotes.toDouble(),
+              min: 0,
+              max: voterCount.toDouble(),
+              divisions: voterCount,
+              onChanged: (value) {
                 setState(() {
-                  _agreeVotes = 0;
+                  _agreeVotes = value.round();
                 });
               },
-              child: Text(t.next),
             ),
-          ),
-        ],
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: ElevatedButton(
+                onPressed: () {
+                  _engine.applyVote(agreeVotes: _agreeVotes, voterCount: voterCount);
+                  if (_engine.isFinished) {
+                    Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(builder: (_) => EndGameScreen(players: _engine.ranking)),
+                    );
+                    return;
+                  }
+                  setState(() {
+                    _agreeVotes = 0;
+                  });
+                },
+                child: Text(t.next),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

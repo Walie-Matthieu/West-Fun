@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:west_fun/l10n/app_text.dart';
 import 'package:west_fun/models/game_models.dart';
 import 'package:west_fun/screens/home_screen.dart';
+import 'package:west_fun/widgets/app_gradient_background.dart';
 
 class EndGameScreen extends StatelessWidget {
   const EndGameScreen({super.key, required this.players});
@@ -14,38 +15,43 @@ class EndGameScreen extends StatelessWidget {
     final winner = players.first;
     return Scaffold(
       appBar: AppBar(title: Text(t.finalScores)),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Text('${t.winner}: ${winner.name} (${winner.score} pts)', style: Theme.of(context).textTheme.titleLarge),
-            const SizedBox(height: 16),
-            Expanded(
-              child: Card(
-                child: ListView.builder(
-                  itemCount: players.length,
-                  itemBuilder: (context, index) {
-                    final player = players[index];
-                    return ListTile(
-                      leading: Text('#${index + 1}'),
-                      title: Text(player.name),
-                      trailing: Text('${player.score} pts'),
-                    );
-                  },
+      body: AppGradientBackground(
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Text(
+                '${t.winner}: ${winner.name} (${winner.score} pts)',
+                style: Theme.of(context).textTheme.titleLarge?.copyWith(color: Colors.white),
+              ),
+              const SizedBox(height: 16),
+              Expanded(
+                child: Card(
+                  child: ListView.builder(
+                    itemCount: players.length,
+                    itemBuilder: (context, index) {
+                      final player = players[index];
+                      return ListTile(
+                        leading: Text('#${index + 1}'),
+                        title: Text(player.name),
+                        trailing: Text('${player.score} pts'),
+                      );
+                    },
+                  ),
                 ),
               ),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).pushAndRemoveUntil(
-                  MaterialPageRoute(builder: (_) => const HomeScreen()),
-                  (route) => false,
-                );
-              },
-              child: Text(t.replay),
-            ),
-          ],
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(builder: (_) => const HomeScreen()),
+                    (route) => false,
+                  );
+                },
+                child: Text(t.replay),
+              ),
+            ],
+          ),
         ),
       ),
     );

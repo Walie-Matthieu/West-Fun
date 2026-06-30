@@ -1,3 +1,4 @@
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:west_fun/screens/home_screen.dart';
 
@@ -20,6 +21,12 @@ class WestFunApp extends StatelessWidget {
           brightness: Brightness.light,
         ),
       ),
+      supportedLocales: const [Locale('fr'), Locale('en')],
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
       home: const HomeScreen(),
     );
   }
