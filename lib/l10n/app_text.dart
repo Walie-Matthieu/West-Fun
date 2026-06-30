@@ -23,7 +23,7 @@ class AppText {
     'activePlayer': {AppLanguage.fr: 'Joueur actif', AppLanguage.en: 'Active player'},
     'agreeVotes': {AppLanguage.fr: 'Votes d\'accord', AppLanguage.en: 'Agree votes'},
     'others': {AppLanguage.fr: 'autres joueurs', AppLanguage.en: 'other players'},
-    'scoreboard': {AppLanguage.fr: 'Scoreboard', AppLanguage.en: 'Scoreboard'},
+    'scoreboard': {AppLanguage.fr: 'Tableau des scores', AppLanguage.en: 'Scoreboard'},
     'winner': {AppLanguage.fr: 'Gagnant', AppLanguage.en: 'Winner'},
     'finalScores': {AppLanguage.fr: 'Scores finaux', AppLanguage.en: 'Final scores'},
     'replay': {AppLanguage.fr: 'Rejouer', AppLanguage.en: 'Play again'},

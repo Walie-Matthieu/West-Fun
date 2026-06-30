@@ -5,7 +5,8 @@ import 'package:west_fun/models/game_models.dart';
 
 class GameEngine {
   GameEngine({required this.players, required this.mode, required this.theme, this.maxDelta = 10})
-      : totalTurns = max(players.length * 3, 1);
+      : assert(players.length > 1, 'At least 2 players are required'),
+        totalTurns = max(players.length * 3, 1);
 
   final List<Player> players;
   final GameMode mode;
