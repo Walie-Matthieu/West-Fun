@@ -25,7 +25,7 @@ class ModeSelectionScreen extends StatelessWidget {
             Card(
               child: ListTile(
                 title: Text(mode.label),
-                subtitle: Text('Theme: ${theme.label}'),
+                subtitle: Text('${t.theme}: ${theme.label}'),
                 trailing: const Icon(Icons.play_arrow),
                 onTap: () {
                   Navigator.of(context).push(

@@ -41,7 +41,7 @@ class _PlayerSetupScreenState extends State<PlayerSetupScreen> {
                     child: TextField(
                       controller: _controllers[index],
                       decoration: InputDecoration(
-                        labelText: 'Joueur ${index + 1}',
+                        labelText: '${t.player} ${index + 1}',
                         border: const OutlineInputBorder(),
                       ),
                     ),
@@ -71,7 +71,7 @@ class _PlayerSetupScreenState extends State<PlayerSetupScreen> {
                           .toList();
                       if (names.length < 2) {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Ajoutez au moins 2 joueurs.')),
+                          SnackBar(content: Text(t.minTwoPlayers)),
                         );
                         return;
                       }

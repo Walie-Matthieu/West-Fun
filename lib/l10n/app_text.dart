@@ -27,6 +27,12 @@ class AppText {
     'winner': {AppLanguage.fr: 'Gagnant', AppLanguage.en: 'Winner'},
     'finalScores': {AppLanguage.fr: 'Scores finaux', AppLanguage.en: 'Final scores'},
     'replay': {AppLanguage.fr: 'Rejouer', AppLanguage.en: 'Play again'},
+    'player': {AppLanguage.fr: 'Joueur', AppLanguage.en: 'Player'},
+    'minTwoPlayers': {
+      AppLanguage.fr: 'Ajoutez au moins 2 joueurs.',
+      AppLanguage.en: 'Add at least 2 players.',
+    },
+    'theme': {AppLanguage.fr: 'Thème', AppLanguage.en: 'Theme'},
   };
 
   String get play => _value('play');
@@ -43,6 +49,9 @@ class AppText {
   String get winner => _value('winner');
   String get finalScores => _value('finalScores');
   String get replay => _value('replay');
+  String get player => _value('player');
+  String get minTwoPlayers => _value('minTwoPlayers');
+  String get theme => _value('theme');
 
   String _value(String key) => _values[key]?[language] ?? '';
 }
