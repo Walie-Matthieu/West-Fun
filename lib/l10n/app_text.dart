@@ -9,26 +9,53 @@ class AppText {
 
   static AppText of(BuildContext context) {
     final locale = Localizations.localeOf(context);
-    return AppText(locale.languageCode.toLowerCase().startsWith('en') ? AppLanguage.en : AppLanguage.fr);
+    return AppText(locale.languageCode.toLowerCase().startsWith('en')
+        ? AppLanguage.en
+        : AppLanguage.fr);
   }
 
   static const Map<String, Map<AppLanguage, String>> _values = {
     'play': {AppLanguage.fr: 'Jouer', AppLanguage.en: 'Play'},
     'players': {AppLanguage.fr: 'Joueurs', AppLanguage.en: 'Players'},
-    'addPlayer': {AppLanguage.fr: 'Ajouter un joueur', AppLanguage.en: 'Add player'},
+    'addPlayer': {
+      AppLanguage.fr: 'Ajouter un joueur',
+      AppLanguage.en: 'Add player'
+    },
     'start': {AppLanguage.fr: 'Commencer', AppLanguage.en: 'Start'},
     'themes': {AppLanguage.fr: 'Thèmes', AppLanguage.en: 'Themes'},
     'modes': {AppLanguage.fr: 'Modes de jeu', AppLanguage.en: 'Game modes'},
     'next': {AppLanguage.fr: 'Suivant', AppLanguage.en: 'Next'},
-    'activePlayer': {AppLanguage.fr: 'Joueur actif', AppLanguage.en: 'Active player'},
-    'questionsLeft': {AppLanguage.fr: 'Questions restantes', AppLanguage.en: 'Questions left'},
-    'agreeVotes': {AppLanguage.fr: 'Votes d\'accord', AppLanguage.en: 'Agree votes'},
-    'others': {AppLanguage.fr: 'autres joueurs', AppLanguage.en: 'other players'},
-    'scoreboard': {AppLanguage.fr: 'Tableau des scores', AppLanguage.en: 'Scoreboard'},
+    'activePlayer': {
+      AppLanguage.fr: 'Joueur actif',
+      AppLanguage.en: 'Active player'
+    },
+    'questionsLeft': {
+      AppLanguage.fr: 'Questions restantes',
+      AppLanguage.en: 'Questions left'
+    },
+    'agreeVotes': {
+      AppLanguage.fr: 'Votes d\'accord',
+      AppLanguage.en: 'Agree votes'
+    },
+    'others': {
+      AppLanguage.fr: 'autres joueurs',
+      AppLanguage.en: 'other players'
+    },
+    'scoreboard': {
+      AppLanguage.fr: 'Tableau des scores',
+      AppLanguage.en: 'Scoreboard'
+    },
     'winner': {AppLanguage.fr: 'Gagnant', AppLanguage.en: 'Winner'},
-    'finalScores': {AppLanguage.fr: 'Scores finaux', AppLanguage.en: 'Final scores'},
+    'finalScores': {
+      AppLanguage.fr: 'Scores finaux',
+      AppLanguage.en: 'Final scores'
+    },
     'replay': {AppLanguage.fr: 'Rejouer', AppLanguage.en: 'Play again'},
     'player': {AppLanguage.fr: 'Joueur', AppLanguage.en: 'Player'},
+    'scoresRevealedAtEnd': {
+      AppLanguage.fr: 'Les scores seront reveles a la fin de la partie.',
+      AppLanguage.en: 'Scores will be revealed at the end of the game.',
+    },
     'minTwoPlayers': {
       AppLanguage.fr: 'Ajoutez au moins 2 joueurs.',
       AppLanguage.en: 'Add at least 2 players.',
@@ -52,6 +79,7 @@ class AppText {
   String get finalScores => _value('finalScores');
   String get replay => _value('replay');
   String get player => _value('player');
+  String get scoresRevealedAtEnd => _value('scoresRevealedAtEnd');
   String get minTwoPlayers => _value('minTwoPlayers');
   String get theme => _value('theme');
 
