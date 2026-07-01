@@ -19,9 +19,9 @@ class HomeScreen extends StatelessWidget {
                 alignment: Alignment.center,
                 children: [
                   Text(
-                    'West-Fun',
+                    'West-Fun', // Contour du titre dans la home page
                     style: TextStyle(
-                      fontFamily: 'Nunito',
+                      fontFamily: 'Nunito', // Contour de la police du titre dans la home page
                       fontSize: 68,
                       fontWeight: FontWeight.bold,
                       letterSpacing: 1.2,
@@ -38,10 +38,10 @@ class HomeScreen extends StatelessWidget {
                       end: Alignment.bottomCenter,
                     ).createShader(bounds),
                     child: const Text(
-                      'West-Fun',
+                      'West-Fun',          // Titre dans la home page
                       style: TextStyle(
                         color: Colors.white,
-                        fontFamily: 'Nunito',
+                        fontFamily: 'Nunito', // Police du titre dans la home page
                         fontSize: 68,
                         fontWeight: FontWeight.bold,
                         letterSpacing: 1.2,

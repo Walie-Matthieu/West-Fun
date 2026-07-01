@@ -7,7 +7,7 @@ void main() {
   testWidgets('shows app name and play button', (tester) async {
     await tester.pumpWidget(
       const MaterialApp(
-        locale: Locale('fr'),
+        locale: Locale('en'),
         supportedLocales: [Locale('fr'), Locale('en')],
         localizationsDelegates: [
           GlobalMaterialLocalizations.delegate,
@@ -19,6 +19,6 @@ void main() {
     );
 
     expect(find.text('West-Fun'), findsNWidgets(2));
-    expect(find.text('Jouer'), findsOneWidget);
+    expect(find.text('Play'), findsOneWidget);
   });
 }

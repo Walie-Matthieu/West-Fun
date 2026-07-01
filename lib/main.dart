@@ -21,6 +21,7 @@ class WestFunApp extends StatelessWidget {
           brightness: Brightness.light,
         ),
       ),
+      locale: const Locale('en'),
       supportedLocales: const [Locale('fr'), Locale('en')],
       localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,
