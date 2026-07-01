@@ -16,6 +16,14 @@ class _PlayerSetupScreenState extends State<PlayerSetupScreen> {
     TextEditingController(),
   ];
 
+  void _removePlayerAt(int index) {
+    final controller = _controllers.removeAt(index);
+    controller.dispose();
+    if (_controllers.isEmpty) {
+      _controllers.add(TextEditingController());
+    }
+  }
+
   @override
   void dispose() {
     for (final controller in _controllers) {
@@ -39,6 +47,7 @@ class _PlayerSetupScreenState extends State<PlayerSetupScreen> {
                   itemCount: _controllers.length,
                   itemBuilder: (context, index) {
                     return Padding(
+                      key: ValueKey(_controllers[index]),
                       padding: const EdgeInsets.only(bottom: 12),
                       child: TextField(
                         controller: _controllers[index],
@@ -58,6 +67,21 @@ class _PlayerSetupScreenState extends State<PlayerSetupScreen> {
                             borderSide: const BorderSide(
                               color: Color(0xFF4A00E0),
                               width: 2,
+                            ),
+                          ),
+                          suffixIcon: IconButton(
+                            onPressed: () {
+                              setState(() {
+                                _removePlayerAt(index);
+                              });
+                            },
+                            icon: const Text(
+                              '-',
+                              style: TextStyle(
+                                fontSize: 28,
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xFF4A00E0),
+                              ),
                             ),
                           ),
                         ),

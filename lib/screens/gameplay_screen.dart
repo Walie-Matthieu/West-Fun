@@ -49,9 +49,18 @@ class _GameplayScreenState extends State<GameplayScreen> {
             Scoreboard(players: _engine.players),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Text(
-                '${t.activePlayer}: ${_engine.activePlayer.name}',
-                style: const TextStyle(color: Colors.white),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    '${t.activePlayer}: ${_engine.activePlayer.name}',
+                    style: const TextStyle(color: Colors.white),
+                  ),
+                  Text(
+                    '${t.questionsLeft}: ${_engine.remainingQuestions}',
+                    style: const TextStyle(color: Colors.white),
+                  ),
+                ],
               ),
             ),
             Padding(

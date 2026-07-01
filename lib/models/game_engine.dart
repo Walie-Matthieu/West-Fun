@@ -25,6 +25,7 @@ class GameEngine {
   Player get activePlayer => players[activePlayerIndex];
 
   bool get isFinished => currentTurn >= totalTurns;
+  int get remainingQuestions => totalTurns - currentTurn;
 
   int scoreDeltaForVote({required int agreeVotes, required int voterCount}) {
     if (voterCount <= 0) {

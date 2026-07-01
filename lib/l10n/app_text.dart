@@ -21,6 +21,7 @@ class AppText {
     'modes': {AppLanguage.fr: 'Modes de jeu', AppLanguage.en: 'Game modes'},
     'next': {AppLanguage.fr: 'Suivant', AppLanguage.en: 'Next'},
     'activePlayer': {AppLanguage.fr: 'Joueur actif', AppLanguage.en: 'Active player'},
+    'questionsLeft': {AppLanguage.fr: 'Questions restantes', AppLanguage.en: 'Questions left'},
     'agreeVotes': {AppLanguage.fr: 'Votes d\'accord', AppLanguage.en: 'Agree votes'},
     'others': {AppLanguage.fr: 'autres joueurs', AppLanguage.en: 'other players'},
     'scoreboard': {AppLanguage.fr: 'Tableau des scores', AppLanguage.en: 'Scoreboard'},
@@ -43,6 +44,7 @@ class AppText {
   String get modes => _value('modes');
   String get next => _value('next');
   String get activePlayer => _value('activePlayer');
+  String get questionsLeft => _value('questionsLeft');
   String get agreeVotes => _value('agreeVotes');
   String get others => _value('others');
   String get scoreboard => _value('scoreboard');
