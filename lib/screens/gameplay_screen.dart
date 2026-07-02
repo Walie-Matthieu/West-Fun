@@ -24,11 +24,80 @@ class GameplayScreen extends StatefulWidget {
 class _GameplayScreenState extends State<GameplayScreen> {
   late final GameEngine _engine;
   int _agreeVotes = 0;
+  int? _selectedWhoWouldPlayerIndex;
+
+  Future<void> _openWhoWouldDialog() async {
+    final t = AppText.of(context);
+    var selectedIndex = _selectedWhoWouldPlayerIndex;
+
+    final result = await showDialog<int>(
+      context: context,
+      builder: (dialogContext) {
+        return StatefulBuilder(
+          builder: (context, setDialogState) {
+            return AlertDialog(
+              title: Text(widget.mode.label),
+              content: SizedBox(
+                width: 320,
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      for (final entry in _engine.players.asMap().entries)
+                        CheckboxListTile(
+                          value: selectedIndex == entry.key,
+                          contentPadding: EdgeInsets.zero,
+                          title: Text(entry.value.name),
+                          onChanged: (checked) {
+                            setDialogState(() {
+                              selectedIndex = checked == true ? entry.key : null;
+                            });
+                          },
+                        ),
+                    ],
+                  ),
+                ),
+              ),
+              actions: [
+                ElevatedButton(
+                  onPressed: selectedIndex == null
+                      ? null
+                      : () {
+                          Navigator.of(dialogContext).pop(selectedIndex);
+                        },
+                  child: Text(t.confirm),
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
+
+    if (result != null) {
+      setState(() {
+        _selectedWhoWouldPlayerIndex = result;
+      });
+    }
+  }
 
   Future<void> _openVoteDialog() async {
+    if (widget.mode == GameMode.whoWould) {
+      await _openWhoWouldDialog();
+      return;
+    }
+
     final t = AppText.of(context);
     final voterCount = _engine.players.length - 1;
-    var selectedVotes = _agreeVotes;
+    final otherPlayers = _engine.players
+        .asMap()
+        .entries
+        .where((entry) => entry.key != _engine.activePlayerIndex)
+        .toList();
+    final initialVotes = _agreeVotes.clamp(0, voterCount);
+    final selectedPlayerIndexes = <int>{
+      for (var i = 0; i < initialVotes; i++) otherPlayers[i].key,
+    };
 
     final result = await showDialog<int>(
       context: context,
@@ -42,26 +111,40 @@ class _GameplayScreenState extends State<GameplayScreen> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Text(
-                    '$selectedVotes / $voterCount ${t.others}',
+                    '${selectedPlayerIndexes.length} / $voterCount ${t.others}',
                     textAlign: TextAlign.center,
                   ),
-                  Slider(
-                    value: selectedVotes.toDouble(),
-                    min: 0,
-                    max: voterCount.toDouble(),
-                    divisions: voterCount,
-                    onChanged: (value) {
-                      setDialogState(() {
-                        selectedVotes = value.round();
-                      });
-                    },
+                  const SizedBox(height: 12),
+                  SizedBox(
+                    width: 320,
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          for (final entry in otherPlayers)
+                            CheckboxListTile(
+                              value: selectedPlayerIndexes.contains(entry.key),
+                              contentPadding: EdgeInsets.zero,
+                              title: Text(entry.value.name),
+                              onChanged: (checked) {
+                                setDialogState(() {
+                                  if (checked == true) {
+                                    selectedPlayerIndexes.add(entry.key);
+                                  } else {
+                                    selectedPlayerIndexes.remove(entry.key);
+                                  }
+                                });
+                              },
+                            ),
+                        ],
+                      ),
+                    ),
                   ),
                 ],
               ),
               actions: [
                 ElevatedButton(
                   onPressed: () {
-                    Navigator.of(dialogContext).pop(selectedVotes);
+                    Navigator.of(dialogContext).pop(selectedPlayerIndexes.length);
                   },
                   child: Text(t.confirm),
                 ),
@@ -93,6 +176,11 @@ class _GameplayScreenState extends State<GameplayScreen> {
   Widget build(BuildContext context) {
     final t = AppText.of(context);
     final voterCount = _engine.players.length - 1;
+    final voteButtonLabel = widget.mode == GameMode.whoWould
+        ? (_selectedWhoWouldPlayerIndex == null
+              ? t.vote
+              : '${t.vote} (${_engine.players[_selectedWhoWouldPlayerIndex!].name})')
+        : '${t.vote} ($_agreeVotes/$voterCount)';
     return Scaffold(
       appBar: AppBar(title: Text(widget.mode.label)),
       body: AppGradientBackground(
@@ -163,7 +251,7 @@ class _GameplayScreenState extends State<GameplayScreen> {
                                 textStyle: Theme.of(context).textTheme.titleSmall,
                               ),
                               onPressed: _openVoteDialog,
-                              child: Text('${t.vote} ($_agreeVotes/$voterCount)'),
+                              child: Text(voteButtonLabel),
                             ),
                           ),
                         ),
@@ -179,9 +267,21 @@ class _GameplayScreenState extends State<GameplayScreen> {
                                 textStyle: Theme.of(context).textTheme.titleSmall,
                               ),
                               onPressed: () {
-                                _engine.applyVote(
-                                    agreeVotes: _agreeVotes,
-                                    voterCount: voterCount);
+                                if (widget.mode == GameMode.whoWould) {
+                                  if (_selectedWhoWouldPlayerIndex == null) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(content: Text(t.selectPlayerToVote)),
+                                    );
+                                    return;
+                                  }
+                                  _engine.applyWhoWouldVote(
+                                    selectedPlayerIndex: _selectedWhoWouldPlayerIndex!,
+                                  );
+                                } else {
+                                  _engine.applyVote(
+                                      agreeVotes: _agreeVotes,
+                                      voterCount: voterCount);
+                                }
                                 if (_engine.isFinished) {
                                   Navigator.of(context).pushReplacement(
                                     MaterialPageRoute(
@@ -193,6 +293,7 @@ class _GameplayScreenState extends State<GameplayScreen> {
                                 }
                                 setState(() {
                                   _agreeVotes = 0;
+                                  _selectedWhoWouldPlayerIndex = null;
                                 });
                               },
                               child: Text(t.next),

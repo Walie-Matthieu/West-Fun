@@ -31,7 +31,7 @@ void main() {
 
     expect(find.text('Scoreboard'), findsNothing);
     expect(find.text('Final scores'), findsNothing);
-    expect(find.widgetWithText(ElevatedButton, 'Vote (0/2)'), findsOneWidget);
+    expect(find.widgetWithText(ElevatedButton, 'Vote'), findsOneWidget);
     expect(find.widgetWithText(ElevatedButton, 'Next'), findsOneWidget);
     expect(find.text('Friends night'), findsOneWidget);
     expect(find.text('Who would survive the longest on a desert island?'),
@@ -49,19 +49,21 @@ void main() {
       ),
     );
 
-    await tester.tap(find.widgetWithText(ElevatedButton, 'Vote (0/2)'));
+    await tester.tap(find.widgetWithText(ElevatedButton, 'Vote'));
     await tester.pumpAndSettle();
 
-    expect(find.text('How many agree?'), findsOneWidget);
-    expect(find.text('0 / 2 other players'), findsOneWidget);
+    expect(find.byType(AlertDialog), findsOneWidget);
+    expect(find.text('Alice'), findsOneWidget);
+    expect(find.text('Bob'), findsOneWidget);
+    expect(find.text('Chloe'), findsOneWidget);
 
-    await tester.drag(find.byType(Slider), const Offset(300, 0));
+    await tester.tap(find.widgetWithText(CheckboxListTile, 'Bob'));
     await tester.pumpAndSettle();
 
     await tester.tap(find.widgetWithText(ElevatedButton, 'Confirm'));
     await tester.pumpAndSettle();
 
-    expect(find.widgetWithText(ElevatedButton, 'Vote (2/2)'), findsOneWidget);
+    expect(find.widgetWithText(ElevatedButton, 'Vote (Bob)'), findsOneWidget);
   });
 
   testWidgets('reveals final scores after the last question', (tester) async {
@@ -69,7 +71,7 @@ void main() {
       buildTestApp(
         const GameplayScreen(
           playerNames: ['Alice', 'Bob'],
-          mode: GameMode.whoWould,
+          mode: GameMode.neverHaveIEver,
           theme: PartyTheme.friendsNight,
         ),
       ),

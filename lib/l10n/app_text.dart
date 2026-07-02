@@ -31,6 +31,10 @@ class AppText {
       AppLanguage.en: 'How many agree?'
     },
     'confirm': {AppLanguage.fr: 'Valider', AppLanguage.en: 'Confirm'},
+    'selectPlayerToVote': {
+      AppLanguage.fr: 'Sélectionnez un joueur.',
+      AppLanguage.en: 'Select a player.',
+    },
     'activePlayer': {
       AppLanguage.fr: 'Joueur actif',
       AppLanguage.en: 'Active player'
@@ -79,6 +83,7 @@ class AppText {
   String get vote => _value('vote');
   String get voteDialogTitle => _value('voteDialogTitle');
   String get confirm => _value('confirm');
+  String get selectPlayerToVote => _value('selectPlayerToVote');
   String get activePlayer => _value('activePlayer');
   String get questionsLeft => _value('questionsLeft');
   String get agreeVotes => _value('agreeVotes');

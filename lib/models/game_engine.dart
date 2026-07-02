@@ -44,6 +44,17 @@ class GameEngine {
     return delta;
   }
 
+  int applyWhoWouldVote({required int selectedPlayerIndex}) {
+    assert(
+      selectedPlayerIndex >= 0 && selectedPlayerIndex < players.length,
+      'Selected player index is out of range',
+    );
+    players[selectedPlayerIndex].score += maxDelta;
+    currentTurn += 1;
+    activePlayerIndex = (activePlayerIndex + 1) % players.length;
+    return maxDelta;
+  }
+
   List<Player> get ranking {
     final sorted = [...players];
     sorted.sort((a, b) => b.score.compareTo(a.score));
