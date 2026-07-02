@@ -25,6 +25,12 @@ class AppText {
     'themes': {AppLanguage.fr: 'Thèmes', AppLanguage.en: 'Themes'},
     'modes': {AppLanguage.fr: 'Modes de jeu', AppLanguage.en: 'Game modes'},
     'next': {AppLanguage.fr: 'Suivant', AppLanguage.en: 'Next'},
+    'vote': {AppLanguage.fr: 'Voter', AppLanguage.en: 'Vote'},
+    'voteDialogTitle': {
+      AppLanguage.fr: 'Combien sont d\'accord ?',
+      AppLanguage.en: 'How many agree?'
+    },
+    'confirm': {AppLanguage.fr: 'Valider', AppLanguage.en: 'Confirm'},
     'activePlayer': {
       AppLanguage.fr: 'Joueur actif',
       AppLanguage.en: 'Active player'
@@ -70,6 +76,9 @@ class AppText {
   String get themes => _value('themes');
   String get modes => _value('modes');
   String get next => _value('next');
+  String get vote => _value('vote');
+  String get voteDialogTitle => _value('voteDialogTitle');
+  String get confirm => _value('confirm');
   String get activePlayer => _value('activePlayer');
   String get questionsLeft => _value('questionsLeft');
   String get agreeVotes => _value('agreeVotes');

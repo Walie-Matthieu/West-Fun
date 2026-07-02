@@ -25,6 +25,60 @@ class _GameplayScreenState extends State<GameplayScreen> {
   late final GameEngine _engine;
   int _agreeVotes = 0;
 
+  Future<void> _openVoteDialog() async {
+    final t = AppText.of(context);
+    final voterCount = _engine.players.length - 1;
+    var selectedVotes = _agreeVotes;
+
+    final result = await showDialog<int>(
+      context: context,
+      builder: (dialogContext) {
+        return StatefulBuilder(
+          builder: (context, setDialogState) {
+            return AlertDialog(
+              title: Text(t.voteDialogTitle),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Text(
+                    '$selectedVotes / $voterCount ${t.others}',
+                    textAlign: TextAlign.center,
+                  ),
+                  Slider(
+                    value: selectedVotes.toDouble(),
+                    min: 0,
+                    max: voterCount.toDouble(),
+                    divisions: voterCount,
+                    onChanged: (value) {
+                      setDialogState(() {
+                        selectedVotes = value.round();
+                      });
+                    },
+                  ),
+                ],
+              ),
+              actions: [
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(dialogContext).pop(selectedVotes);
+                  },
+                  child: Text(t.confirm),
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
+
+    if (result != null) {
+      setState(() {
+        _agreeVotes = result;
+      });
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -70,30 +124,12 @@ class _GameplayScreenState extends State<GameplayScreen> {
                         ),
                         const SizedBox(height: 8),
                         Text(
-                          '${t.theme}: ${widget.theme.label}',
+                          widget.theme.label,
                           textAlign: TextAlign.center,
                           style:
                               Theme.of(context).textTheme.bodyMedium?.copyWith(
                                     color: Colors.black54,
                                   ),
-                        ),
-                        const SizedBox(height: 24),
-                        Wrap(
-                          alignment: WrapAlignment.center,
-                          spacing: 12,
-                          runSpacing: 12,
-                          children: [
-                            _InfoChip(
-                              label: t.activePlayer,
-                              value: _engine.activePlayer.name,
-                              icon: Icons.person,
-                            ),
-                            _InfoChip(
-                              label: t.questionsLeft,
-                              value: '${_engine.remainingQuestions}',
-                              icon: Icons.help_outline,
-                            ),
-                          ],
                         ),
                         const SizedBox(height: 24),
                         DecoratedBox(
@@ -116,31 +152,11 @@ class _GameplayScreenState extends State<GameplayScreen> {
                           ),
                         ),
                         const SizedBox(height: 24),
-                        Text(
-                          '${t.agreeVotes}: $_agreeVotes / $voterCount ${t.others}',
-                          textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.titleMedium,
+                        ElevatedButton(
+                          onPressed: _openVoteDialog,
+                          child: Text('${t.vote} ($_agreeVotes/$voterCount)'),
                         ),
-                        Slider(
-                          value: _agreeVotes.toDouble(),
-                          min: 0,
-                          max: voterCount.toDouble(),
-                          divisions: voterCount,
-                          onChanged: (value) {
-                            setState(() {
-                              _agreeVotes = value.round();
-                            });
-                          },
-                        ),
-                        Text(
-                          t.scoresRevealedAtEnd,
-                          textAlign: TextAlign.center,
-                          style:
-                              Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                    color: Colors.black54,
-                                  ),
-                        ),
-                        const SizedBox(height: 24),
+                        const SizedBox(height: 12),
                         ElevatedButton(
                           onPressed: () {
                             _engine.applyVote(
@@ -168,56 +184,6 @@ class _GameplayScreenState extends State<GameplayScreen> {
               ),
             ),
           ),
-        ),
-      ),
-    );
-  }
-}
-
-class _InfoChip extends StatelessWidget {
-  const _InfoChip({
-    required this.label,
-    required this.value,
-    required this.icon,
-  });
-
-  final String label;
-  final String value;
-  final IconData icon;
-
-  @override
-  Widget build(BuildContext context) {
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: const Color(0xFFF3EBFF),
-        borderRadius: BorderRadius.circular(999),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(icon, size: 18, color: const Color(0xFF4A00E0)),
-            const SizedBox(width: 8),
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  label,
-                  style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                        color: Colors.black54,
-                      ),
-                ),
-                Text(
-                  value,
-                  style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
-                ),
-              ],
-            ),
-          ],
         ),
       ),
     );

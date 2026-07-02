@@ -31,12 +31,37 @@ void main() {
 
     expect(find.text('Scoreboard'), findsNothing);
     expect(find.text('Final scores'), findsNothing);
-    expect(find.text('Active player'), findsOneWidget);
-    expect(find.text('Questions left'), findsOneWidget);
-    expect(find.text('Scores will be revealed at the end of the game.'),
-        findsOneWidget);
+    expect(find.widgetWithText(ElevatedButton, 'Vote (0/2)'), findsOneWidget);
+    expect(find.widgetWithText(ElevatedButton, 'Next'), findsOneWidget);
+    expect(find.text('Friends night'), findsOneWidget);
     expect(find.text('Who would survive the longest on a desert island?'),
         findsOneWidget);
+  });
+
+  testWidgets('updates vote count from vote dialog', (tester) async {
+    await tester.pumpWidget(
+      buildTestApp(
+        const GameplayScreen(
+          playerNames: ['Alice', 'Bob', 'Chloe'],
+          mode: GameMode.whoWould,
+          theme: PartyTheme.friendsNight,
+        ),
+      ),
+    );
+
+    await tester.tap(find.widgetWithText(ElevatedButton, 'Vote (0/2)'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('How many agree?'), findsOneWidget);
+    expect(find.text('0 / 2 other players'), findsOneWidget);
+
+    await tester.drag(find.byType(Slider), const Offset(300, 0));
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.widgetWithText(ElevatedButton, 'Confirm'));
+    await tester.pumpAndSettle();
+
+    expect(find.widgetWithText(ElevatedButton, 'Vote (2/2)'), findsOneWidget);
   });
 
   testWidgets('reveals final scores after the last question', (tester) async {
