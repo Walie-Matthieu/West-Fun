@@ -24,6 +24,47 @@ class _PlayerSetupScreenState extends State<PlayerSetupScreen> {
     }
   }
 
+  Widget _buildStyledActionButton({
+    required String label,
+    required VoidCallback onPressed,
+  }) {
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(999),
+        boxShadow: const [
+          BoxShadow(
+            color: Color(0x66000000),
+            blurRadius: 18,
+            offset: Offset(0, 10),
+          ),
+          BoxShadow(
+            color: Color(0x33FFFFFF),
+            blurRadius: 6,
+            offset: Offset(0, -2),
+          ),
+        ],
+      ),
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          elevation: 10,
+          shadowColor: Colors.black45,
+          backgroundColor: Colors.white,
+          foregroundColor: const Color(0xFF4A00E0),
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
+          textStyle: const TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(999),
+          ),
+        ),
+        onPressed: onPressed,
+        child: Text(label),
+      ),
+    );
+  }
+
   @override
   void dispose() {
     for (final controller in _controllers) {
@@ -93,18 +134,19 @@ class _PlayerSetupScreenState extends State<PlayerSetupScreen> {
               Row(
                 children: [
                   Expanded(
-                    child: ElevatedButton(
+                    child: _buildStyledActionButton(
+                      label: t.addPlayer,
                       onPressed: () {
                         setState(() {
                           _controllers.add(TextEditingController());
                         });
                       },
-                      child: Text(t.addPlayer),
                     ),
                   ),
                   const SizedBox(width: 8),
                   Expanded(
-                    child: ElevatedButton(
+                    child: _buildStyledActionButton(
+                      label: t.start,
                       onPressed: () {
                         final names = _controllers
                             .map((controller) => controller.text.trim())
@@ -122,7 +164,6 @@ class _PlayerSetupScreenState extends State<PlayerSetupScreen> {
                           ),
                         );
                       },
-                      child: Text(t.start),
                     ),
                   ),
                 ],
