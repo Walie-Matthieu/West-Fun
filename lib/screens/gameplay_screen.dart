@@ -152,30 +152,52 @@ class _GameplayScreenState extends State<GameplayScreen> {
                           ),
                         ),
                         const SizedBox(height: 24),
-                        ElevatedButton(
-                          onPressed: _openVoteDialog,
-                          child: Text('${t.vote} ($_agreeVotes/$voterCount)'),
+                        Align(
+                          alignment: Alignment.center,
+                          child: SizedBox(
+                            width: 100, // Taille du bouton "Vote" dans l'écran de jeu
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                minimumSize: const Size(0, 42),
+                                padding: const EdgeInsets.symmetric(vertical: 10),
+                                textStyle: Theme.of(context).textTheme.titleSmall,
+                              ),
+                              onPressed: _openVoteDialog,
+                              child: Text('${t.vote} ($_agreeVotes/$voterCount)'),
+                            ),
+                          ),
                         ),
                         const SizedBox(height: 12),
-                        ElevatedButton(
-                          onPressed: () {
-                            _engine.applyVote(
-                                agreeVotes: _agreeVotes,
-                                voterCount: voterCount);
-                            if (_engine.isFinished) {
-                              Navigator.of(context).pushReplacement(
-                                MaterialPageRoute(
-                                  builder: (_) =>
-                                      EndGameScreen(players: _engine.ranking),
-                                ),
-                              );
-                              return;
-                            }
-                            setState(() {
-                              _agreeVotes = 0;
-                            });
-                          },
-                          child: Text(t.next),
+                        Align(
+                          alignment: Alignment.center,
+                          child: SizedBox(
+                            width: 100, // Taille du bouton "Next" dans l'écran de jeu
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                minimumSize: const Size(0, 42),
+                                padding: const EdgeInsets.symmetric(vertical: 10),
+                                textStyle: Theme.of(context).textTheme.titleSmall,
+                              ),
+                              onPressed: () {
+                                _engine.applyVote(
+                                    agreeVotes: _agreeVotes,
+                                    voterCount: voterCount);
+                                if (_engine.isFinished) {
+                                  Navigator.of(context).pushReplacement(
+                                    MaterialPageRoute(
+                                      builder: (_) =>
+                                          EndGameScreen(players: _engine.ranking),
+                                    ),
+                                  );
+                                  return;
+                                }
+                                setState(() {
+                                  _agreeVotes = 0;
+                                });
+                              },
+                              child: Text(t.next),
+                            ),
+                          ),
                         ),
                       ],
                     ),
