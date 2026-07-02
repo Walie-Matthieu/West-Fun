@@ -66,6 +66,28 @@ void main() {
     expect(find.widgetWithText(ElevatedButton, 'Vote (Bob)'), findsOneWidget);
   });
 
+  testWidgets('allows skipping who would question without selecting player',
+      (tester) async {
+    await tester.pumpWidget(
+      buildTestApp(
+        const GameplayScreen(
+          playerNames: ['Alice', 'Bob', 'Chloe'],
+          mode: GameMode.whoWould,
+          theme: PartyTheme.friendsNight,
+        ),
+      ),
+    );
+
+    expect(find.text('Who would survive the longest on a desert island?'),
+        findsOneWidget);
+
+    await tester.tap(find.widgetWithText(ElevatedButton, 'Next'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Who would accidentally start a fire while cooking?'),
+        findsOneWidget);
+  });
+
   testWidgets('reveals final scores after the last question', (tester) async {
     await tester.pumpWidget(
       buildTestApp(

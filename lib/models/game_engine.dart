@@ -55,6 +55,11 @@ class GameEngine {
     return maxDelta;
   }
 
+  void skipTurn() {
+    currentTurn += 1;
+    activePlayerIndex = (activePlayerIndex + 1) % players.length;
+  }
+
   List<Player> get ranking {
     final sorted = [...players];
     sorted.sort((a, b) => b.score.compareTo(a.score));

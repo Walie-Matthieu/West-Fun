@@ -226,79 +226,85 @@ class _GameplayScreenState extends State<GameplayScreen> {
                             borderRadius: BorderRadius.circular(20),
                           ),
                           child: Padding(
-                            padding: const EdgeInsets.all(20),
-                            child: Text(
-                              _engine.currentQuestion,
-                              textAlign: TextAlign.center,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleLarge
-                                  ?.copyWith(
-                                    height: 1.3,
-                                  ),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 24,
+                              vertical: 28,
+                            ),
+                            child: ConstrainedBox(
+                              constraints: const BoxConstraints(minHeight: 170),
+                              child: Center(
+                                child: Text(
+                                  _engine.currentQuestion,
+                                  textAlign: TextAlign.center,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .titleLarge
+                                      ?.copyWith(
+                                        height: 1.3,
+                                      ),
+                                ),
+                              ),
                             ),
                           ),
                         ),
                         const SizedBox(height: 24),
-                        Align(
-                          alignment: Alignment.center,
-                          child: SizedBox(
-                            width: 100, // Taille du bouton "Vote" dans l'écran de jeu
-                            child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                minimumSize: const Size(0, 42),
-                                padding: const EdgeInsets.symmetric(vertical: 10),
-                                textStyle: Theme.of(context).textTheme.titleSmall,
+                        Row(
+                          children: [
+                            Expanded(
+                              child: SizedBox(
+                                height: 42,
+                                child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    padding: const EdgeInsets.symmetric(vertical: 10),
+                                    textStyle: Theme.of(context).textTheme.titleSmall,
+                                  ),
+                                  onPressed: _openVoteDialog,
+                                  child: Text(voteButtonLabel),
+                                ),
                               ),
-                              onPressed: _openVoteDialog,
-                              child: Text(voteButtonLabel),
                             ),
-                          ),
-                        ),
-                        const SizedBox(height: 12),
-                        Align(
-                          alignment: Alignment.center,
-                          child: SizedBox(
-                            width: 100, // Taille du bouton "Next" dans l'écran de jeu
-                            child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                minimumSize: const Size(0, 42),
-                                padding: const EdgeInsets.symmetric(vertical: 10),
-                                textStyle: Theme.of(context).textTheme.titleSmall,
+                            const SizedBox(width: 12),
+                            Expanded(
+                              child: SizedBox(
+                                height: 42,
+                                child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    padding: const EdgeInsets.symmetric(vertical: 10),
+                                    textStyle: Theme.of(context).textTheme.titleSmall,
+                                  ),
+                                  onPressed: () {
+                                    if (widget.mode == GameMode.whoWould) {
+                                      if (_selectedWhoWouldPlayerIndex != null) {
+                                        _engine.applyWhoWouldVote(
+                                          selectedPlayerIndex: _selectedWhoWouldPlayerIndex!,
+                                        );
+                                      } else {
+                                        _engine.skipTurn();
+                                      }
+                                    } else {
+                                      _engine.applyVote(
+                                          agreeVotes: _agreeVotes,
+                                          voterCount: voterCount);
+                                    }
+                                    if (_engine.isFinished) {
+                                      Navigator.of(context).pushReplacement(
+                                        MaterialPageRoute(
+                                          builder: (_) =>
+                                              EndGameScreen(players: _engine.ranking),
+                                        ),
+                                      );
+                                      return;
+                                    }
+                                    setState(() {
+                                      _agreeVotes = 0;
+                                      _selectedWhoWouldPlayerIndex = null;
+                                    });
+                                  },
+                                  child: Text(t.next),
+                                ),
                               ),
-                              onPressed: () {
-                                if (widget.mode == GameMode.whoWould) {
-                                  if (_selectedWhoWouldPlayerIndex == null) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(content: Text(t.selectPlayerToVote)),
-                                    );
-                                    return;
-                                  }
-                                  _engine.applyWhoWouldVote(
-                                    selectedPlayerIndex: _selectedWhoWouldPlayerIndex!,
-                                  );
-                                } else {
-                                  _engine.applyVote(
-                                      agreeVotes: _agreeVotes,
-                                      voterCount: voterCount);
-                                }
-                                if (_engine.isFinished) {
-                                  Navigator.of(context).pushReplacement(
-                                    MaterialPageRoute(
-                                      builder: (_) =>
-                                          EndGameScreen(players: _engine.ranking),
-                                    ),
-                                  );
-                                  return;
-                                }
-                                setState(() {
-                                  _agreeVotes = 0;
-                                  _selectedWhoWouldPlayerIndex = null;
-                                });
-                              },
-                              child: Text(t.next),
                             ),
-                          ),
+                          ],
                         ),
                       ],
                     ),
