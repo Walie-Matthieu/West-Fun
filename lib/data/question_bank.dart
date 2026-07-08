@@ -11,6 +11,7 @@ const Map<PartyTheme, Map<GameMode, List<String>>> questionBank = {
       'She\'s a 10 but she claps when the plane lands.',
       'She\'s a 10 but she replies after 3 business days.',
       'She\'s a 10 but she sings loudly in every store.',
+      'She\'s a 10 but she hates your parents.',
     ],
     GameMode.neverHaveIEver: [
       'Never have I ever pretended to know a song I didn\'t know.',
