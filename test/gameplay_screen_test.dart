@@ -111,4 +111,40 @@ void main() {
     expect(find.text('Winner: Alice'), findsOneWidget);
     expect(find.text('Scoreboard'), findsNothing);
   });
+
+  testWidgets('can add and remove participants during gameplay', (tester) async {
+    await tester.pumpWidget(
+      buildTestApp(
+        const GameplayScreen(
+          playerNames: ['Alice', 'Bob'],
+          mode: GameMode.neverHaveIEver,
+          theme: PartyTheme.friendsNight,
+        ),
+      ),
+    );
+
+    await tester.tap(find.byIcon(Icons.more_vert));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Manage participants'), findsOneWidget);
+    expect(find.text('Alice'), findsOneWidget);
+    expect(find.text('Bob'), findsOneWidget);
+
+    await tester.enterText(find.byType(TextField), 'Chloe');
+    await tester.tap(find.widgetWithText(ElevatedButton, 'Add player'));
+    await tester.pumpAndSettle();
+    expect(find.text('Chloe'), findsOneWidget);
+
+    await tester.tap(find.byKey(const ValueKey('remove-participant-Bob')));
+    await tester.pumpAndSettle();
+    expect(find.text('Bob'), findsNothing);
+
+    await tester.tap(find.widgetWithText(ElevatedButton, 'Confirm'));
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.widgetWithText(ElevatedButton, 'Vote (0/1)'));
+    await tester.pumpAndSettle();
+    expect(find.text('Chloe'), findsOneWidget);
+    expect(find.text('Bob'), findsNothing);
+  });
 }

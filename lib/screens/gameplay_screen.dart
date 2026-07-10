@@ -81,6 +81,110 @@ class _GameplayScreenState extends State<GameplayScreen> {
     }
   }
 
+  Future<void> _openParticipantsDialog() async {
+    final t = AppText.of(context);
+    final nameController = TextEditingController();
+    String? participantsError;
+
+    await showDialog<void>(
+      context: context,
+      builder: (dialogContext) {
+        return StatefulBuilder(
+          builder: (dialogStateContext, setDialogState) {
+            return AlertDialog(
+              title: Text(t.manageParticipants),
+              content: SizedBox(
+                width: 360,
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      for (final entry in _engine.players.asMap().entries)
+                        ListTile(
+                          contentPadding: EdgeInsets.zero,
+                          title: Text(entry.value.name),
+                          trailing: IconButton(
+                            key: ValueKey('remove-participant-${entry.value.name}'),
+                            onPressed: () {
+                              final removedIndex = entry.key;
+                              final removed = _engine.removeParticipantAt(removedIndex);
+                              if (!removed) {
+                                setDialogState(() {
+                                  participantsError = t.minTwoPlayersInGame;
+                                });
+                                return;
+                              }
+                              if (_selectedWhoWouldPlayerIndex != null) {
+                                if (_selectedWhoWouldPlayerIndex == removedIndex) {
+                                  _selectedWhoWouldPlayerIndex = null;
+                                } else if (_selectedWhoWouldPlayerIndex! > removedIndex) {
+                                  _selectedWhoWouldPlayerIndex =
+                                      _selectedWhoWouldPlayerIndex! - 1;
+                                }
+                              }
+                              _agreeVotes = _agreeVotes.clamp(0, _engine.players.length - 1);
+                              setDialogState(() {
+                                participantsError = null;
+                              });
+                            },
+                            icon: const Icon(Icons.remove_circle_outline),
+                          ),
+                        ),
+                      if (participantsError != null) ...[
+                        Text(
+                          participantsError!,
+                          style: const TextStyle(color: Colors.red),
+                        ),
+                        const SizedBox(height: 8),
+                      ],
+                      const SizedBox(height: 12),
+                      TextField(
+                        controller: nameController,
+                        decoration: InputDecoration(
+                          labelText: t.playerName,
+                          border: const OutlineInputBorder(),
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      ElevatedButton(
+                        onPressed: () {
+                          final name = nameController.text.trim();
+                          if (name.isEmpty) {
+                            return;
+                          }
+                          _engine.addParticipant(name);
+                          nameController.clear();
+                          setDialogState(() {
+                            participantsError = null;
+                          });
+                        },
+                        child: Text(t.addPlayer),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              actions: [
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(dialogContext).pop();
+                  },
+                  child: Text(t.confirm),
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
+
+    if (!mounted) {
+      return;
+    }
+    setState(() {});
+  }
+
   Future<void> _openVoteDialog() async {
     if (widget.mode == GameMode.whoWould) {
       await _openWhoWouldDialog();
@@ -182,7 +286,15 @@ class _GameplayScreenState extends State<GameplayScreen> {
               : '${t.vote} (${_engine.players[_selectedWhoWouldPlayerIndex!].name})')
         : '${t.vote} ($_agreeVotes/$voterCount)';
     return Scaffold(
-      appBar: AppBar(title: Text(widget.mode.label)),
+      appBar: AppBar(
+        title: Text(widget.mode.label),
+        actions: [
+          IconButton(
+            onPressed: _openParticipantsDialog,
+            icon: const Icon(Icons.more_vert),
+          ),
+        ],
+      ),
       body: AppGradientBackground(
         child: SafeArea(
           child: Center(
@@ -200,24 +312,42 @@ class _GameplayScreenState extends State<GameplayScreen> {
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        Text(
-                          widget.mode.label,
-                          textAlign: TextAlign.center,
-                          style: Theme.of(context)
-                              .textTheme
-                              .headlineSmall
-                              ?.copyWith(
-                                fontWeight: FontWeight.bold,
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: DecoratedBox(
+                            decoration: BoxDecoration(
+                              color: const Color(0xFFEFE7FF),
+                              borderRadius: BorderRadius.circular(999),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 10,
+                                vertical: 4,
                               ),
+                              child: Text(
+                                '${_engine.remainingQuestions}',
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Color(0xFF4A00E0),
+                                ),
+                              ),
+                            ),
+                          ),
                         ),
                         const SizedBox(height: 8),
                         Text(
+                          widget.mode.label,
+                          textAlign: TextAlign.center,
+                          style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                                fontWeight: FontWeight.bold,
+                              ),
+                        ),
+                        Text(
                           widget.theme.label,
                           textAlign: TextAlign.center,
-                          style:
-                              Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                    color: Colors.black54,
-                                  ),
+                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                color: Colors.black54,
+                              ),
                         ),
                         const SizedBox(height: 24),
                         DecoratedBox(

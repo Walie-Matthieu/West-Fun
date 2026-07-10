@@ -55,6 +55,27 @@ class GameEngine {
     return maxDelta;
   }
 
+  void addParticipant(String name) {
+    players.add(Player(name));
+  }
+
+  bool removeParticipantAt(int index, {int minPlayers = 2}) {
+    if (players.length <= minPlayers) {
+      return false;
+    }
+    players.removeAt(index);
+    if (players.isEmpty) {
+      activePlayerIndex = 0;
+      return true;
+    }
+    if (index < activePlayerIndex) {
+      activePlayerIndex -= 1;
+    } else if (index == activePlayerIndex && activePlayerIndex >= players.length) {
+      activePlayerIndex = 0;
+    }
+    return true;
+  }
+
   void skipTurn() {
     currentTurn += 1;
     activePlayerIndex = (activePlayerIndex + 1) % players.length;

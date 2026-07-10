@@ -21,6 +21,11 @@ class AppText {
       AppLanguage.fr: 'Ajouter un joueur',
       AppLanguage.en: 'Add player'
     },
+    'manageParticipants': {
+      AppLanguage.fr: 'Gérer les participants',
+      AppLanguage.en: 'Manage participants',
+    },
+    'playerName': {AppLanguage.fr: 'Nom du joueur', AppLanguage.en: 'Player name'},
     'start': {AppLanguage.fr: 'Commencer', AppLanguage.en: 'Start'},
     'themes': {AppLanguage.fr: 'Thèmes', AppLanguage.en: 'Themes'},
     'modes': {AppLanguage.fr: 'Modes de jeu', AppLanguage.en: 'Game modes'},
@@ -70,12 +75,18 @@ class AppText {
       AppLanguage.fr: 'Ajoutez au moins 2 joueurs.',
       AppLanguage.en: 'Add at least 2 players.',
     },
+    'minTwoPlayersInGame': {
+      AppLanguage.fr: 'Il faut au moins 2 joueurs dans la partie.',
+      AppLanguage.en: 'At least 2 players are required in the game.',
+    },
     'theme': {AppLanguage.fr: 'Thème', AppLanguage.en: 'Theme'},
   };
 
   String get play => _value('play');
   String get players => _value('players');
   String get addPlayer => _value('addPlayer');
+  String get manageParticipants => _value('manageParticipants');
+  String get playerName => _value('playerName');
   String get start => _value('start');
   String get themes => _value('themes');
   String get modes => _value('modes');
@@ -95,6 +106,7 @@ class AppText {
   String get player => _value('player');
   String get scoresRevealedAtEnd => _value('scoresRevealedAtEnd');
   String get minTwoPlayers => _value('minTwoPlayers');
+  String get minTwoPlayersInGame => _value('minTwoPlayersInGame');
   String get theme => _value('theme');
 
   String _value(String key) => _values[key]?[language] ?? '';
