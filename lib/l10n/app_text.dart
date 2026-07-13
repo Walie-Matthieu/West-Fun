@@ -21,11 +21,19 @@ class AppText {
       AppLanguage.fr: 'Ajouter un joueur',
       AppLanguage.en: 'Add player'
     },
+    'removePlayer': {
+      AppLanguage.fr: 'Supprimer le joueur',
+      AppLanguage.en: 'Remove player',
+    },
     'manageParticipants': {
       AppLanguage.fr: 'Gérer les participants',
       AppLanguage.en: 'Manage participants',
     },
     'playerName': {AppLanguage.fr: 'Nom du joueur', AppLanguage.en: 'Player name'},
+    'currentPlayers': {
+      AppLanguage.fr: 'Joueurs actuels',
+      AppLanguage.en: 'Current players',
+    },
     'start': {AppLanguage.fr: 'Commencer', AppLanguage.en: 'Start'},
     'themes': {AppLanguage.fr: 'Thèmes', AppLanguage.en: 'Themes'},
     'modes': {AppLanguage.fr: 'Modes de jeu', AppLanguage.en: 'Game modes'},
@@ -36,6 +44,11 @@ class AppText {
       AppLanguage.en: 'How many agree?'
     },
     'confirm': {AppLanguage.fr: 'Valider', AppLanguage.en: 'Confirm'},
+    'cancel': {AppLanguage.fr: 'Annuler', AppLanguage.en: 'Cancel'},
+    'enterPlayerName': {
+      AppLanguage.fr: 'Entrez un nom de joueur.',
+      AppLanguage.en: 'Enter a player name.',
+    },
     'selectPlayerToVote': {
       AppLanguage.fr: 'Sélectionnez un joueur.',
       AppLanguage.en: 'Select a player.',
@@ -85,8 +98,10 @@ class AppText {
   String get play => _value('play');
   String get players => _value('players');
   String get addPlayer => _value('addPlayer');
+  String get removePlayer => _value('removePlayer');
   String get manageParticipants => _value('manageParticipants');
   String get playerName => _value('playerName');
+  String get currentPlayers => _value('currentPlayers');
   String get start => _value('start');
   String get themes => _value('themes');
   String get modes => _value('modes');
@@ -94,6 +109,8 @@ class AppText {
   String get vote => _value('vote');
   String get voteDialogTitle => _value('voteDialogTitle');
   String get confirm => _value('confirm');
+  String get cancel => _value('cancel');
+  String get enterPlayerName => _value('enterPlayerName');
   String get selectPlayerToVote => _value('selectPlayerToVote');
   String get activePlayer => _value('activePlayer');
   String get questionsLeft => _value('questionsLeft');
