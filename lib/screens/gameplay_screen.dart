@@ -419,8 +419,12 @@ class _GameplayScreenState extends State<GameplayScreen> {
                                     if (_engine.isFinished) {
                                       Navigator.of(context).pushReplacement(
                                         MaterialPageRoute(
-                                          builder: (_) =>
-                                              EndGameScreen(players: _engine.ranking),
+                                          builder: (_) => EndGameScreen(
+                                            players: _engine.ranking,
+                                            replayPlayerNames: _engine.players
+                                                .map((player) => player.name)
+                                                .toList(),
+                                          ),
                                         ),
                                       );
                                       return;

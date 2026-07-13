@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:west_fun/l10n/app_text.dart';
 import 'package:west_fun/models/game_models.dart';
-import 'package:west_fun/screens/home_screen.dart';
+import 'package:west_fun/screens/theme_selection_screen.dart';
 import 'package:west_fun/widgets/app_gradient_background.dart';
 
 class EndGameScreen extends StatelessWidget {
-  const EndGameScreen({super.key, required this.players});
+  const EndGameScreen({
+    super.key,
+    required this.players,
+    required this.replayPlayerNames,
+  });
 
   final List<Player> players;
+  final List<String> replayPlayerNames;
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +73,10 @@ class EndGameScreen extends StatelessWidget {
                           onPressed: () {
                             Navigator.of(context).pushAndRemoveUntil(
                               MaterialPageRoute(
-                                  builder: (_) => const HomeScreen()),
+                                builder: (_) => ThemeSelectionScreen(
+                                  playerNames: replayPlayerNames,
+                                ),
+                              ),
                               (route) => false,
                             );
                           },
