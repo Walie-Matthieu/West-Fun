@@ -118,4 +118,20 @@ void main() {
 
     expect(find.widgetWithText(ElevatedButton, 'Vote (0/1)'), findsOneWidget);
   });
+
+  testWidgets('can start a game from mix theme', (tester) async {
+    await tester.pumpWidget(
+      buildTestApp(
+        const ThemeSelectionScreen(playerNames: ['Alice', 'Bob']),
+      ),
+    );
+
+    await tester.tap(find.text('Mix'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Who would...'));
+    await tester.pumpAndSettle();
+
+    expect(find.widgetWithText(ElevatedButton, 'Vote'), findsOneWidget);
+    expect(find.text('Mix'), findsOneWidget);
+  });
 }

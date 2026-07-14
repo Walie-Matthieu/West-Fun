@@ -12,7 +12,8 @@ enum GameMode {
 enum PartyTheme {
   friendsNight('Friends night'),
   couple('Couple'),
-  eighteenPlus('18+');
+  eighteenPlus('18+'),
+  mix('Mix');
 
   const PartyTheme(this.label);
   final String label;

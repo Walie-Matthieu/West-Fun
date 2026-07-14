@@ -106,7 +106,7 @@ class GameEngine {
   }
 
   String _drawNextQuestion() {
-    final questions = questionBank[theme]?[mode];
+    final questions = _questionPoolForSelection();
     if (questions == null || questions.isEmpty) {
       _currentQuestion = 'No question available';
       _lastQuestion = _currentQuestion;
@@ -136,5 +136,24 @@ class GameEngine {
     _currentQuestion = _questionQueue.removeAt(0);
     _lastQuestion = _currentQuestion;
     return _currentQuestion;
+  }
+
+  List<String>? _questionPoolForSelection() {
+    if (theme != PartyTheme.mix) {
+      return questionBank[theme]?[mode];
+    }
+
+    final mixedQuestions = <String>[];
+    for (final baseTheme in PartyTheme.values) {
+      if (baseTheme == PartyTheme.mix) {
+        continue;
+      }
+      final themeQuestions = questionBank[baseTheme]?[mode];
+      if (themeQuestions != null && themeQuestions.isNotEmpty) {
+        mixedQuestions.addAll(themeQuestions);
+      }
+    }
+
+    return mixedQuestions;
   }
 }
