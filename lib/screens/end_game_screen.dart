@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:west_fun/l10n/app_text.dart';
 import 'package:west_fun/models/game_models.dart';
@@ -9,10 +11,30 @@ class EndGameScreen extends StatelessWidget {
     super.key,
     required this.players,
     required this.replayPlayerNames,
+    this.replayPlayerAvatars,
   });
 
   final List<Player> players;
   final List<String> replayPlayerNames;
+  final List<Uint8List?>? replayPlayerAvatars;
+
+  Widget _buildAvatar(Uint8List? avatarBytes, {double radius = 16}) {
+    return CircleAvatar(
+      radius: radius,
+      backgroundColor: const Color(0xFFEDE7F6),
+      backgroundImage: avatarBytes != null ? MemoryImage(avatarBytes) : null,
+      child: avatarBytes == null
+          ? Text(
+              '?',
+              style: TextStyle(
+                color: const Color(0xFF4A00E0),
+                fontWeight: FontWeight.bold,
+                fontSize: radius,
+              ),
+            )
+          : null,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,6 +69,10 @@ class EndGameScreen extends StatelessWidget {
                               ),
                         ),
                         const SizedBox(height: 8),
+                        Center(
+                          child: _buildAvatar(winner.avatarBytes, radius: 24),
+                        ),
+                        const SizedBox(height: 8),
                         Text(
                           '${winner.score} pts',
                           textAlign: TextAlign.center,
@@ -60,8 +86,7 @@ class EndGameScreen extends StatelessWidget {
                         for (final entry in players.indexed) ...[
                           ListTile(
                             contentPadding: EdgeInsets.zero,
-                            leading:
-                                CircleAvatar(child: Text('${entry.$1 + 1}')),
+                            leading: _buildAvatar(entry.$2.avatarBytes),
                             title: Text(entry.$2.name),
                             trailing: Text('${entry.$2.score} pts'),
                           ),
@@ -75,6 +100,7 @@ class EndGameScreen extends StatelessWidget {
                               MaterialPageRoute(
                                 builder: (_) => ThemeSelectionScreen(
                                   playerNames: replayPlayerNames,
+                                  playerAvatars: replayPlayerAvatars,
                                 ),
                               ),
                               (route) => false,

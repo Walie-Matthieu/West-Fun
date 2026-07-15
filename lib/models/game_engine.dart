@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'dart:typed_data';
 
 import 'package:west_fun/data/question_bank.dart';
 import 'package:west_fun/models/game_models.dart';
@@ -70,8 +71,13 @@ class GameEngine {
     return maxDelta;
   }
 
-  void addParticipant(String name) {
-    players.add(Player(name));
+  void addParticipant(String name, {List<int>? avatarBytes}) {
+    players.add(
+      Player(
+        name,
+        avatarBytes: avatarBytes == null ? null : Uint8List.fromList(avatarBytes),
+      ),
+    );
   }
 
   bool removeParticipantAt(int index, {int minPlayers = 2}) {

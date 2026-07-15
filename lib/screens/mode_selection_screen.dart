@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:west_fun/l10n/app_text.dart';
 import 'package:west_fun/models/game_models.dart';
@@ -8,10 +10,12 @@ class ModeSelectionScreen extends StatefulWidget {
   const ModeSelectionScreen({
     super.key,
     required this.playerNames,
+    this.playerAvatars,
     required this.theme,
   });
 
   final List<String> playerNames;
+  final List<Uint8List?>? playerAvatars;
   final PartyTheme theme;
 
   @override
@@ -20,11 +24,19 @@ class ModeSelectionScreen extends StatefulWidget {
 
 class _ModeSelectionScreenState extends State<ModeSelectionScreen> {
   late final List<String> _playerNames;
+  late final List<Uint8List?> _playerAvatars;
 
   @override
   void initState() {
     super.initState();
     _playerNames = List<String>.of(widget.playerNames, growable: true);
+    _playerAvatars = List<Uint8List?>.generate(
+      _playerNames.length,
+      (index) => widget.playerAvatars != null && index < widget.playerAvatars!.length
+          ? widget.playerAvatars![index]
+          : null,
+      growable: true,
+    );
   }
 
   void _addPlayerFromInput(
@@ -42,6 +54,7 @@ class _ModeSelectionScreenState extends State<ModeSelectionScreen> {
     Navigator.of(dialogContext).pop();
     setState(() {
       _playerNames.add(normalizedName);
+      _playerAvatars.add(null);
     });
   }
 
@@ -55,8 +68,20 @@ class _ModeSelectionScreenState extends State<ModeSelectionScreen> {
     }
     setState(() {
       _playerNames.removeAt(index);
+      _playerAvatars.removeAt(index);
     });
     return true;
+  }
+
+  Widget _buildAvatar(Uint8List? avatarBytes) {
+    return CircleAvatar(
+      radius: 16,
+      backgroundColor: const Color(0xFFEDE7F6),
+      backgroundImage: avatarBytes != null ? MemoryImage(avatarBytes) : null,
+      child: avatarBytes == null
+          ? const Icon(Icons.tag_faces, size: 18, color: Color(0xFF4A00E0))
+          : null,
+    );
   }
 
   Future<void> _showAddPlayerDialog(BuildContext context) async {
@@ -87,7 +112,9 @@ class _ModeSelectionScreenState extends State<ModeSelectionScreen> {
                           for (var i = 0; i < _playerNames.length; i++)
                             Row(
                               children: [
-                                Expanded(child: Text('• ${_playerNames[i]}')),
+                                _buildAvatar(_playerAvatars[i]),
+                                const SizedBox(width: 8),
+                                Expanded(child: Text(_playerNames[i])),
                                 IconButton(
                                   onPressed: () {
                                     if (_removePlayerAt(i)) {
@@ -162,6 +189,7 @@ class _ModeSelectionScreenState extends State<ModeSelectionScreen> {
                       MaterialPageRoute(
                         builder: (_) => GameplayScreen(
                           playerNames: _playerNames,
+                          playerAvatars: _playerAvatars,
                           mode: mode,
                           theme: widget.theme,
                         ),

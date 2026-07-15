@@ -29,8 +29,8 @@ void main() {
     await tester.tap(find.byIcon(Icons.person_add));
     await tester.pumpAndSettle();
     expect(find.text('Current players'), findsOneWidget);
-    expect(find.text('• Alice'), findsOneWidget);
-    expect(find.text('• Bob'), findsOneWidget);
+    expect(find.text('Alice'), findsOneWidget);
+    expect(find.text('Bob'), findsOneWidget);
     await tester.enterText(find.byType(TextField).last, 'Chloe');
     await tester.tap(find.widgetWithText(ElevatedButton, 'Add player'));
     await tester.pumpAndSettle();
@@ -56,8 +56,8 @@ void main() {
     await tester.tap(find.byIcon(Icons.person_add));
     await tester.pumpAndSettle();
     expect(find.text('Current players'), findsOneWidget);
-    expect(find.text('• Alice'), findsOneWidget);
-    expect(find.text('• Bob'), findsOneWidget);
+    expect(find.text('Alice'), findsOneWidget);
+    expect(find.text('Bob'), findsOneWidget);
     await tester.enterText(find.byType(TextField).last, 'Chloe');
     await tester.tap(find.widgetWithText(ElevatedButton, 'Add player'));
     await tester.pumpAndSettle();
@@ -77,11 +77,11 @@ void main() {
 
     await tester.tap(find.byIcon(Icons.person_add));
     await tester.pumpAndSettle();
-    expect(find.text('• Chloe'), findsOneWidget);
+    expect(find.text('Chloe'), findsOneWidget);
 
     await tester.tap(find.byIcon(Icons.remove_circle_outline).last);
     await tester.pumpAndSettle();
-    expect(find.text('• Chloe'), findsNothing);
+    expect(find.text('Chloe'), findsNothing);
     await tester.tap(find.widgetWithText(TextButton, 'Cancel'));
     await tester.pumpAndSettle();
 
@@ -105,11 +105,11 @@ void main() {
 
     await tester.tap(find.byIcon(Icons.person_add));
     await tester.pumpAndSettle();
-    expect(find.text('• Chloe'), findsOneWidget);
+    expect(find.text('Chloe'), findsOneWidget);
 
     await tester.tap(find.byIcon(Icons.remove_circle_outline).last);
     await tester.pumpAndSettle();
-    expect(find.text('• Chloe'), findsNothing);
+    expect(find.text('Chloe'), findsNothing);
     await tester.tap(find.widgetWithText(TextButton, 'Cancel'));
     await tester.pumpAndSettle();
 

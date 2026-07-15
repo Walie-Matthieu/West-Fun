@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 enum GameMode {
   whoWould('Who would...'),
   shesA10But('She\'s a 10 but...'),
@@ -20,8 +22,9 @@ enum PartyTheme {
 }
 
 class Player {
-  Player(this.name, {this.score = 0});
+  Player(this.name, {this.score = 0, this.avatarBytes});
 
   final String name;
   int score;
+  Uint8List? avatarBytes;
 }

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:west_fun/l10n/app_text.dart';
 import 'package:west_fun/models/game_engine.dart';
 import 'package:west_fun/models/game_models.dart';
@@ -9,11 +11,13 @@ class GameplayScreen extends StatefulWidget {
   const GameplayScreen({
     super.key,
     required this.playerNames,
+    this.playerAvatars,
     required this.mode,
     required this.theme,
   });
 
   final List<String> playerNames;
+  final List<Uint8List?>? playerAvatars;
   final GameMode mode;
   final PartyTheme theme;
 
@@ -23,8 +27,89 @@ class GameplayScreen extends StatefulWidget {
 
 class _GameplayScreenState extends State<GameplayScreen> {
   late final GameEngine _engine;
+  final ImagePicker _imagePicker = ImagePicker();
   int _agreeVotes = 0;
   int? _selectedWhoWouldPlayerIndex;
+
+  Widget _buildAvatar(Uint8List? avatarBytes, {double radius = 16}) {
+    return CircleAvatar(
+      radius: radius,
+      backgroundColor: const Color(0xFFEDE7F6),
+      backgroundImage: avatarBytes != null ? MemoryImage(avatarBytes) : null,
+      child: avatarBytes == null
+          ? const Icon(Icons.tag_faces, size: 18, color: Color(0xFF4A00E0))
+          : null,
+    );
+  }
+
+  Future<Uint8List?> _pickAvatarBytes(ImageSource source) async {
+    final t = AppText.of(context);
+    try {
+      final picked = await _imagePicker.pickImage(source: source);
+      if (picked == null) {
+        return null;
+      }
+      return picked.readAsBytes();
+    } on PlatformException {
+      if (!mounted) {
+        return null;
+      }
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(t.photoAccessFailed)),
+      );
+      return null;
+    }
+  }
+
+  Future<void> _showAvatarOptions({
+    required Uint8List? currentAvatar,
+    required ValueChanged<Uint8List?> onAvatarChanged,
+  }) async {
+    final t = AppText.of(context);
+    await showModalBottomSheet<void>(
+      context: context,
+      builder: (bottomSheetContext) {
+        return SafeArea(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ListTile(
+                leading: const Icon(Icons.camera_alt),
+                title: Text(t.takePhoto),
+                onTap: () async {
+                  Navigator.of(bottomSheetContext).pop();
+                  final bytes = await _pickAvatarBytes(ImageSource.camera);
+                  if (bytes != null) {
+                    onAvatarChanged(bytes);
+                  }
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.photo_library),
+                title: Text(t.pickFromGallery),
+                onTap: () async {
+                  Navigator.of(bottomSheetContext).pop();
+                  final bytes = await _pickAvatarBytes(ImageSource.gallery);
+                  if (bytes != null) {
+                    onAvatarChanged(bytes);
+                  }
+                },
+              ),
+              if (currentAvatar != null)
+                ListTile(
+                  leading: const Icon(Icons.delete_outline),
+                  title: Text(t.removePhoto),
+                  onTap: () {
+                    Navigator.of(bottomSheetContext).pop();
+                    onAvatarChanged(null);
+                  },
+                ),
+            ],
+          ),
+        );
+      },
+    );
+  }
 
   Future<void> _openWhoWouldDialog() async {
     final t = AppText.of(context);
@@ -48,6 +133,7 @@ class _GameplayScreenState extends State<GameplayScreen> {
                           value: selectedIndex == entry.key,
                           contentPadding: EdgeInsets.zero,
                           title: Text(entry.value.name),
+                          secondary: _buildAvatar(entry.value.avatarBytes),
                           onChanged: (checked) {
                             setDialogState(() {
                               selectedIndex = checked == true ? entry.key : null;
@@ -84,6 +170,7 @@ class _GameplayScreenState extends State<GameplayScreen> {
   Future<void> _openParticipantsDialog() async {
     final t = AppText.of(context);
     final nameController = TextEditingController();
+    Uint8List? newParticipantAvatar;
     String? participantsError;
 
     await showDialog<void>(
@@ -103,6 +190,21 @@ class _GameplayScreenState extends State<GameplayScreen> {
                       for (final entry in _engine.players.asMap().entries)
                         ListTile(
                           contentPadding: EdgeInsets.zero,
+                          leading: IconButton(
+                            tooltip: t.chooseProfilePhoto,
+                            onPressed: () {
+                              _showAvatarOptions(
+                                currentAvatar: entry.value.avatarBytes,
+                                onAvatarChanged: (avatarBytes) {
+                                  setState(() {
+                                    entry.value.avatarBytes = avatarBytes;
+                                  });
+                                  setDialogState(() {});
+                                },
+                              );
+                            },
+                            icon: _buildAvatar(entry.value.avatarBytes),
+                          ),
                           title: Text(entry.value.name),
                           trailing: IconButton(
                             key: ValueKey('remove-participant-${entry.value.name}'),
@@ -139,12 +241,31 @@ class _GameplayScreenState extends State<GameplayScreen> {
                         const SizedBox(height: 8),
                       ],
                       const SizedBox(height: 12),
-                      TextField(
-                        controller: nameController,
-                        decoration: InputDecoration(
-                          labelText: t.playerName,
-                          border: const OutlineInputBorder(),
-                        ),
+                      Row(
+                        children: [
+                          IconButton(
+                            tooltip: t.chooseProfilePhoto,
+                            onPressed: () {
+                              _showAvatarOptions(
+                                currentAvatar: newParticipantAvatar,
+                                onAvatarChanged: (avatarBytes) {
+                                  newParticipantAvatar = avatarBytes;
+                                  setDialogState(() {});
+                                },
+                              );
+                            },
+                            icon: _buildAvatar(newParticipantAvatar),
+                          ),
+                          Expanded(
+                            child: TextField(
+                              controller: nameController,
+                              decoration: InputDecoration(
+                                labelText: t.playerName,
+                                border: const OutlineInputBorder(),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                       const SizedBox(height: 8),
                       ElevatedButton(
@@ -153,8 +274,12 @@ class _GameplayScreenState extends State<GameplayScreen> {
                           if (name.isEmpty) {
                             return;
                           }
-                          _engine.addParticipant(name);
+                          _engine.addParticipant(
+                            name,
+                            avatarBytes: newParticipantAvatar,
+                          );
                           nameController.clear();
+                          newParticipantAvatar = null;
                           setDialogState(() {
                             participantsError = null;
                           });
@@ -229,6 +354,7 @@ class _GameplayScreenState extends State<GameplayScreen> {
                               value: selectedPlayerIndexes.contains(entry.key),
                               contentPadding: EdgeInsets.zero,
                               title: Text(entry.value.name),
+                              secondary: _buildAvatar(entry.value.avatarBytes),
                               onChanged: (checked) {
                                 setDialogState(() {
                                   if (checked == true) {
@@ -270,7 +396,13 @@ class _GameplayScreenState extends State<GameplayScreen> {
   void initState() {
     super.initState();
     _engine = GameEngine(
-      players: widget.playerNames.map((name) => Player(name)).toList(),
+      players: widget.playerNames.asMap().entries.map((entry) {
+        final avatar = widget.playerAvatars != null &&
+                entry.key < widget.playerAvatars!.length
+            ? widget.playerAvatars![entry.key]
+            : null;
+        return Player(entry.value, avatarBytes: avatar);
+      }).toList(),
       mode: widget.mode,
       theme: widget.theme,
     );
@@ -349,6 +481,15 @@ class _GameplayScreenState extends State<GameplayScreen> {
                                 color: Colors.black54,
                               ),
                         ),
+                        const SizedBox(height: 12),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            _buildAvatar(_engine.activePlayer.avatarBytes, radius: 18),
+                            const SizedBox(width: 8),
+                            Text('${t.activePlayer}: ${_engine.activePlayer.name}'),
+                          ],
+                        ),
                         const SizedBox(height: 24),
                         DecoratedBox(
                           decoration: BoxDecoration(
@@ -423,6 +564,9 @@ class _GameplayScreenState extends State<GameplayScreen> {
                                             players: _engine.ranking,
                                             replayPlayerNames: _engine.players
                                                 .map((player) => player.name)
+                                                .toList(),
+                                            replayPlayerAvatars: _engine.players
+                                                .map((player) => player.avatarBytes)
                                                 .toList(),
                                           ),
                                         ),

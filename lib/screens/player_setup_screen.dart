@@ -252,7 +252,18 @@ class _PlayerSetupScreenState extends State<PlayerSetupScreen> {
                         }
                         Navigator.of(context).push(
                           MaterialPageRoute(
-                            builder: (_) => ThemeSelectionScreen(playerNames: names),
+                            builder: (_) {
+                              final avatars = _controllers
+                                  .asMap()
+                                  .entries
+                                  .where((entry) => entry.value.text.trim().isNotEmpty)
+                                  .map((entry) => _playerAvatars[entry.key])
+                                  .toList();
+                              return ThemeSelectionScreen(
+                                playerNames: names,
+                                playerAvatars: avatars,
+                              );
+                            },
                           ),
                         );
                       },
