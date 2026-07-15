@@ -25,6 +25,26 @@ class AppText {
       AppLanguage.fr: 'Supprimer le joueur',
       AppLanguage.en: 'Remove player',
     },
+    'chooseProfilePhoto': {
+      AppLanguage.fr: 'Choisir une photo de profil',
+      AppLanguage.en: 'Choose a profile photo',
+    },
+    'takePhoto': {
+      AppLanguage.fr: 'Prendre une photo',
+      AppLanguage.en: 'Take a photo',
+    },
+    'pickFromGallery': {
+      AppLanguage.fr: 'Choisir depuis la galerie',
+      AppLanguage.en: 'Pick from gallery',
+    },
+    'removePhoto': {
+      AppLanguage.fr: 'Supprimer la photo',
+      AppLanguage.en: 'Remove photo',
+    },
+    'photoAccessFailed': {
+      AppLanguage.fr: 'Impossible d\'ouvrir la photo.',
+      AppLanguage.en: 'Unable to open photo.',
+    },
     'manageParticipants': {
       AppLanguage.fr: 'Gérer les participants',
       AppLanguage.en: 'Manage participants',
@@ -99,6 +119,11 @@ class AppText {
   String get players => _value('players');
   String get addPlayer => _value('addPlayer');
   String get removePlayer => _value('removePlayer');
+  String get chooseProfilePhoto => _value('chooseProfilePhoto');
+  String get takePhoto => _value('takePhoto');
+  String get pickFromGallery => _value('pickFromGallery');
+  String get removePhoto => _value('removePhoto');
+  String get photoAccessFailed => _value('photoAccessFailed');
   String get manageParticipants => _value('manageParticipants');
   String get playerName => _value('playerName');
   String get currentPlayers => _value('currentPlayers');

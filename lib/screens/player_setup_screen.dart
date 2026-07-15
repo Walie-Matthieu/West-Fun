@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:west_fun/l10n/app_text.dart';
 import 'package:west_fun/screens/theme_selection_screen.dart';
 import 'package:west_fun/widgets/app_gradient_background.dart';
@@ -15,13 +17,84 @@ class _PlayerSetupScreenState extends State<PlayerSetupScreen> {
     TextEditingController(),
     TextEditingController(),
   ];
+  final List<Uint8List?> _playerAvatars = [null, null];
+  final ImagePicker _imagePicker = ImagePicker();
 
   void _removePlayerAt(int index) {
     final controller = _controllers.removeAt(index);
     controller.dispose();
+    _playerAvatars.removeAt(index);
     if (_controllers.isEmpty) {
       _controllers.add(TextEditingController());
+      _playerAvatars.add(null);
     }
+  }
+
+  Future<void> _pickPlayerAvatar(int index, ImageSource source) async {
+    final t = AppText.of(context);
+    try {
+      final photo = await _imagePicker.pickImage(source: source);
+      if (photo == null) {
+        return;
+      }
+      final bytes = await photo.readAsBytes();
+      if (!mounted) {
+        return;
+      }
+      setState(() {
+        _playerAvatars[index] = bytes;
+      });
+    } on PlatformException {
+      if (!mounted) {
+        return;
+      }
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(t.photoAccessFailed)),
+      );
+    }
+  }
+
+  Future<void> _showAvatarOptions(int index) async {
+    final t = AppText.of(context);
+    await showModalBottomSheet<void>(
+      context: context,
+      builder: (bottomSheetContext) {
+        return SafeArea(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ListTile(
+                leading: const Icon(Icons.camera_alt),
+                title: Text(t.takePhoto),
+                onTap: () {
+                  Navigator.of(bottomSheetContext).pop();
+                  _pickPlayerAvatar(index, ImageSource.camera);
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.photo_library),
+                title: Text(t.pickFromGallery),
+                onTap: () {
+                  Navigator.of(bottomSheetContext).pop();
+                  _pickPlayerAvatar(index, ImageSource.gallery);
+                },
+              ),
+              if (_playerAvatars[index] != null)
+                ListTile(
+                  leading: const Icon(Icons.delete_outline),
+                  title: Text(t.removePhoto),
+                  onTap: () {
+                    Navigator.of(bottomSheetContext).pop();
+                    setState(() {
+                      _playerAvatars[index] = null;
+                    });
+                  },
+                ),
+            ],
+          ),
+        );
+      },
+    );
   }
 
   Widget _buildStyledActionButton({
@@ -92,8 +165,10 @@ class _PlayerSetupScreenState extends State<PlayerSetupScreen> {
                       padding: const EdgeInsets.only(bottom: 12),
                       child: TextField(
                         controller: _controllers[index],
+                        textAlign: TextAlign.center,
                         decoration: InputDecoration(
-                          labelText: '${t.player} ${index + 1}',
+                          hintText: '${t.player} ${index + 1}',
+                          hintStyle: const TextStyle(color: Colors.black54),
                           filled: true,
                           fillColor: Colors.white,
                           border: OutlineInputBorder(
@@ -108,6 +183,22 @@ class _PlayerSetupScreenState extends State<PlayerSetupScreen> {
                             borderSide: const BorderSide(
                               color: Color(0xFF4A00E0),
                               width: 2,
+                            ),
+                          ),
+                          prefixIcon: IconButton(
+                            tooltip: t.chooseProfilePhoto,
+                            onPressed: () => _showAvatarOptions(index),
+                            icon: CircleAvatar(
+                              backgroundColor: const Color(0xFFEDE7F6),
+                              backgroundImage: _playerAvatars[index] != null
+                                  ? MemoryImage(_playerAvatars[index]!)
+                                  : null,
+                              child: _playerAvatars[index] == null
+                                  ? const Icon(
+                                      Icons.tag_faces,
+                                      color: Color(0xFF4A00E0),
+                                    )
+                                  : null,
                             ),
                           ),
                           suffixIcon: IconButton(
@@ -139,6 +230,7 @@ class _PlayerSetupScreenState extends State<PlayerSetupScreen> {
                       onPressed: () {
                         setState(() {
                           _controllers.add(TextEditingController());
+                          _playerAvatars.add(null);
                         });
                       },
                     ),
