@@ -30,6 +30,8 @@ class _GameplayScreenState extends State<GameplayScreen> {
   final ImagePicker _imagePicker = ImagePicker();
   int _agreeVotes = 0;
   int? _selectedWhoWouldPlayerIndex;
+  String? _todQuestion;
+  bool? _todIsTruth;
 
   Widget _buildAvatar(Uint8List? avatarBytes, {double radius = 16}) {
     return CircleAvatar(
@@ -392,6 +394,52 @@ class _GameplayScreenState extends State<GameplayScreen> {
     }
   }
 
+  void _pickTruthOrDare(bool isTruth) {
+    setState(() {
+      _todIsTruth = isTruth;
+      _todQuestion = _engine.drawTruthOrDareQuestion(isTruth);
+    });
+  }
+
+  void _completeTruthOrDareAndAdvance() {
+    _engine.skipTurn();
+    if (_engine.isFinished) {
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (_) => EndGameScreen(
+            players: _engine.ranking,
+            replayPlayerNames: _engine.players.map((p) => p.name).toList(),
+            replayPlayerAvatars: _engine.players.map((p) => p.avatarBytes).toList(),
+          ),
+        ),
+      );
+      return;
+    }
+    setState(() {
+      _todQuestion = null;
+      _todIsTruth = null;
+    });
+  }
+
+  void _applyShesA10AndAdvance({required bool thumbsUp}) {
+    _engine.applyShesA10Vote(thumbsUp: thumbsUp);
+    if (_engine.isFinished) {
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (_) => EndGameScreen(
+            players: _engine.ranking,
+            replayPlayerNames:
+                _engine.players.map((p) => p.name).toList(),
+            replayPlayerAvatars:
+                _engine.players.map((p) => p.avatarBytes).toList(),
+          ),
+        ),
+      );
+      return;
+    }
+    setState(() {});
+  }
+
   @override
   void initState() {
     super.initState();
@@ -482,18 +530,38 @@ class _GameplayScreenState extends State<GameplayScreen> {
                               ),
                         ),
                         const SizedBox(height: 12),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            _buildAvatar(_engine.activePlayer.avatarBytes, radius: 18),
-                            const SizedBox(width: 8),
-                            Text('${t.activePlayer}: ${_engine.activePlayer.name}'),
-                          ],
-                        ),
+                        if (widget.mode != GameMode.whoWould &&
+                            widget.mode != GameMode.truthOrDare)
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              _buildAvatar(_engine.activePlayer.avatarBytes, radius: 18),
+                              const SizedBox(width: 8),
+                              Text('${t.activePlayer}: ${_engine.activePlayer.name}'),
+                            ],
+                          ),
+                        if (widget.mode == GameMode.truthOrDare) ...[
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              _buildAvatar(_engine.activePlayer.avatarBytes, radius: 18),
+                              const SizedBox(width: 8),
+                              Text(_engine.activePlayer.name,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .titleMedium
+                                      ?.copyWith(fontWeight: FontWeight.bold)),
+                            ],
+                          ),
+                        ],
                         const SizedBox(height: 24),
                         DecoratedBox(
                           decoration: BoxDecoration(
-                            color: const Color(0xFFF5F0FF),
+                            color: widget.mode == GameMode.truthOrDare && _todIsTruth != null
+                                ? (_todIsTruth!
+                                    ? const Color(0xFFE3F2FD)
+                                    : const Color(0xFFFCE4EC))
+                                : const Color(0xFFF5F0FF),
                             borderRadius: BorderRadius.circular(20),
                           ),
                           child: Padding(
@@ -504,22 +572,174 @@ class _GameplayScreenState extends State<GameplayScreen> {
                             child: ConstrainedBox(
                               constraints: const BoxConstraints(minHeight: 170),
                               child: Center(
-                                child: Text(
-                                  _engine.currentQuestion,
-                                  textAlign: TextAlign.center,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .titleLarge
-                                      ?.copyWith(
-                                        height: 1.3,
+                                child: widget.mode == GameMode.truthOrDare
+                                    ? (_todQuestion == null
+                                        ? Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              const Icon(Icons.help_outline,
+                                                  size: 48,
+                                                  color: Color(0xFF4A00E0)),
+                                              const SizedBox(height: 12),
+                                              Text(
+                                                t.chooseTruthOrDare,
+                                                textAlign: TextAlign.center,
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .titleMedium
+                                                    ?.copyWith(
+                                                      color: Colors.black54,
+                                                    ),
+                                              ),
+                                            ],
+                                          )
+                                        : Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              DecoratedBox(
+                                                decoration: BoxDecoration(
+                                                  color: _todIsTruth!
+                                                      ? const Color(0xFF1565C0)
+                                                      : const Color(0xFFC62828),
+                                                  borderRadius:
+                                                      BorderRadius.circular(999),
+                                                ),
+                                                child: Padding(
+                                                  padding: const EdgeInsets.symmetric(
+                                                      horizontal: 16, vertical: 4),
+                                                  child: Text(
+                                                    _todIsTruth! ? t.truth : t.dare,
+                                                    style: const TextStyle(
+                                                      color: Colors.white,
+                                                      fontWeight: FontWeight.bold,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              const SizedBox(height: 16),
+                                              Text(
+                                                _todQuestion!,
+                                                textAlign: TextAlign.center,
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .titleLarge
+                                                    ?.copyWith(height: 1.3),
+                                              ),
+                                            ],
+                                          ))
+                                    : Text(
+                                        _engine.currentQuestion,
+                                        textAlign: TextAlign.center,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .titleLarge
+                                            ?.copyWith(
+                                              height: 1.3,
+                                            ),
                                       ),
-                                ),
                               ),
                             ),
                           ),
                         ),
                         const SizedBox(height: 24),
-                        Row(
+                        if (widget.mode == GameMode.shesA10But)
+                          Row(
+                            children: [
+                              Expanded(
+                                child: SizedBox(
+                                  height: 56,
+                                  child: ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: const Color(0xFFFFCDD2),
+                                      foregroundColor: Colors.red[800],
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(16),
+                                      ),
+                                    ),
+                                    onPressed: () => _applyShesA10AndAdvance(thumbsUp: false),
+                                    child: const Icon(Icons.thumb_down, size: 28),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: 16),
+                              Expanded(
+                                child: SizedBox(
+                                  height: 56,
+                                  child: ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: const Color(0xFFC8E6C9),
+                                      foregroundColor: Colors.green[800],
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(16),
+                                      ),
+                                    ),
+                                    onPressed: () => _applyShesA10AndAdvance(thumbsUp: true),
+                                    child: const Icon(Icons.thumb_up, size: 28),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          )
+                        else if (widget.mode == GameMode.truthOrDare)
+                          (_todQuestion == null
+                              ? Row(
+                                  children: [
+                                    Expanded(
+                                      child: SizedBox(
+                                        height: 52,
+                                        child: ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                            backgroundColor: const Color(0xFF1565C0),
+                                            foregroundColor: Colors.white,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.circular(16),
+                                            ),
+                                          ),
+                                          onPressed: () => _pickTruthOrDare(true),
+                                          child: Text(t.truth,
+                                              style: const TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.bold)),
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(width: 16),
+                                    Expanded(
+                                      child: SizedBox(
+                                        height: 52,
+                                        child: ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                            backgroundColor: const Color(0xFFC62828),
+                                            foregroundColor: Colors.white,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.circular(16),
+                                            ),
+                                          ),
+                                          onPressed: () => _pickTruthOrDare(false),
+                                          child: Text(t.dare,
+                                              style: const TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.bold)),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              : SizedBox(
+                                  height: 52,
+                                  width: double.infinity,
+                                  child: ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(16),
+                                      ),
+                                    ),
+                                    onPressed: _completeTruthOrDareAndAdvance,
+                                    child: Text(t.next),
+                                  ),
+                                ))
+                        else
+                          Row(
                           children: [
                             Expanded(
                               child: SizedBox(

@@ -71,6 +71,32 @@ class GameEngine {
     return maxDelta;
   }
 
+  int applyShesA10Vote({required bool thumbsUp}) {
+    final delta = thumbsUp ? maxDelta : -maxDelta;
+    activePlayer.score += delta;
+    currentTurn += 1;
+    activePlayerIndex = (activePlayerIndex + 1) % players.length;
+    if (!isFinished) {
+      _drawNextQuestion();
+    }
+    return delta;
+  }
+
+  String drawTruthOrDareQuestion(bool isTruth) {
+    final key = isTruth ? 'truth' : 'dare';
+    final pool = <String>[];
+    if (theme != PartyTheme.mix) {
+      pool.addAll(truthOrDareBank[theme]?[key] ?? []);
+    } else {
+      for (final t in PartyTheme.values) {
+        if (t == PartyTheme.mix) continue;
+        pool.addAll(truthOrDareBank[t]?[key] ?? []);
+      }
+    }
+    if (pool.isEmpty) return isTruth ? 'No truth available' : 'No dare available';
+    return pool[_random.nextInt(pool.length)];
+  }
+
   void addParticipant(String name, {List<int>? avatarBytes}) {
     players.add(
       Player(

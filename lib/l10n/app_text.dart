@@ -112,6 +112,12 @@ class AppText {
       AppLanguage.en: 'Vote',
     },
     'vote': {AppLanguage.fr: 'Voter', AppLanguage.en: 'Vote'},
+    'truth': {AppLanguage.fr: 'Vérité', AppLanguage.en: 'Truth'},
+    'dare': {AppLanguage.fr: 'Défi', AppLanguage.en: 'Dare'},
+    'chooseTruthOrDare': {
+      AppLanguage.fr: 'Choisis Vérité ou Défi',
+      AppLanguage.en: 'Choose Truth or Dare',
+    },
   };
 
   String get play => _value('play');
@@ -148,6 +154,9 @@ class AppText {
   String get manageParticipants => _value('manageParticipants');
   String get voteDialogTitle => _value('voteDialogTitle');
   String get vote => _value('vote');
+  String get truth => _value('truth');
+  String get dare => _value('dare');
+  String get chooseTruthOrDare => _value('chooseTruthOrDare');
 
   String _value(String key) => _values[key]?[language] ?? '';
 }
