@@ -5,6 +5,7 @@ import 'package:west_fun/l10n/app_text.dart';
 import 'package:west_fun/models/game_models.dart';
 import 'package:west_fun/screens/gameplay_screen.dart';
 import 'package:west_fun/widgets/app_gradient_background.dart';
+import 'package:west_fun/widgets/player_roster_editor.dart';
 
 class ModeSelectionScreen extends StatefulWidget {
   const ModeSelectionScreen({
@@ -23,140 +24,15 @@ class ModeSelectionScreen extends StatefulWidget {
 }
 
 class _ModeSelectionScreenState extends State<ModeSelectionScreen> {
-  late final List<String> _playerNames;
-  late final List<Uint8List?> _playerAvatars;
+  late final PlayerRosterController _roster;
 
   @override
   void initState() {
     super.initState();
-    _playerNames = List<String>.of(widget.playerNames, growable: true);
-    _playerAvatars = List<Uint8List?>.generate(
-      _playerNames.length,
-      (index) => widget.playerAvatars != null && index < widget.playerAvatars!.length
-          ? widget.playerAvatars![index]
-          : null,
-      growable: true,
-    );
-  }
-
-  void _addPlayerFromInput(
-    BuildContext dialogContext,
-    String playerName,
-  ) {
-    final t = AppText.of(context);
-    final normalizedName = playerName.trim();
-    if (normalizedName.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(t.enterPlayerName)),
-      );
-      return;
-    }
-    Navigator.of(dialogContext).pop();
-    setState(() {
-      _playerNames.add(normalizedName);
-      _playerAvatars.add(null);
-    });
-  }
-
-  bool _removePlayerAt(int index) {
-    final t = AppText.of(context);
-    if (_playerNames.length <= 2) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(t.minTwoPlayersInGame)),
-      );
-      return false;
-    }
-    setState(() {
-      _playerNames.removeAt(index);
-      _playerAvatars.removeAt(index);
-    });
-    return true;
-  }
-
-  Widget _buildAvatar(Uint8List? avatarBytes) {
-    return CircleAvatar(
-      radius: 16,
-      backgroundColor: const Color(0xFFEDE7F6),
-      backgroundImage: avatarBytes != null ? MemoryImage(avatarBytes) : null,
-      child: avatarBytes == null
-          ? const Icon(Icons.tag_faces, size: 18, color: Color(0xFF4A00E0))
-          : null,
-    );
-  }
-
-  Future<void> _showAddPlayerDialog(BuildContext context) async {
-    final t = AppText.of(context);
-    var playerName = '';
-    await showDialog<void>(
-      context: context,
-      builder: (dialogContext) {
-        return StatefulBuilder(
-          builder: (dialogContext, dialogSetState) {
-            return AlertDialog(
-              title: Text(t.addPlayer),
-              content: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    t.currentPlayers,
-                    style: Theme.of(context).textTheme.titleSmall,
-                  ),
-                  const SizedBox(height: 8),
-                  ConstrainedBox(
-                    constraints: const BoxConstraints(maxHeight: 160),
-                    child: SingleChildScrollView(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          for (var i = 0; i < _playerNames.length; i++)
-                            Row(
-                              children: [
-                                _buildAvatar(_playerAvatars[i]),
-                                const SizedBox(width: 8),
-                                Expanded(child: Text(_playerNames[i])),
-                                IconButton(
-                                  onPressed: () {
-                                    if (_removePlayerAt(i)) {
-                                      dialogSetState(() {});
-                                    }
-                                  },
-                                  icon: const Icon(Icons.remove_circle_outline),
-                                  tooltip: t.removePlayer,
-                                ),
-                              ],
-                            ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-                  TextField(
-                    autofocus: true,
-                    decoration: InputDecoration(labelText: t.playerName),
-                    textInputAction: TextInputAction.done,
-                    onChanged: (value) {
-                      playerName = value;
-                    },
-                    onSubmitted: (_) =>
-                        _addPlayerFromInput(dialogContext, playerName),
-                  ),
-                ],
-              ),
-              actions: [
-                TextButton(
-                  onPressed: () => Navigator.of(dialogContext).pop(),
-                  child: Text(t.cancel),
-                ),
-                ElevatedButton(
-                  onPressed: () => _addPlayerFromInput(dialogContext, playerName),
-                  child: Text(t.addPlayer),
-                ),
-              ],
-            );
-          },
-        );
-      },
+    _roster = PlayerRosterController(
+      initialNames: widget.playerNames,
+      initialAvatars: widget.playerAvatars,
+      onChanged: () => setState(() {}),
     );
   }
 
@@ -168,7 +44,7 @@ class _ModeSelectionScreenState extends State<ModeSelectionScreen> {
         title: Text(t.modes),
         actions: [
           IconButton(
-            onPressed: () => _showAddPlayerDialog(context),
+            onPressed: () => _roster.showRosterDialog(context),
             icon: const Icon(Icons.person_add),
             tooltip: t.addPlayer,
           ),
@@ -188,8 +64,8 @@ class _ModeSelectionScreenState extends State<ModeSelectionScreen> {
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (_) => GameplayScreen(
-                          playerNames: _playerNames,
-                          playerAvatars: _playerAvatars,
+                          playerNames: _roster.names,
+                          playerAvatars: _roster.avatars,
                           mode: mode,
                           theme: widget.theme,
                         ),

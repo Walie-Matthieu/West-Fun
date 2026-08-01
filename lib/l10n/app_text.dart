@@ -21,58 +21,10 @@ class AppText {
       AppLanguage.fr: 'Ajouter un joueur',
       AppLanguage.en: 'Add player'
     },
-    'removePlayer': {
-      AppLanguage.fr: 'Supprimer le joueur',
-      AppLanguage.en: 'Remove player',
-    },
-    'chooseProfilePhoto': {
-      AppLanguage.fr: 'Choisir une photo de profil',
-      AppLanguage.en: 'Choose a profile photo',
-    },
-    'takePhoto': {
-      AppLanguage.fr: 'Prendre une photo',
-      AppLanguage.en: 'Take a photo',
-    },
-    'pickFromGallery': {
-      AppLanguage.fr: 'Choisir depuis la galerie',
-      AppLanguage.en: 'Pick from gallery',
-    },
-    'removePhoto': {
-      AppLanguage.fr: 'Supprimer la photo',
-      AppLanguage.en: 'Remove photo',
-    },
-    'photoAccessFailed': {
-      AppLanguage.fr: 'Impossible d\'ouvrir la photo.',
-      AppLanguage.en: 'Unable to open photo.',
-    },
-    'manageParticipants': {
-      AppLanguage.fr: 'Gérer les participants',
-      AppLanguage.en: 'Manage participants',
-    },
-    'playerName': {AppLanguage.fr: 'Nom du joueur', AppLanguage.en: 'Player name'},
-    'currentPlayers': {
-      AppLanguage.fr: 'Joueurs actuels',
-      AppLanguage.en: 'Current players',
-    },
     'start': {AppLanguage.fr: 'Commencer', AppLanguage.en: 'Start'},
     'themes': {AppLanguage.fr: 'Thèmes', AppLanguage.en: 'Themes'},
     'modes': {AppLanguage.fr: 'Modes de jeu', AppLanguage.en: 'Game modes'},
     'next': {AppLanguage.fr: 'Suivant', AppLanguage.en: 'Next'},
-    'vote': {AppLanguage.fr: 'Voter', AppLanguage.en: 'Vote'},
-    'voteDialogTitle': {
-      AppLanguage.fr: 'Combien sont d\'accord ?',
-      AppLanguage.en: 'How many agree?'
-    },
-    'confirm': {AppLanguage.fr: 'Valider', AppLanguage.en: 'Confirm'},
-    'cancel': {AppLanguage.fr: 'Annuler', AppLanguage.en: 'Cancel'},
-    'enterPlayerName': {
-      AppLanguage.fr: 'Entrez un nom de joueur.',
-      AppLanguage.en: 'Enter a player name.',
-    },
-    'selectPlayerToVote': {
-      AppLanguage.fr: 'Sélectionnez un joueur.',
-      AppLanguage.en: 'Select a player.',
-    },
     'activePlayer': {
       AppLanguage.fr: 'Joueur actif',
       AppLanguage.en: 'Active player'
@@ -108,35 +60,67 @@ class AppText {
       AppLanguage.fr: 'Ajoutez au moins 2 joueurs.',
       AppLanguage.en: 'Add at least 2 players.',
     },
-    'minTwoPlayersInGame': {
-      AppLanguage.fr: 'Il faut au moins 2 joueurs dans la partie.',
-      AppLanguage.en: 'At least 2 players are required in the game.',
-    },
     'theme': {AppLanguage.fr: 'Thème', AppLanguage.en: 'Theme'},
+    'cancel': {AppLanguage.fr: 'Annuler', AppLanguage.en: 'Cancel'},
+    'enterPlayerName': {
+      AppLanguage.fr: 'Entrez un nom de joueur.',
+      AppLanguage.en: 'Enter a player name.',
+    },
+    'currentPlayers': {
+      AppLanguage.fr: 'Joueurs actuels',
+      AppLanguage.en: 'Current players',
+    },
+    'removePlayer': {
+      AppLanguage.fr: 'Supprimer le joueur',
+      AppLanguage.en: 'Remove player',
+    },
+    'playerName': {
+      AppLanguage.fr: 'Nom du joueur',
+      AppLanguage.en: 'Player name',
+    },
+    'minTwoPlayersInGame': {
+      AppLanguage.fr: 'Il faut au moins 2 joueurs.',
+      AppLanguage.en: 'At least 2 players required.',
+    },
+    'chooseProfilePhoto': {
+      AppLanguage.fr: 'Photo de profil',
+      AppLanguage.en: 'Profile photo',
+    },
+    'takePhoto': {
+      AppLanguage.fr: 'Prendre une photo',
+      AppLanguage.en: 'Take a photo',
+    },
+    'pickFromGallery': {
+      AppLanguage.fr: 'Choisir depuis la galerie',
+      AppLanguage.en: 'Pick from gallery',
+    },
+    'removePhoto': {
+      AppLanguage.fr: 'Supprimer la photo',
+      AppLanguage.en: 'Remove photo',
+    },
+    'photoAccessFailed': {
+      AppLanguage.fr: 'Impossible d\'accéder aux photos.',
+      AppLanguage.en: 'Could not access photos.',
+    },
+    'confirm': {AppLanguage.fr: 'Confirmer', AppLanguage.en: 'Confirm'},
+    'manageParticipants': {
+      AppLanguage.fr: 'Gérer les joueurs',
+      AppLanguage.en: 'Manage participants',
+    },
+    'voteDialogTitle': {
+      AppLanguage.fr: 'Vote',
+      AppLanguage.en: 'Vote',
+    },
+    'vote': {AppLanguage.fr: 'Voter', AppLanguage.en: 'Vote'},
   };
 
   String get play => _value('play');
   String get players => _value('players');
   String get addPlayer => _value('addPlayer');
-  String get removePlayer => _value('removePlayer');
-  String get chooseProfilePhoto => _value('chooseProfilePhoto');
-  String get takePhoto => _value('takePhoto');
-  String get pickFromGallery => _value('pickFromGallery');
-  String get removePhoto => _value('removePhoto');
-  String get photoAccessFailed => _value('photoAccessFailed');
-  String get manageParticipants => _value('manageParticipants');
-  String get playerName => _value('playerName');
-  String get currentPlayers => _value('currentPlayers');
   String get start => _value('start');
   String get themes => _value('themes');
   String get modes => _value('modes');
   String get next => _value('next');
-  String get vote => _value('vote');
-  String get voteDialogTitle => _value('voteDialogTitle');
-  String get confirm => _value('confirm');
-  String get cancel => _value('cancel');
-  String get enterPlayerName => _value('enterPlayerName');
-  String get selectPlayerToVote => _value('selectPlayerToVote');
   String get activePlayer => _value('activePlayer');
   String get questionsLeft => _value('questionsLeft');
   String get agreeVotes => _value('agreeVotes');
@@ -148,8 +132,22 @@ class AppText {
   String get player => _value('player');
   String get scoresRevealedAtEnd => _value('scoresRevealedAtEnd');
   String get minTwoPlayers => _value('minTwoPlayers');
-  String get minTwoPlayersInGame => _value('minTwoPlayersInGame');
   String get theme => _value('theme');
+  String get cancel => _value('cancel');
+  String get enterPlayerName => _value('enterPlayerName');
+  String get currentPlayers => _value('currentPlayers');
+  String get removePlayer => _value('removePlayer');
+  String get playerName => _value('playerName');
+  String get minTwoPlayersInGame => _value('minTwoPlayersInGame');
+  String get chooseProfilePhoto => _value('chooseProfilePhoto');
+  String get takePhoto => _value('takePhoto');
+  String get pickFromGallery => _value('pickFromGallery');
+  String get removePhoto => _value('removePhoto');
+  String get photoAccessFailed => _value('photoAccessFailed');
+  String get confirm => _value('confirm');
+  String get manageParticipants => _value('manageParticipants');
+  String get voteDialogTitle => _value('voteDialogTitle');
+  String get vote => _value('vote');
 
   String _value(String key) => _values[key]?[language] ?? '';
 }
