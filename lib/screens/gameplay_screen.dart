@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:west_fun/widgets/west_buttons.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:west_fun/l10n/app_text.dart';
@@ -147,7 +148,7 @@ class _GameplayScreenState extends State<GameplayScreen> {
                 ),
               ),
               actions: [
-                ElevatedButton(
+                WestElevatedButton(
                   onPressed: selectedIndex == null
                       ? null
                       : () {
@@ -192,7 +193,7 @@ class _GameplayScreenState extends State<GameplayScreen> {
                       for (final entry in _engine.players.asMap().entries)
                         ListTile(
                           contentPadding: EdgeInsets.zero,
-                          leading: IconButton(
+                          leading: WestIconButton(
                             tooltip: t.chooseProfilePhoto,
                             onPressed: () {
                               _showAvatarOptions(
@@ -208,7 +209,7 @@ class _GameplayScreenState extends State<GameplayScreen> {
                             icon: _buildAvatar(entry.value.avatarBytes),
                           ),
                           title: Text(entry.value.name),
-                          trailing: IconButton(
+                          trailing: WestIconButton(
                             key: ValueKey('remove-participant-${entry.value.name}'),
                             onPressed: () {
                               final removedIndex = entry.key;
@@ -245,7 +246,7 @@ class _GameplayScreenState extends State<GameplayScreen> {
                       const SizedBox(height: 12),
                       Row(
                         children: [
-                          IconButton(
+                          WestIconButton(
                             tooltip: t.chooseProfilePhoto,
                             onPressed: () {
                               _showAvatarOptions(
@@ -270,7 +271,7 @@ class _GameplayScreenState extends State<GameplayScreen> {
                         ],
                       ),
                       const SizedBox(height: 8),
-                      ElevatedButton(
+                      WestElevatedButton(
                         onPressed: () {
                           final name = nameController.text.trim();
                           if (name.isEmpty) {
@@ -293,7 +294,7 @@ class _GameplayScreenState extends State<GameplayScreen> {
                 ),
               ),
               actions: [
-                ElevatedButton(
+                WestElevatedButton(
                   onPressed: () {
                     Navigator.of(dialogContext).pop();
                   },
@@ -374,7 +375,7 @@ class _GameplayScreenState extends State<GameplayScreen> {
                 ],
               ),
               actions: [
-                ElevatedButton(
+                WestElevatedButton(
                   onPressed: () {
                     Navigator.of(dialogContext).pop(selectedPlayerIndexes.length);
                   },
@@ -469,7 +470,7 @@ class _GameplayScreenState extends State<GameplayScreen> {
       appBar: AppBar(
         title: Text(widget.mode.label),
         actions: [
-          IconButton(
+          WestIconButton(
             onPressed: _openParticipantsDialog,
             icon: const Icon(Icons.more_vert),
           ),
@@ -627,15 +628,35 @@ class _GameplayScreenState extends State<GameplayScreen> {
                                               ),
                                             ],
                                           ))
-                                    : Text(
-                                        _engine.currentQuestion,
-                                        textAlign: TextAlign.center,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .titleLarge
-                                            ?.copyWith(
-                                              height: 1.3,
+                                    : Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Text(
+                                            _engine.currentQuestion,
+                                            textAlign: TextAlign.center,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .titleLarge
+                                                ?.copyWith(
+                                                  height: 1.3,
+                                                ),
+                                          ),
+                                          if (widget.mode == GameMode.whoWould &&
+                                              _selectedWhoWouldPlayerIndex != null) ...[
+                                            const SizedBox(height: 12),
+                                            Text(
+                                              _engine.players[_selectedWhoWouldPlayerIndex!].name,
+                                              textAlign: TextAlign.center,
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .titleMedium
+                                                  ?.copyWith(
+                                                    fontWeight: FontWeight.bold,
+                                                    color: const Color(0xFF4A00E0),
+                                                  ),
                                             ),
+                                          ],
+                                        ],
                                       ),
                               ),
                             ),
@@ -648,14 +669,18 @@ class _GameplayScreenState extends State<GameplayScreen> {
                               Expanded(
                                 child: SizedBox(
                                   height: 56,
-                                  child: ElevatedButton(
+                                  child: WestElevatedButton(
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor: const Color(0xFFFFCDD2),
                                       foregroundColor: Colors.red[800],
+                                      elevation: 0,
+                                      shadowColor: Colors.transparent,
+                                      overlayColor: Colors.transparent,
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(16),
                                       ),
                                     ),
+                                    disablePressedEffect: true,
                                     onPressed: () => _applyShesA10AndAdvance(thumbsUp: false),
                                     child: const Icon(Icons.thumb_down, size: 28),
                                   ),
@@ -665,14 +690,18 @@ class _GameplayScreenState extends State<GameplayScreen> {
                               Expanded(
                                 child: SizedBox(
                                   height: 56,
-                                  child: ElevatedButton(
+                                  child: WestElevatedButton(
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor: const Color(0xFFC8E6C9),
                                       foregroundColor: Colors.green[800],
+                                      elevation: 0,
+                                      shadowColor: Colors.transparent,
+                                      overlayColor: Colors.transparent,
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(16),
                                       ),
                                     ),
+                                    disablePressedEffect: true,
                                     onPressed: () => _applyShesA10AndAdvance(thumbsUp: true),
                                     child: const Icon(Icons.thumb_up, size: 28),
                                   ),
@@ -687,7 +716,7 @@ class _GameplayScreenState extends State<GameplayScreen> {
                                     Expanded(
                                       child: SizedBox(
                                         height: 52,
-                                        child: ElevatedButton(
+                                        child: WestElevatedButton(
                                           style: ElevatedButton.styleFrom(
                                             backgroundColor: const Color(0xFF1565C0),
                                             foregroundColor: Colors.white,
@@ -707,7 +736,7 @@ class _GameplayScreenState extends State<GameplayScreen> {
                                     Expanded(
                                       child: SizedBox(
                                         height: 52,
-                                        child: ElevatedButton(
+                                        child: WestElevatedButton(
                                           style: ElevatedButton.styleFrom(
                                             backgroundColor: const Color(0xFFC62828),
                                             foregroundColor: Colors.white,
@@ -728,7 +757,7 @@ class _GameplayScreenState extends State<GameplayScreen> {
                               : SizedBox(
                                   height: 52,
                                   width: double.infinity,
-                                  child: ElevatedButton(
+                                  child: WestElevatedButton(
                                     style: ElevatedButton.styleFrom(
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(16),
@@ -744,7 +773,7 @@ class _GameplayScreenState extends State<GameplayScreen> {
                             Expanded(
                               child: SizedBox(
                                 height: 42,
-                                child: ElevatedButton(
+                                child: WestElevatedButton(
                                   style: ElevatedButton.styleFrom(
                                     padding: const EdgeInsets.symmetric(vertical: 10),
                                     textStyle: Theme.of(context).textTheme.titleSmall,
@@ -758,7 +787,7 @@ class _GameplayScreenState extends State<GameplayScreen> {
                             Expanded(
                               child: SizedBox(
                                 height: 42,
-                                child: ElevatedButton(
+                                child: WestElevatedButton(
                                   style: ElevatedButton.styleFrom(
                                     padding: const EdgeInsets.symmetric(vertical: 10),
                                     textStyle: Theme.of(context).textTheme.titleSmall,
@@ -816,3 +845,5 @@ class _GameplayScreenState extends State<GameplayScreen> {
     );
   }
 }
+
+

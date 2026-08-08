@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:west_fun/widgets/west_buttons.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:west_fun/l10n/app_text.dart';
@@ -117,7 +118,7 @@ class _PlayerSetupScreenState extends State<PlayerSetupScreen> {
           ),
         ],
       ),
-      child: ElevatedButton(
+      child: WestElevatedButton(
         style: ElevatedButton.styleFrom(
           elevation: 10,
           shadowColor: Colors.black45,
@@ -185,7 +186,7 @@ class _PlayerSetupScreenState extends State<PlayerSetupScreen> {
                               width: 2,
                             ),
                           ),
-                          prefixIcon: IconButton(
+                          prefixIcon: WestIconButton(
                             tooltip: t.chooseProfilePhoto,
                             onPressed: () => _showAvatarOptions(index),
                             icon: CircleAvatar(
@@ -201,7 +202,7 @@ class _PlayerSetupScreenState extends State<PlayerSetupScreen> {
                                   : null,
                             ),
                           ),
-                          suffixIcon: IconButton(
+                          suffixIcon: WestIconButton(
                             onPressed: () {
                               setState(() {
                                 _removePlayerAt(index);
@@ -278,3 +279,4 @@ class _PlayerSetupScreenState extends State<PlayerSetupScreen> {
     );
   }
 }
+

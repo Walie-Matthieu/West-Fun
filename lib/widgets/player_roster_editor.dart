@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:west_fun/widgets/west_buttons.dart';
 import 'package:west_fun/l10n/app_text.dart';
 
 /// Manages the mutable player list (names + avatars) shared by
@@ -101,7 +102,7 @@ class PlayerRosterController {
                                 buildAvatar(avatars[i]),
                                 const SizedBox(width: 8),
                                 Expanded(child: Text(names[i])),
-                                IconButton(
+                                WestIconButton(
                                   onPressed: () {
                                     if (_tryRemoveAt(i, context)) {
                                       dialogSetState(() {});
@@ -131,11 +132,11 @@ class PlayerRosterController {
                 ],
               ),
               actions: [
-                TextButton(
+                WestTextButton(
                   onPressed: () => Navigator.of(dialogContext).pop(),
                   child: Text(t.cancel),
                 ),
-                ElevatedButton(
+                WestElevatedButton(
                   onPressed: submitAdd,
                   child: Text(t.addPlayer),
                 ),
@@ -147,3 +148,4 @@ class PlayerRosterController {
     );
   }
 }
+

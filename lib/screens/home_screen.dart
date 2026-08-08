@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:west_fun/widgets/west_buttons.dart';
 import 'package:west_fun/l10n/app_text.dart';
 import 'package:west_fun/screens/player_setup_screen.dart';
 import 'package:west_fun/widgets/app_gradient_background.dart';
@@ -79,7 +80,7 @@ class HomeScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-                child: ElevatedButton(
+                child: WestElevatedButton(
                   style: ElevatedButton.styleFrom(
                     elevation: 10,
                     shadowColor: Colors.black45,
@@ -109,3 +110,4 @@ class HomeScreen extends StatelessWidget {
     );
   }
 }
+

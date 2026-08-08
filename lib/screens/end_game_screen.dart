@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:west_fun/widgets/west_buttons.dart';
 import 'package:west_fun/l10n/app_text.dart';
 import 'package:west_fun/models/game_models.dart';
 import 'package:west_fun/screens/theme_selection_screen.dart';
@@ -94,7 +95,7 @@ class EndGameScreen extends StatelessWidget {
                             const Divider(height: 1),
                         ],
                         const SizedBox(height: 24),
-                        ElevatedButton(
+                        WestElevatedButton(
                           onPressed: () {
                             Navigator.of(context).pushAndRemoveUntil(
                               MaterialPageRoute(
@@ -120,3 +121,4 @@ class EndGameScreen extends StatelessWidget {
     );
   }
 }
+

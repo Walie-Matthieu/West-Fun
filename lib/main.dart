@@ -20,6 +20,56 @@ class WestFunApp extends StatelessWidget {
           seedColor: Colors.deepPurple,
           brightness: Brightness.light,
         ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ButtonStyle(
+            animationDuration: const Duration(milliseconds: 90),
+            overlayColor: WidgetStateProperty.resolveWith((states) {
+              if (states.contains(WidgetState.pressed)) {
+                return Colors.deepPurple.withValues(alpha: 0.18);
+              }
+              return null;
+            }),
+            elevation: WidgetStateProperty.resolveWith((states) {
+              if (states.contains(WidgetState.pressed)) {
+                return 0;
+              }
+              return 2;
+            }),
+          ),
+        ),
+        textButtonTheme: TextButtonThemeData(
+          style: ButtonStyle(
+            animationDuration: const Duration(milliseconds: 90),
+            overlayColor: WidgetStateProperty.resolveWith((states) {
+              if (states.contains(WidgetState.pressed)) {
+                return Colors.deepPurple.withValues(alpha: 0.14);
+              }
+              return null;
+            }),
+          ),
+        ),
+        outlinedButtonTheme: OutlinedButtonThemeData(
+          style: ButtonStyle(
+            animationDuration: const Duration(milliseconds: 90),
+            overlayColor: WidgetStateProperty.resolveWith((states) {
+              if (states.contains(WidgetState.pressed)) {
+                return Colors.deepPurple.withValues(alpha: 0.14);
+              }
+              return null;
+            }),
+          ),
+        ),
+        iconButtonTheme: IconButtonThemeData(
+          style: ButtonStyle(
+            animationDuration: const Duration(milliseconds: 90),
+            overlayColor: WidgetStateProperty.resolveWith((states) {
+              if (states.contains(WidgetState.pressed)) {
+                return Colors.deepPurple.withValues(alpha: 0.14);
+              }
+              return null;
+            }),
+          ),
+        ),
       ),
       locale: const Locale('en'),
       supportedLocales: const [Locale('fr'), Locale('en')],

@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:west_fun/widgets/west_buttons.dart';
 import 'package:west_fun/l10n/app_text.dart';
 import 'package:west_fun/models/game_models.dart';
 import 'package:west_fun/screens/gameplay_screen.dart';
@@ -43,7 +44,7 @@ class _ModeSelectionScreenState extends State<ModeSelectionScreen> {
       appBar: AppBar(
         title: Text(t.modes),
         actions: [
-          IconButton(
+          WestIconButton(
             onPressed: () => _roster.showRosterDialog(context),
             icon: const Icon(Icons.person_add),
             tooltip: t.addPlayer,
@@ -80,3 +81,4 @@ class _ModeSelectionScreenState extends State<ModeSelectionScreen> {
     );
   }
 }
+
