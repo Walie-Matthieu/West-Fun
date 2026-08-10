@@ -103,6 +103,7 @@ class PlayerRosterController {
                                 const SizedBox(width: 8),
                                 Expanded(child: Text(names[i])),
                                 WestIconButton(
+                                  disablePressedShadow: true,
                                   onPressed: () {
                                     if (_tryRemoveAt(i, context)) {
                                       dialogSetState(() {});
@@ -148,4 +149,6 @@ class PlayerRosterController {
     );
   }
 }
+
+
 

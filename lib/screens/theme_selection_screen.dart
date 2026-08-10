@@ -43,6 +43,7 @@ class _ThemeSelectionScreenState extends State<ThemeSelectionScreen> {
         title: Text(t.themes),
         actions: [
           WestIconButton(
+            disablePressedShadow: true,
             onPressed: () => _roster.showRosterDialog(context),
             icon: const Icon(Icons.person_add),
             tooltip: t.addPlayer,
@@ -77,4 +78,6 @@ class _ThemeSelectionScreenState extends State<ThemeSelectionScreen> {
     );
   }
 }
+
+
 

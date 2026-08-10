@@ -5,11 +5,13 @@ class _PressedEffectWrapper extends StatefulWidget {
     required this.child,
     required this.enabled,
     required this.borderRadius,
+    this.showShadow = true,
   });
 
   final Widget child;
   final bool enabled;
   final BorderRadius borderRadius;
+  final bool showShadow;
 
   @override
   State<_PressedEffectWrapper> createState() => _PressedEffectWrapperState();
@@ -78,7 +80,7 @@ class _PressedEffectWrapperState extends State<_PressedEffectWrapper> {
           return DecoratedBox(
             decoration: BoxDecoration(
               borderRadius: widget.borderRadius,
-              boxShadow: _shadows(t),
+              boxShadow: widget.showShadow ? _shadows(t) : null,
             ),
             child: Transform.translate(
               offset: Offset(0, dy),
@@ -161,23 +163,31 @@ class WestIconButton extends StatelessWidget {
     required this.onPressed,
     required this.icon,
     this.tooltip,
+    this.disablePressedEffect = false,
+    this.disablePressedShadow = false,
   });
 
   final VoidCallback? onPressed;
   final Widget icon;
   final String? tooltip;
+  final bool disablePressedEffect;
+  final bool disablePressedShadow;
 
   @override
   Widget build(BuildContext context) {
+    final button = IconButton(
+      onPressed: onPressed,
+      icon: icon,
+      tooltip: tooltip,
+    );
+    if (disablePressedEffect) {
+      return button;
+    }
     return _PressedEffectWrapper(
       enabled: onPressed != null,
       borderRadius: BorderRadius.circular(999),
-      child: IconButton(
-        onPressed: onPressed,
-        icon: icon,
-        tooltip: tooltip,
-      ),
+      showShadow: !disablePressedShadow,
+      child: button,
     );
   }
 }
-

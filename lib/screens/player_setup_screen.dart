@@ -187,6 +187,7 @@ class _PlayerSetupScreenState extends State<PlayerSetupScreen> {
                             ),
                           ),
                           prefixIcon: WestIconButton(
+                            disablePressedShadow: true,
                             tooltip: t.chooseProfilePhoto,
                             onPressed: () => _showAvatarOptions(index),
                             icon: CircleAvatar(
@@ -203,6 +204,7 @@ class _PlayerSetupScreenState extends State<PlayerSetupScreen> {
                             ),
                           ),
                           suffixIcon: WestIconButton(
+                            disablePressedShadow: true,
                             onPressed: () {
                               setState(() {
                                 _removePlayerAt(index);
@@ -279,4 +281,6 @@ class _PlayerSetupScreenState extends State<PlayerSetupScreen> {
     );
   }
 }
+
+
 

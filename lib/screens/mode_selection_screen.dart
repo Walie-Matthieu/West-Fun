@@ -45,6 +45,7 @@ class _ModeSelectionScreenState extends State<ModeSelectionScreen> {
         title: Text(t.modes),
         actions: [
           WestIconButton(
+            disablePressedShadow: true,
             onPressed: () => _roster.showRosterDialog(context),
             icon: const Icon(Icons.person_add),
             tooltip: t.addPlayer,
@@ -81,4 +82,6 @@ class _ModeSelectionScreenState extends State<ModeSelectionScreen> {
     );
   }
 }
+
+
 

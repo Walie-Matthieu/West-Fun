@@ -194,6 +194,7 @@ class _GameplayScreenState extends State<GameplayScreen> {
                         ListTile(
                           contentPadding: EdgeInsets.zero,
                           leading: WestIconButton(
+                            disablePressedShadow: true,
                             tooltip: t.chooseProfilePhoto,
                             onPressed: () {
                               _showAvatarOptions(
@@ -210,6 +211,7 @@ class _GameplayScreenState extends State<GameplayScreen> {
                           ),
                           title: Text(entry.value.name),
                           trailing: WestIconButton(
+                            disablePressedShadow: true,
                             key: ValueKey('remove-participant-${entry.value.name}'),
                             onPressed: () {
                               final removedIndex = entry.key;
@@ -247,6 +249,7 @@ class _GameplayScreenState extends State<GameplayScreen> {
                       Row(
                         children: [
                           WestIconButton(
+                            disablePressedShadow: true,
                             tooltip: t.chooseProfilePhoto,
                             onPressed: () {
                               _showAvatarOptions(
@@ -471,6 +474,7 @@ class _GameplayScreenState extends State<GameplayScreen> {
         title: Text(widget.mode.label),
         actions: [
           WestIconButton(
+            disablePressedShadow: true,
             onPressed: _openParticipantsDialog,
             icon: const Icon(Icons.more_vert),
           ),
@@ -673,14 +677,10 @@ class _GameplayScreenState extends State<GameplayScreen> {
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor: const Color(0xFFFFCDD2),
                                       foregroundColor: Colors.red[800],
-                                      elevation: 0,
-                                      shadowColor: Colors.transparent,
-                                      overlayColor: Colors.transparent,
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(16),
                                       ),
                                     ),
-                                    disablePressedEffect: true,
                                     onPressed: () => _applyShesA10AndAdvance(thumbsUp: false),
                                     child: const Icon(Icons.thumb_down, size: 28),
                                   ),
@@ -694,14 +694,10 @@ class _GameplayScreenState extends State<GameplayScreen> {
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor: const Color(0xFFC8E6C9),
                                       foregroundColor: Colors.green[800],
-                                      elevation: 0,
-                                      shadowColor: Colors.transparent,
-                                      overlayColor: Colors.transparent,
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(16),
                                       ),
                                     ),
-                                    disablePressedEffect: true,
                                     onPressed: () => _applyShesA10AndAdvance(thumbsUp: true),
                                     child: const Icon(Icons.thumb_up, size: 28),
                                   ),
@@ -845,5 +841,8 @@ class _GameplayScreenState extends State<GameplayScreen> {
     );
   }
 }
+
+
+
 
 
