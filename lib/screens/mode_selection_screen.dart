@@ -5,6 +5,7 @@ import 'package:west_fun/widgets/west_buttons.dart';
 import 'package:west_fun/l10n/app_text.dart';
 import 'package:west_fun/models/game_models.dart';
 import 'package:west_fun/screens/gameplay_screen.dart';
+import 'package:west_fun/screens/theme_selection_screen.dart';
 import 'package:west_fun/widgets/app_gradient_background.dart';
 import 'package:west_fun/widgets/player_roster_editor.dart';
 
@@ -13,12 +14,12 @@ class ModeSelectionScreen extends StatefulWidget {
     super.key,
     required this.playerNames,
     this.playerAvatars,
-    required this.theme,
+    this.theme,
   });
 
   final List<String> playerNames;
   final List<Uint8List?>? playerAvatars;
-  final PartyTheme theme;
+  final PartyTheme? theme;
 
   @override
   State<ModeSelectionScreen> createState() => _ModeSelectionScreenState();
@@ -60,16 +61,31 @@ class _ModeSelectionScreenState extends State<ModeSelectionScreen> {
               Card(
                 child: ListTile(
                   title: Text(mode.label),
-                  subtitle: Text('${t.theme}: ${widget.theme.label}'),
-                  trailing: const Icon(Icons.play_arrow),
+                  subtitle: widget.theme != null
+                      ? Text('${t.theme}: ${widget.theme!.label}')
+                      : null,
+                  trailing: const Icon(Icons.arrow_forward_ios),
                   onTap: () {
+                    if (widget.theme != null) {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (_) => GameplayScreen(
+                            playerNames: _roster.names,
+                            playerAvatars: _roster.avatars,
+                            mode: mode,
+                            theme: widget.theme!,
+                          ),
+                        ),
+                      );
+                      return;
+                    }
+
                     Navigator.of(context).push(
                       MaterialPageRoute(
-                        builder: (_) => GameplayScreen(
+                        builder: (_) => ThemeSelectionScreen(
                           playerNames: _roster.names,
                           playerAvatars: _roster.avatars,
                           mode: mode,
-                          theme: widget.theme,
                         ),
                       ),
                     );

@@ -160,7 +160,7 @@ void main() {
     expect(find.text('Bob'), findsNothing);
   });
 
-  testWidgets('play again returns to themes with current participants',
+  testWidgets('play again returns to game modes with current participants',
       (tester) async {
     await tester.pumpWidget(
       buildTestApp(
@@ -182,7 +182,7 @@ void main() {
     await tester.tap(find.widgetWithText(ElevatedButton, 'Play again'));
     await tester.pumpAndSettle();
 
-    expect(find.text('Themes'), findsOneWidget);
-    expect(find.text('Friends night'), findsOneWidget);
+    expect(find.text('Game modes'), findsOneWidget);
+    expect(find.text('Never have I ever...'), findsOneWidget);
   });
 }

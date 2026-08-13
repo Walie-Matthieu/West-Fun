@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:west_fun/widgets/west_buttons.dart';
 import 'package:west_fun/l10n/app_text.dart';
 import 'package:west_fun/models/game_models.dart';
-import 'package:west_fun/screens/theme_selection_screen.dart';
+import 'package:west_fun/screens/mode_selection_screen.dart';
 import 'package:west_fun/widgets/app_gradient_background.dart';
 
 class EndGameScreen extends StatelessWidget {
@@ -99,7 +99,7 @@ class EndGameScreen extends StatelessWidget {
                           onPressed: () {
                             Navigator.of(context).pushAndRemoveUntil(
                               MaterialPageRoute(
-                                builder: (_) => ThemeSelectionScreen(
+                                builder: (_) => ModeSelectionScreen(
                                   playerNames: replayPlayerNames,
                                   playerAvatars: replayPlayerAvatars,
                                 ),

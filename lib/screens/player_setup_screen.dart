@@ -3,7 +3,7 @@ import 'package:west_fun/widgets/west_buttons.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:west_fun/l10n/app_text.dart';
-import 'package:west_fun/screens/theme_selection_screen.dart';
+import 'package:west_fun/screens/mode_selection_screen.dart';
 import 'package:west_fun/widgets/app_gradient_background.dart';
 
 class PlayerSetupScreen extends StatefulWidget {
@@ -262,7 +262,7 @@ class _PlayerSetupScreenState extends State<PlayerSetupScreen> {
                                   .where((entry) => entry.value.text.trim().isNotEmpty)
                                   .map((entry) => _playerAvatars[entry.key])
                                   .toList();
-                              return ThemeSelectionScreen(
+                              return ModeSelectionScreen(
                                 playerNames: names,
                                 playerAvatars: avatars,
                               );
