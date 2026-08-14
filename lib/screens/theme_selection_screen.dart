@@ -28,6 +28,52 @@ class ThemeSelectionScreen extends StatefulWidget {
 class _ThemeSelectionScreenState extends State<ThemeSelectionScreen> {
   late final PlayerRosterController _roster;
 
+  Widget _buildThemeTile(BuildContext context, PartyTheme theme) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final horizontalRadius = constraints.maxWidth * 0.25;
+        const verticalRadius = 7.2;
+
+        return Card(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(
+              Radius.elliptical(horizontalRadius, verticalRadius),
+            ),
+          ),
+          child: ListTile(
+            title: Text(theme.label),
+            trailing: const Icon(Icons.arrow_forward_ios),
+            onTap: () {
+              if (widget.mode != null) {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (_) => GameplayScreen(
+                      playerNames: _roster.names,
+                      playerAvatars: _roster.avatars,
+                      mode: widget.mode!,
+                      theme: theme,
+                    ),
+                  ),
+                );
+                return;
+              }
+
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => ModeSelectionScreen(
+                    playerNames: _roster.names,
+                    playerAvatars: _roster.avatars,
+                    theme: theme,
+                  ),
+                ),
+              );
+            },
+          ),
+        );
+      },
+    );
+  }
+
   @override
   void initState() {
     super.initState();
@@ -58,43 +104,10 @@ class _ThemeSelectionScreenState extends State<ThemeSelectionScreen> {
           padding: const EdgeInsets.all(16),
           children: [
             for (final theme in PartyTheme.values)
-              Card(
-                child: ListTile(
-                  title: Text(theme.label),
-                  trailing: const Icon(Icons.arrow_forward_ios),
-                  onTap: () {
-                    if (widget.mode != null) {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (_) => GameplayScreen(
-                            playerNames: _roster.names,
-                            playerAvatars: _roster.avatars,
-                            mode: widget.mode!,
-                            theme: theme,
-                          ),
-                        ),
-                      );
-                      return;
-                    }
-
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (_) => ModeSelectionScreen(
-                          playerNames: _roster.names,
-                          playerAvatars: _roster.avatars,
-                          theme: theme,
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              ),
+              _buildThemeTile(context, theme),
           ],
         ),
       ),
     );
   }
 }
-
-
-
