@@ -36,6 +36,24 @@ class _ModeSelectionScreenState extends State<ModeSelectionScreen> {
       onChanged: () => setState(() {}),
     );
   }
+  Widget _buildModeTrailingIcon(GameMode mode) {
+    if (mode == GameMode.whoWould) {
+      return Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Image.asset(
+            'assets/images/main Mickey.png',
+            width: 100,     
+            height: 100, // Modifie la hauteur de l'image du mode "Who Would" dans la page de sélection du mode
+            fit: BoxFit.contain,
+          ),
+          const SizedBox(width: 12),
+          const Icon(Icons.play_arrow),
+        ],
+      );
+    }
+    return const Icon(Icons.play_arrow);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +78,7 @@ class _ModeSelectionScreenState extends State<ModeSelectionScreen> {
               Card(
                 child: ListTile(
                   title: Text(mode.label),
-                  trailing: const Icon(Icons.play_arrow),
+                  trailing: _buildModeTrailingIcon(mode),
                   onTap: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(
@@ -81,6 +99,15 @@ class _ModeSelectionScreenState extends State<ModeSelectionScreen> {
     );
   }
 }
+
+
+
+
+
+
+
+
+
 
 
 
