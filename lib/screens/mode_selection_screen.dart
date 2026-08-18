@@ -42,9 +42,9 @@ class _ModeSelectionScreenState extends State<ModeSelectionScreen> {
         mainAxisSize: MainAxisSize.min,
         children: [
           Image.asset(
-            'assets/images/main Mickey.png',
-            width: 100,     
-            height: 100, // Modifie la hauteur de l'image du mode "Who Would" dans la page de sélection du mode
+            'assets/images/main_mickey.png',
+            width: 100,
+            height: 100,
             fit: BoxFit.contain,
           ),
           const SizedBox(width: 12),
@@ -52,6 +52,23 @@ class _ModeSelectionScreenState extends State<ModeSelectionScreen> {
         ],
       );
     }
+
+    if (mode == GameMode.shesA10But) {
+      return Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Image.asset(
+            'assets/images/shes_a_ten.png',
+            width: 100,
+            height: 100,
+            fit: BoxFit.contain,
+          ),
+          const SizedBox(width: 12),
+          const Icon(Icons.play_arrow),
+        ],
+      );
+    }
+
     return const Icon(Icons.play_arrow);
   }
 
