@@ -69,6 +69,22 @@ class _ModeSelectionScreenState extends State<ModeSelectionScreen> {
       );
     }
 
+    if (mode == GameMode.neverHaveIEver) {
+      return Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Image.asset(
+            'assets/images/never_I_have_ever.png',
+            width: 100,
+            height: 100,
+            fit: BoxFit.contain,
+          ),
+          const SizedBox(width: 12),
+          const Icon(Icons.play_arrow),
+        ],
+      );
+    }
+
     return const Icon(Icons.play_arrow);
   }
 
