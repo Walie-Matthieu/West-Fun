@@ -82,6 +82,17 @@ class GameEngine {
     return delta;
   }
 
+  int applyNeverHaveIEverVote({required bool hasDoneIt}) {
+    final delta = hasDoneIt ? maxDelta : -maxDelta;
+    activePlayer.score += delta;
+    currentTurn += 1;
+    activePlayerIndex = (activePlayerIndex + 1) % players.length;
+    if (!isFinished) {
+      _drawNextQuestion();
+    }
+    return delta;
+  }
+
   String drawTruthOrDareQuestion(bool isTruth) {
     final key = isTruth ? 'truth' : 'dare';
     final pool = <String>[];

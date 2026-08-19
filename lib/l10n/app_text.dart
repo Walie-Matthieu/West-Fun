@@ -114,6 +114,8 @@ class AppText {
     'vote': {AppLanguage.fr: 'Voter', AppLanguage.en: 'Vote'},
     'truth': {AppLanguage.fr: 'Vérité', AppLanguage.en: 'Truth'},
     'dare': {AppLanguage.fr: 'Défi', AppLanguage.en: 'Dare'},
+    'iHave': {AppLanguage.fr: 'J\'ai', AppLanguage.en: 'I have'},
+    'never': {AppLanguage.fr: 'Jamais', AppLanguage.en: 'Never'},
     'chooseTruthOrDare': {
       AppLanguage.fr: 'Choisis Vérité ou Défi',
       AppLanguage.en: 'Choose Truth or Dare',
@@ -156,6 +158,8 @@ class AppText {
   String get vote => _value('vote');
   String get truth => _value('truth');
   String get dare => _value('dare');
+  String get iHave => _value('iHave');
+  String get never => _value('never');
   String get chooseTruthOrDare => _value('chooseTruthOrDare');
 
   String _value(String key) => _values[key]?[language] ?? '';

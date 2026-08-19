@@ -444,6 +444,25 @@ class _GameplayScreenState extends State<GameplayScreen> {
     setState(() {});
   }
 
+  void _applyNeverHaveIEverAndAdvance({required bool hasDoneIt}) {
+    _engine.applyNeverHaveIEverVote(hasDoneIt: hasDoneIt);
+    if (_engine.isFinished) {
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (_) => EndGameScreen(
+            players: _engine.ranking,
+            replayPlayerNames:
+                _engine.players.map((p) => p.name).toList(),
+            replayPlayerAvatars:
+                _engine.players.map((p) => p.avatarBytes).toList(),
+          ),
+        ),
+      );
+      return;
+    }
+    setState(() {});
+  }
+
   @override
   void initState() {
     super.initState();
@@ -675,8 +694,8 @@ class _GameplayScreenState extends State<GameplayScreen> {
                                   height: 56,
                                   child: WestElevatedButton(
                                     style: ElevatedButton.styleFrom(
-                                      backgroundColor: const Color(0xFFFFCDD2),
-                                      foregroundColor: Colors.red[800],
+                                      backgroundColor: const Color(0xFFB3E5FC),
+                                      foregroundColor: Colors.blue[800],
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(16),
                                       ),
@@ -692,14 +711,66 @@ class _GameplayScreenState extends State<GameplayScreen> {
                                   height: 56,
                                   child: WestElevatedButton(
                                     style: ElevatedButton.styleFrom(
-                                      backgroundColor: const Color(0xFFC8E6C9),
-                                      foregroundColor: Colors.green[800],
+                                      backgroundColor: const Color(0xFFFFCDD2),
+                                      foregroundColor: Colors.red[800],
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(16),
                                       ),
                                     ),
                                     onPressed: () => _applyShesA10AndAdvance(thumbsUp: true),
                                     child: const Icon(Icons.thumb_up, size: 28),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          )
+                        else if (widget.mode == GameMode.neverHaveIEver)
+                          Row(
+                            children: [
+                              Expanded(
+                                child: SizedBox(
+                                  height: 56,
+                                  child: WestElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: const Color(0xFFB3E5FC),
+                                      foregroundColor: Colors.blue[800],
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(16),
+                                      ),
+                                    ),
+                                    onPressed: () => _applyNeverHaveIEverAndAdvance(hasDoneIt: false),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        const Text('\u{1F607}', style: TextStyle(fontSize: 22)),
+                                        const SizedBox(width: 8),
+                                        Text(t.never),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: 16),
+                              Expanded(
+                                child: SizedBox(
+                                  height: 56,
+                                  child: WestElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: const Color(0xFFFFCDD2),
+                                      foregroundColor: Colors.red[800],
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(16),
+                                      ),
+                                    ),
+                                    onPressed: () => _applyNeverHaveIEverAndAdvance(hasDoneIt: true),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        const Text('\u{1F608}', style: TextStyle(fontSize: 22)),
+                                        const SizedBox(width: 8),
+                                        Text(t.iHave),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
@@ -841,6 +912,10 @@ class _GameplayScreenState extends State<GameplayScreen> {
     );
   }
 }
+
+
+
+
 
 
 
