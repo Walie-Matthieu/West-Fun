@@ -694,8 +694,8 @@ class _GameplayScreenState extends State<GameplayScreen> {
                                   height: 56,
                                   child: WestElevatedButton(
                                     style: ElevatedButton.styleFrom(
-                                      backgroundColor: const Color(0xFFB3E5FC),
-                                      foregroundColor: Colors.blue[800],
+                                      backgroundColor: const Color(0xFFFFCDD2),
+                                      foregroundColor: Colors.red[800],
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(16),
                                       ),
@@ -711,8 +711,8 @@ class _GameplayScreenState extends State<GameplayScreen> {
                                   height: 56,
                                   child: WestElevatedButton(
                                     style: ElevatedButton.styleFrom(
-                                      backgroundColor: const Color(0xFFFFCDD2),
-                                      foregroundColor: Colors.red[800],
+                                      backgroundColor: const Color(0xFFC8E6C9),
+                                      foregroundColor: Colors.green[800],
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(16),
                                       ),
@@ -912,6 +912,7 @@ class _GameplayScreenState extends State<GameplayScreen> {
     );
   }
 }
+
 
 
 

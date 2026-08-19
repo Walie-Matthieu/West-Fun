@@ -101,6 +101,22 @@ class _ModeSelectionScreenState extends State<ModeSelectionScreen> {
       );
     }
 
+    if (mode == GameMode.wouldYouRather) {
+      return Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Image.asset(
+            'assets/images/would_you_rather.png',
+            width: 100,
+            height: 100,
+            fit: BoxFit.contain,
+          ),
+          const SizedBox(width: 12),
+          const Icon(Icons.play_arrow),
+        ],
+      );
+    }
+
     return const Icon(Icons.play_arrow);
   }
 
