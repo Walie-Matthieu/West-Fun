@@ -26,6 +26,24 @@ void main() {
     test('0% agreement deducts points', () {
       expect(engine.scoreDeltaForVote(agreeVotes: 0, voterCount: 2), -10);
     });
+
+
+    test('would you rather right choice gives max points and advances turn', () {
+      final wouldYouRatherEngine = GameEngine(
+        players: [Player('A'), Player('B'), Player('C')],
+        mode: GameMode.wouldYouRather,
+        theme: PartyTheme.friendsNight,
+      );
+
+      final delta = wouldYouRatherEngine.applyWouldYouRatherVote(
+        chooseRightOption: true,
+      );
+
+      expect(delta, 10);
+      expect(wouldYouRatherEngine.players.first.score, 10);
+      expect(wouldYouRatherEngine.currentTurn, 1);
+      expect(wouldYouRatherEngine.activePlayerIndex, 1);
+    });
   });
 
   group('GameEngine mix theme', () {

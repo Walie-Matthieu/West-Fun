@@ -106,12 +106,14 @@ class WestElevatedButton extends StatelessWidget {
     required this.child,
     this.style,
     this.disablePressedEffect = false,
+    this.borderRadius = const BorderRadius.all(Radius.circular(16)),
   });
 
   final VoidCallback? onPressed;
   final Widget child;
   final ButtonStyle? style;
   final bool disablePressedEffect;
+  final BorderRadius borderRadius;
 
   @override
   Widget build(BuildContext context) {
@@ -125,7 +127,7 @@ class WestElevatedButton extends StatelessWidget {
     }
     return _PressedEffectWrapper(
       enabled: onPressed != null,
-      borderRadius: BorderRadius.circular(16),
+      borderRadius: borderRadius,
       child: button,
     );
   }

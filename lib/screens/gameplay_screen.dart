@@ -463,6 +463,46 @@ class _GameplayScreenState extends State<GameplayScreen> {
     setState(() {});
   }
 
+  void _applyWouldYouRatherAndAdvance({required bool chooseRightOption}) {
+    _engine.applyWouldYouRatherVote(chooseRightOption: chooseRightOption);
+    if (_engine.isFinished) {
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (_) => EndGameScreen(
+            players: _engine.ranking,
+            replayPlayerNames:
+                _engine.players.map((p) => p.name).toList(),
+            replayPlayerAvatars:
+                _engine.players.map((p) => p.avatarBytes).toList(),
+          ),
+        ),
+      );
+      return;
+    }
+    setState(() {});
+  }
+
+  List<String> _wouldYouRatherOptions() {
+    final question = _engine.currentQuestion;
+    const prompt = 'Would you rather ';
+    final trimmedQuestion = question.endsWith('?')
+        ? question.substring(0, question.length - 1)
+        : question;
+    final coreQuestion = trimmedQuestion.startsWith(prompt)
+        ? trimmedQuestion.substring(prompt.length)
+        : trimmedQuestion;
+    final splitIndex = coreQuestion.indexOf(' OR ');
+
+    if (splitIndex == -1) {
+      return const ['A', 'B'];
+    }
+
+    return [
+      coreQuestion.substring(0, splitIndex).trim(),
+      coreQuestion.substring(splitIndex + 4).trim(),
+    ];
+  }
+
   @override
   void initState() {
     super.initState();
@@ -775,6 +815,74 @@ class _GameplayScreenState extends State<GameplayScreen> {
                                 ),
                               ),
                             ],
+                          )
+                        else if (widget.mode == GameMode.wouldYouRather)
+                          Builder(
+                            builder: (context) {
+                              final options = _wouldYouRatherOptions();
+                              return Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  SizedBox(
+                                    width: 140,   // Taille bouton rouge
+                                    height: 140, // Taille bouton rouge
+                                    child: WestElevatedButton(
+                                      borderRadius: BorderRadius.circular(999),
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: const Color(0xFFC62828),
+                                        foregroundColor: Colors.white,
+                                        shape: const CircleBorder(),
+                                      ),
+                                      onPressed: () => _applyWouldYouRatherAndAdvance(
+                                        chooseRightOption: false,
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(12),
+                                        child: Text(
+                                          options[0],
+                                          textAlign: TextAlign.center,
+                                          maxLines: 4,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: const TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 16, // Taille du texte dans le bouton rouge de "Would you rather"
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 22),
+                                  SizedBox(
+                                    width: 140,   // Taille bouton vert de "Would you rather"
+                                    height: 140, // Taille bouton vert de "Would you rather"
+                                    child: WestElevatedButton(
+                                      borderRadius: BorderRadius.circular(999),
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: const Color(0xFF2E7D32),
+                                        foregroundColor: Colors.white,
+                                        shape: const CircleBorder(),
+                                      ),
+                                      onPressed: () => _applyWouldYouRatherAndAdvance(
+                                        chooseRightOption: true,
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(12),
+                                        child: Text(
+                                          options[1],
+                                          textAlign: TextAlign.center,
+                                          maxLines: 4,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: const TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 16, // Taille du texte dans le bouton vert de "Would you rather"
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              );
+                            },
                           )
                         else if (widget.mode == GameMode.truthOrDare)
                           (_todQuestion == null

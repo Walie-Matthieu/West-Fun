@@ -93,6 +93,17 @@ class GameEngine {
     return delta;
   }
 
+  int applyWouldYouRatherVote({required bool chooseRightOption}) {
+    final delta = chooseRightOption ? maxDelta : -maxDelta;
+    activePlayer.score += delta;
+    currentTurn += 1;
+    activePlayerIndex = (activePlayerIndex + 1) % players.length;
+    if (!isFinished) {
+      _drawNextQuestion();
+    }
+    return delta;
+  }
+
   String drawTruthOrDareQuestion(bool isTruth) {
     final key = isTruth ? 'truth' : 'dare';
     final pool = <String>[];
