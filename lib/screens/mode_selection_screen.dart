@@ -40,8 +40,8 @@ class _ModeSelectionScreenState extends State<ModeSelectionScreen> {
     if (mode == GameMode.whoWould) {
       return Image.asset(
         'assets/images/main_mickey.png',
-        width: 100,
-        height: 100,
+        width: 100,   // Largeur image qui pourrait 
+        height: 100, // hauteur image qui pourrait
         fit: BoxFit.contain,
       );
     }
@@ -49,8 +49,8 @@ class _ModeSelectionScreenState extends State<ModeSelectionScreen> {
     if (mode == GameMode.shesA10But) {
       return Image.asset(
         'assets/images/shes_a_ten.png',
-        width: 100,
-        height: 100,
+        width: 100,   // Largeur image c'est une 10 mais
+        height: 100, // Hauteur image c'est une 10 mais
         fit: BoxFit.contain,
       );
     }
@@ -58,8 +58,8 @@ class _ModeSelectionScreenState extends State<ModeSelectionScreen> {
     if (mode == GameMode.neverHaveIEver) {
       return Image.asset(
         'assets/images/never_I_have_ever.png',
-        width: 100,
-        height: 100,
+        width: 100,   // Largeur image je n'ai jamais
+        height: 100, // Hauteur image je n'ai jamais
         fit: BoxFit.contain,
       );
     }
@@ -67,8 +67,8 @@ class _ModeSelectionScreenState extends State<ModeSelectionScreen> {
     if (mode == GameMode.truthOrDare) {
       return Image.asset(
         'assets/images/truth_or_dare.png',
-        width: 100,
-        height: 100,
+        width: 100,   // Largeur image Action/Vérité
+        height: 100, // Hauteur image Action/Vérité
         fit: BoxFit.contain,
       );
     }
@@ -76,15 +76,15 @@ class _ModeSelectionScreenState extends State<ModeSelectionScreen> {
     if (mode == GameMode.wouldYouRather) {
       return Image.asset(
         'assets/images/would_you_rather.png',
-        width: 100,
-        height: 100,
+        width: 100,   // Largeur image Matrix
+        height: 100, // Hauteur image Matrix
         fit: BoxFit.contain,
       );
     }
 
     return const SizedBox.shrink();
   }
-
+  
   @override
   Widget build(BuildContext context) {
     final t = AppText.of(context);
@@ -108,20 +108,25 @@ class _ModeSelectionScreenState extends State<ModeSelectionScreen> {
               Card(
                 color: const Color(0xFF0F172A),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(18),
+                  borderRadius: BorderRadius.circular(18), 
                 ),
-                child: ListTile(
-                  title: Text(
-                    mode.label,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
+                child: SizedBox(
+                  height: 70, // changer la taille de la carte pour s'adapter à l'image
+                  child: ListTile(
+                    title: Text(
+                      mode.label,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
                   trailing: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      _buildModeTrailingIcon(mode),
+                      Transform.translate(
+                        offset: const Offset(0, 7), // Ajuster la position verticale de l'image
+                        child: _buildModeTrailingIcon(mode),
+                      ),
                       const SizedBox(width: 4),
                       const Icon(Icons.arrow_forward_ios, color: Colors.white, size: 18),
                     ],
@@ -139,7 +144,8 @@ class _ModeSelectionScreenState extends State<ModeSelectionScreen> {
                         ),
                       ),
                     );
-                  },
+                    },
+                  ),
                 ),
               ),
           ],
@@ -148,7 +154,6 @@ class _ModeSelectionScreenState extends State<ModeSelectionScreen> {
     );
   }
 }
-
 
 
 
