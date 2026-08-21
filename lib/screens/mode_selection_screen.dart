@@ -38,86 +38,51 @@ class _ModeSelectionScreenState extends State<ModeSelectionScreen> {
   }
   Widget _buildModeTrailingIcon(GameMode mode) {
     if (mode == GameMode.whoWould) {
-      return Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Image.asset(
-            'assets/images/main_mickey.png',
-            width: 100,
-            height: 100,
-            fit: BoxFit.contain,
-          ),
-          const SizedBox(width: 12),
-          const Icon(Icons.play_arrow),
-        ],
+      return Image.asset(
+        'assets/images/main_mickey.png',
+        width: 100,
+        height: 100,
+        fit: BoxFit.contain,
       );
     }
 
     if (mode == GameMode.shesA10But) {
-      return Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Image.asset(
-            'assets/images/shes_a_ten.png',
-            width: 100,
-            height: 100,
-            fit: BoxFit.contain,
-          ),
-          const SizedBox(width: 12),
-          const Icon(Icons.play_arrow),
-        ],
+      return Image.asset(
+        'assets/images/shes_a_ten.png',
+        width: 100,
+        height: 100,
+        fit: BoxFit.contain,
       );
     }
 
     if (mode == GameMode.neverHaveIEver) {
-      return Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Image.asset(
-            'assets/images/never_I_have_ever.png',
-            width: 100,
-            height: 100,
-            fit: BoxFit.contain,
-          ),
-          const SizedBox(width: 12),
-          const Icon(Icons.play_arrow),
-        ],
+      return Image.asset(
+        'assets/images/never_I_have_ever.png',
+        width: 100,
+        height: 100,
+        fit: BoxFit.contain,
       );
     }
 
     if (mode == GameMode.truthOrDare) {
-      return Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Image.asset(
-            'assets/images/truth_or_dare.png',
-            width: 100,
-            height: 100,
-            fit: BoxFit.contain,
-          ),
-          const SizedBox(width: 12),
-          const Icon(Icons.play_arrow),
-        ],
+      return Image.asset(
+        'assets/images/truth_or_dare.png',
+        width: 100,
+        height: 100,
+        fit: BoxFit.contain,
       );
     }
 
     if (mode == GameMode.wouldYouRather) {
-      return Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Image.asset(
-            'assets/images/would_you_rather.png',
-            width: 100,
-            height: 100,
-            fit: BoxFit.contain,
-          ),
-          const SizedBox(width: 12),
-          const Icon(Icons.play_arrow),
-        ],
+      return Image.asset(
+        'assets/images/would_you_rather.png',
+        width: 100,
+        height: 100,
+        fit: BoxFit.contain,
       );
     }
 
-    return const Icon(Icons.play_arrow);
+    return const SizedBox.shrink();
   }
 
   @override
@@ -141,9 +106,28 @@ class _ModeSelectionScreenState extends State<ModeSelectionScreen> {
           children: [
             for (final mode in GameMode.values)
               Card(
+                color: const Color(0xFF0F172A),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(18),
+                ),
                 child: ListTile(
-                  title: Text(mode.label),
-                  trailing: _buildModeTrailingIcon(mode),
+                  title: Text(
+                    mode.label,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      _buildModeTrailingIcon(mode),
+                      const SizedBox(width: 4),
+                      const Icon(Icons.arrow_forward_ios, color: Colors.white, size: 18),
+                    ],
+                  ),
+                  textColor: Colors.white,
+                  iconColor: Colors.white,
                   onTap: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(
