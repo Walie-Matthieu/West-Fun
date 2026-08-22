@@ -73,9 +73,9 @@ class _PressedEffectWrapperState extends State<_PressedEffectWrapper> {
         curve: Curves.easeOut,
         child: widget.child,
         builder: (context, t, child) {
-          final scale = 1 - (0.03 * t);
-          final dy = 2 * t;
-          final darkenFactor = 1 - (0.10 * t);
+          final scale = 1 - (0.04 * t);
+          final dy = 3 * t;
+          final darkenFactor = 1 - (0.12 * t);
 
           return DecoratedBox(
             decoration: BoxDecoration(
