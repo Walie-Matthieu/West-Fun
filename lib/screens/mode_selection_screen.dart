@@ -110,7 +110,7 @@ class _ModeSelectionScreenState extends State<ModeSelectionScreen> {
           children: [
             for (final mode in GameMode.values)
               Padding(
-                padding: const EdgeInsets.only(bottom: 12),
+                padding: const EdgeInsets.only(bottom: 12), // Séparation entre les boutons de Game mode
                 child: _ModePhysicalCard(
                   platformColor: _modePlatformColor,
                   buttonColor: _modeButtonColor,
@@ -129,25 +129,31 @@ class _ModeSelectionScreenState extends State<ModeSelectionScreen> {
                   child: SizedBox(
                     height: 70,
                     child: ListTile(
-                      title: Text(
-                        mode.label,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
+                      title: Transform.translate(
+                        offset: const Offset(0, 10), // Déplace le texte du mode vers le bas
+                        child: Text(
+                          mode.label,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                       trailing: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Transform.translate(
-                            offset: const Offset(0, 7),
+                            offset: const Offset(0, 7), // Déplace les icones
                             child: _buildModeTrailingIcon(mode),
                           ),
                           const SizedBox(width: 4),
-                          const Icon(
-                            Icons.arrow_forward_ios,
-                            color: Colors.white,
-                            size: 18,
+                          Transform.translate(
+                            offset: const Offset(0, 9), // Déplace les flèches
+                            child: const Icon(
+                              Icons.arrow_forward_ios,
+                              color: Colors.white,
+                              size: 18,
+                            ),
                           ),
                         ],
                       ),
@@ -233,6 +239,11 @@ class _ModePhysicalCardState extends State<_ModePhysicalCard> {
                       borderRadius: BorderRadius.circular(18),
                       child: InkWell(
                         borderRadius: BorderRadius.circular(18),
+                        splashFactory: NoSplash.splashFactory,
+                        splashColor: Colors.transparent,
+                        highlightColor: Colors.transparent,
+                        hoverColor: Colors.transparent,
+                        focusColor: Colors.transparent,
                         onTap: widget.onPressed,
                         child: widget.child,
                       ),
@@ -247,3 +258,4 @@ class _ModePhysicalCardState extends State<_ModePhysicalCard> {
     );
   }
 }
+
