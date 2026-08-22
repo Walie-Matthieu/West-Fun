@@ -625,7 +625,7 @@ class _GameplayScreenState extends State<GameplayScreen> {
                                 ? (_todIsTruth!
                                     ? const Color(0xFFE3F2FD)
                                     : const Color(0xFFFCE4EC))
-                                : const Color(0xFFF5F0FF),
+                                : const Color(0xFFF5F0FF), // Couleur de fond des questions
                             borderRadius: BorderRadius.circular(20),
                           ),
                           child: Padding(
