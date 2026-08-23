@@ -29,19 +29,18 @@ class _ThemeSelectionScreenState extends State<ThemeSelectionScreen> {
   late final PlayerRosterController _roster;
 
   Widget _buildThemeTile(BuildContext context, PartyTheme theme) {
-    return Card(
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(36),
-          topRight: Radius.circular(10),
-          bottomRight: Radius.circular(36),
-          bottomLeft: Radius.circular(10),
-        ),
-      ),
-      child: ListTile(
-        title: Text(theme.label),
-        trailing: const Icon(Icons.arrow_forward_ios),
-        onTap: () {
+    const shapeBorderRadius = BorderRadius.only(
+      topLeft: Radius.circular(36),
+      topRight: Radius.circular(10),
+      bottomRight: Radius.circular(36),
+      bottomLeft: Radius.circular(10),
+    );
+
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 12),
+      child: _ThemePhysicalCard(
+        shapeBorderRadius: shapeBorderRadius,
+        onPressed: () {
           if (widget.mode != null) {
             Navigator.of(context).push(
               MaterialPageRoute(
@@ -66,6 +65,29 @@ class _ThemeSelectionScreenState extends State<ThemeSelectionScreen> {
             ),
           );
         },
+        child: SizedBox(
+          height: 70,
+          child: ListTile(
+            title: Transform.translate(
+              offset: const Offset(0, 10), // Déplace le texte du mode vers le bas
+              child: Text(
+                theme.label,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            trailing: Transform.translate(
+              offset: const Offset(0, 10), // Déplace les flèches
+              child: const Icon(
+                Icons.arrow_forward_ios,
+                color: Colors.white,
+                size: 18,
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }
@@ -103,6 +125,95 @@ class _ThemeSelectionScreenState extends State<ThemeSelectionScreen> {
               _buildThemeTile(context, theme),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class _ThemePhysicalCard extends StatefulWidget {
+  const _ThemePhysicalCard({
+    required this.onPressed,
+    required this.child,
+    required this.shapeBorderRadius,
+  });
+
+  final VoidCallback onPressed;
+  final Widget child;
+  final BorderRadius shapeBorderRadius;
+
+  @override
+  State<_ThemePhysicalCard> createState() => _ThemePhysicalCardState();
+}
+
+class _ThemePhysicalCardState extends State<_ThemePhysicalCard> {
+  bool _pressed = false;
+
+  void _setPressed(bool value) {
+    if (_pressed != value) {
+      setState(() {
+        _pressed = value;
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final duration = Duration(milliseconds: _pressed ? 100 : 150);
+
+    return Listener(
+      onPointerDown: (_) => _setPressed(true),
+      onPointerUp: (_) => _setPressed(false),
+      onPointerCancel: (_) => _setPressed(false),
+      child: TweenAnimationBuilder<double>(
+        tween: Tween<double>(end: _pressed ? 1 : 0),
+        duration: duration,
+        curve: Curves.easeOut,
+        builder: (context, t, _) {
+          final dy = 8 * t; // Descend le bouton de 8 pixels lorsque le bouton est pressé
+
+          return SizedBox(
+            height: 78,
+            child: Stack(
+              children: [
+                Positioned(
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  height: 64,
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF0F172A), // Couleur du socle des boutons dans Themes
+                      borderRadius: widget.shapeBorderRadius,
+                    ),
+                  ),
+                ),
+                Positioned(
+                  left: 0,
+                  right: 0,
+                  top: 0,
+                  height: 70,
+                  child: Transform.translate(
+                    offset: Offset(0, dy), // Déplace les boutons de droites à gauche
+                    child: Material(
+                      color: const Color.fromARGB(255, 6, 35, 102), // Couleur des boutons dans Themes
+                      borderRadius: widget.shapeBorderRadius,
+                      child: InkWell(
+                        borderRadius: widget.shapeBorderRadius,
+                        splashFactory: NoSplash.splashFactory,
+                        splashColor: Colors.transparent,
+                        highlightColor: Colors.transparent,
+                        hoverColor: Colors.transparent,
+                        focusColor: Colors.transparent,
+                        onTap: widget.onPressed,
+                        child: widget.child,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
       ),
     );
   }
