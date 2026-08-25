@@ -27,6 +27,9 @@ class GameplayScreen extends StatefulWidget {
 }
 
 class _GameplayScreenState extends State<GameplayScreen> {
+  static const Color _modePlatformColor = Color(0xFF0F172A);
+  static const Color _modeButtonColor = Color.fromARGB(255, 6, 35, 102);
+
   late final GameEngine _engine;
   final ImagePicker _imagePicker = ImagePicker();
   int _agreeVotes = 0;
@@ -547,7 +550,13 @@ class _GameplayScreenState extends State<GameplayScreen> {
               child: ConstrainedBox(
                 constraints: const BoxConstraints(maxWidth: 560),
                 child: Card(
-                  elevation: 14,
+                  color: widget.mode == GameMode.whoWould
+                      ? _modeButtonColor
+                      : null,
+                  elevation: widget.mode == GameMode.whoWould ? 0 : 14,
+                  shadowColor: widget.mode == GameMode.whoWould
+                      ? _modePlatformColor
+                      : null,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(28)),
                   child: Padding(
@@ -579,19 +588,61 @@ class _GameplayScreenState extends State<GameplayScreen> {
                           ),
                         ),
                         const SizedBox(height: 8),
-                        Text(
-                          widget.mode.label,
-                          textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                                fontWeight: FontWeight.bold,
+                        if (widget.mode == GameMode.whoWould)
+                          Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              Text(
+                                widget.mode.label,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: Theme.of(context)
+                                      .textTheme
+                                      .headlineSmall
+                                      ?.fontSize,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'Nunito',
+                                  letterSpacing: 1.2,
+                                  foreground: Paint()
+                                    ..style = PaintingStyle.stroke
+                                    ..strokeWidth = 3
+                                    ..color = const Color(0x66000000),
+                                ),
                               ),
-                        ),
+                              Text(
+                                widget.mode.label,
+                                textAlign: TextAlign.center,
+                                style: const TextStyle(
+                                  fontSize: 30,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'Nunito',
+                                  letterSpacing: 1.2,
+                                  color: Color(0xFF4A00E0),
+                                ),
+                              ),
+                            ],
+                          )
+                        else
+                          Text(
+                            widget.mode.label,
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context)
+                                .textTheme
+                                .headlineSmall
+                                ?.copyWith(fontWeight: FontWeight.bold),
+                          ),
                         Text(
                           widget.theme.label,
                           textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                color: Colors.black54,
-                              ),
+                          style: (widget.mode == GameMode.whoWould
+                                  ? Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                      color: Colors.white70,
+                                    )
+                                  : Theme.of(context)
+                                      .textTheme
+                                      .bodyMedium
+                                      ?.copyWith(color: Colors.black54)) ??
+                              const TextStyle(),
                         ),
                         const SizedBox(height: 12),
                         if (widget.mode != GameMode.whoWould &&
@@ -621,11 +672,13 @@ class _GameplayScreenState extends State<GameplayScreen> {
                         const SizedBox(height: 24),
                         DecoratedBox(
                           decoration: BoxDecoration(
-                            color: widget.mode == GameMode.truthOrDare && _todIsTruth != null
-                                ? (_todIsTruth!
-                                    ? const Color(0xFFE3F2FD)
-                                    : const Color(0xFFFCE4EC))
-                                : const Color(0xFFF5F0FF), // Couleur de fond des questions
+                            color: widget.mode == GameMode.whoWould
+                                ? const Color.fromARGB(255, 6, 35, 102) // Couleur de fond du conteneur pour le mode "Who Would"
+                                : (widget.mode == GameMode.truthOrDare && _todIsTruth != null
+                                    ? (_todIsTruth!
+                                        ? const Color(0xFFE3F2FD)
+                                        : const Color(0xFFFCE4EC))
+                                    : const Color(0xFFF5F0FF)),
                             borderRadius: BorderRadius.circular(20),
                           ),
                           child: Padding(
@@ -697,12 +750,19 @@ class _GameplayScreenState extends State<GameplayScreen> {
                                           Text(
                                             _engine.currentQuestion,
                                             textAlign: TextAlign.center,
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .titleLarge
-                                                ?.copyWith(
-                                                  height: 1.3,
-                                                ),
+                                            style: (widget.mode == GameMode.whoWould
+                                                    ? Theme.of(context)
+                                                        .textTheme
+                                                        .titleLarge
+                                                        ?.copyWith(
+                                                            height: 1.3,
+                                                            color: Colors.white,  
+                                                          )
+                                                    : Theme.of(context)
+                                                        .textTheme
+                                                        .titleLarge
+                                                        ?.copyWith(height: 1.3)) ??
+                                                const TextStyle(height: 1.3),
                                           ),
                                           if (widget.mode == GameMode.whoWould &&
                                               _selectedWhoWouldPlayerIndex != null) ...[
@@ -715,7 +775,7 @@ class _GameplayScreenState extends State<GameplayScreen> {
                                                   .titleMedium
                                                   ?.copyWith(
                                                     fontWeight: FontWeight.bold,
-                                                    color: const Color(0xFF4A00E0),
+                                                    color: Colors.white,
                                                   ),
                                             ),
                                           ],
@@ -820,12 +880,22 @@ class _GameplayScreenState extends State<GameplayScreen> {
                           Builder(
                             builder: (context) {
                               final options = _wouldYouRatherOptions();
-                              return Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  SizedBox(
-                                    width: 152,
-                                    height: 152,
+                              return LayoutBuilder(
+                                builder: (context, constraints) {
+                                  final availableWidth = constraints.maxWidth.isFinite
+                                      ? constraints.maxWidth
+                                      : 326.0;
+                                  final buttonGap = availableWidth > 340 ? 22.0 : 12.0;
+                                  final outerButtonSize =
+                                      ((availableWidth - buttonGap) / 2).clamp(96.0, 152.0).toDouble();
+                                  final innerButtonSize = outerButtonSize - 12;
+
+                                  return Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      SizedBox(
+                                        width: outerButtonSize,
+                                        height: outerButtonSize,
                                     child: DecoratedBox(
                                       decoration: const BoxDecoration(
                                         shape: BoxShape.circle,
@@ -834,8 +904,8 @@ class _GameplayScreenState extends State<GameplayScreen> {
                                       child: Padding(
                                         padding: const EdgeInsets.all(6),
                                         child: SizedBox(
-                                          width: 140,
-                                          height: 140,
+                                          width: innerButtonSize,
+                                          height: innerButtonSize,
                                           child: WestElevatedButton(
                                             borderRadius: BorderRadius.circular(999),
                                             style: ElevatedButton.styleFrom(
@@ -887,11 +957,11 @@ class _GameplayScreenState extends State<GameplayScreen> {
                                         ),
                                       ),
                                     ),
-                                  ),
-                                  const SizedBox(width: 22),
-                                  SizedBox(
-                                    width: 152,
-                                    height: 152,
+                                      ),
+                                      SizedBox(width: buttonGap),
+                                      SizedBox(
+                                        width: outerButtonSize,
+                                        height: outerButtonSize,
                                     child: DecoratedBox(
                                       decoration: const BoxDecoration(
                                         shape: BoxShape.circle,
@@ -900,8 +970,8 @@ class _GameplayScreenState extends State<GameplayScreen> {
                                       child: Padding(
                                         padding: const EdgeInsets.all(6),
                                         child: SizedBox(
-                                          width: 140,
-                                          height: 140,
+                                          width: innerButtonSize,
+                                          height: innerButtonSize,
                                           child: WestElevatedButton(
                                             borderRadius: BorderRadius.circular(999),
                                             style: ElevatedButton.styleFrom(
@@ -953,8 +1023,10 @@ class _GameplayScreenState extends State<GameplayScreen> {
                                         ),
                                       ),
                                     ),
-                                  ),
-                                ],
+                                      ),
+                                    ],
+                                  );
+                                },
                               );
                             },
                           )
@@ -1016,6 +1088,76 @@ class _GameplayScreenState extends State<GameplayScreen> {
                                     child: Text(t.next),
                                   ),
                                 ))
+                        else if (widget.mode == GameMode.whoWould)
+                          Row(
+                            children: [
+                              Expanded(
+                                child: SizedBox(
+                                  height: 42,
+                                  child: WestElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: const Color.fromARGB(255, 6, 35, 102), // Bouton de vote pour le mode "Who Would"
+                                      foregroundColor: Colors.white,
+                                      padding: const EdgeInsets.symmetric(vertical: 10),
+                                      textStyle: Theme.of(context).textTheme.titleSmall,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(16),
+                                      ),
+                                    ),
+                                    onPressed: _openWhoWouldDialog,
+                                    child: Text(voteButtonLabel),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: 12),
+                              Expanded(
+                                child: SizedBox(
+                                  height: 42,
+                                  child: WestElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: const Color.fromARGB(255, 6, 35, 102), // Couleur du bouton "Next" pour le mode "Who Would"
+                                      foregroundColor: Colors.white, // Couleur du texte du bouton "Next" pour le mode "Who Would"
+                                      padding: const EdgeInsets.symmetric(vertical: 10),
+                                      textStyle: Theme.of(context).textTheme.titleSmall,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(16),
+                                      ),
+                                    ),
+                                    onPressed: () {
+                                      if (_selectedWhoWouldPlayerIndex != null) {
+                                        _engine.applyWhoWouldVote(
+                                          selectedPlayerIndex: _selectedWhoWouldPlayerIndex!,
+                                        );
+                                      } else {
+                                        _engine.skipTurn();
+                                      }
+                                      if (_engine.isFinished) {
+                                        Navigator.of(context).pushReplacement(
+                                          MaterialPageRoute(
+                                            builder: (_) => EndGameScreen(
+                                              players: _engine.ranking,
+                                              replayPlayerNames: _engine.players
+                                                  .map((player) => player.name)
+                                                  .toList(),
+                                              replayPlayerAvatars: _engine.players
+                                                  .map((player) => player.avatarBytes)
+                                                  .toList(),
+                                            ),
+                                          ),
+                                        );
+                                        return;
+                                      }
+                                      setState(() {
+                                        _agreeVotes = 0;
+                                        _selectedWhoWouldPlayerIndex = null;
+                                      });
+                                    },
+                                    child: Text(t.next),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          )
                         else
                           Row(
                           children: [
@@ -1094,8 +1236,6 @@ class _GameplayScreenState extends State<GameplayScreen> {
     );
   }
 }
-
-
 
 
 
