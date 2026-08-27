@@ -551,7 +551,7 @@ class _GameplayScreenState extends State<GameplayScreen> {
                 constraints: const BoxConstraints(maxWidth: 560),
                 child: Card(
                   color: widget.mode == GameMode.whoWould
-                      ? _modeButtonColor
+                      ? _modeButtonColor // Couleur de fond pour le mode "Who Would"
                       : null,
                   elevation: widget.mode == GameMode.whoWould ? 0 : 14,
                   shadowColor: widget.mode == GameMode.whoWould
@@ -596,28 +596,25 @@ class _GameplayScreenState extends State<GameplayScreen> {
                                 widget.mode.label,
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
-                                  fontSize: Theme.of(context)
-                                      .textTheme
-                                      .headlineSmall
-                                      ?.fontSize,
+                                  fontSize: 32,
                                   fontWeight: FontWeight.bold,
                                   fontFamily: 'Nunito',
                                   letterSpacing: 1.2,
                                   foreground: Paint()
                                     ..style = PaintingStyle.stroke
-                                    ..strokeWidth = 3
-                                    ..color = const Color(0x66000000),
+                                    ..strokeWidth = 5
+                                    ..color = const Color.fromARGB(255, 42, 10, 130), // Couleur du contour du texte du mode "Who Would" dans le jeu
                                 ),
                               ),
                               Text(
                                 widget.mode.label,
                                 textAlign: TextAlign.center,
                                 style: const TextStyle(
-                                  fontSize: 30,
+                                  fontSize: 32,
                                   fontWeight: FontWeight.bold,
                                   fontFamily: 'Nunito',
                                   letterSpacing: 1.2,
-                                  color: Color(0xFF4A00E0),
+                                  color: Color.fromARGB(255, 236, 234, 239), // Couleur du Titre du mode "Who Would" dans le jeu
                                 ),
                               ),
                             ],
