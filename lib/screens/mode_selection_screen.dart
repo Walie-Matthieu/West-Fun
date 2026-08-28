@@ -41,49 +41,52 @@ class _ModeSelectionScreenState extends State<ModeSelectionScreen> {
   }
 
   Widget _buildModeTrailingIcon(GameMode mode) {
-    if (mode == GameMode.whoWould) {
-      return Image.asset(
-        'assets/images/main_mickey.png',
-        width: 100,
-        height: 100,
-        fit: BoxFit.contain,
+    const double iconFootprintSize = 84;
+    const double renderedIconSize = 114;
+
+    Widget buildAssetIcon(String assetPath) {
+      return SizedBox(
+        width: iconFootprintSize,
+        height: iconFootprintSize,
+        child: OverflowBox(
+          alignment: Alignment.centerRight,
+          minWidth: renderedIconSize,
+          maxWidth: renderedIconSize,
+          minHeight: renderedIconSize,
+          maxHeight: renderedIconSize,
+          child: Image.asset(
+            assetPath,
+            width: renderedIconSize,
+            height: renderedIconSize,
+            fit: BoxFit.contain,
+            alignment: Alignment.centerRight,
+          ),
+        ),
       );
+    }
+
+    if (mode == GameMode.whoWould) {
+      return buildAssetIcon('assets/images/main_mickey.png');
     }
 
     if (mode == GameMode.shesA10But) {
-      return Image.asset(
-        'assets/images/shes_a_ten.png',
-        width: 100,
-        height: 100,
-        fit: BoxFit.contain,
-      );
+      return buildAssetIcon('assets/images/shes_a_ten.png');
     }
 
     if (mode == GameMode.neverHaveIEver) {
-      return Image.asset(
-        'assets/images/never_I_have_ever.png',
-        width: 100,
-        height: 100,
-        fit: BoxFit.contain,
-      );
+      return buildAssetIcon('assets/images/never_I_have_ever.png');
     }
 
     if (mode == GameMode.truthOrDare) {
-      return Image.asset(
-        'assets/images/truth_or_dare.png',
-        width: 100,
-        height: 100,
-        fit: BoxFit.contain,
-      );
+      return buildAssetIcon('assets/images/truth_or_dare.png');
     }
 
     if (mode == GameMode.wouldYouRather) {
-      return Image.asset(
-        'assets/images/would_you_rather.png',
-        width: 100,
-        height: 100,
-        fit: BoxFit.contain,
-      );
+      return buildAssetIcon('assets/images/would_you_rather.png');
+    }
+
+    if (mode == GameMode.crazySituations) {
+      return buildAssetIcon('assets/images/crazy_situations.png');
     }
 
     return const SizedBox.shrink();
@@ -94,12 +97,19 @@ class _ModeSelectionScreenState extends State<ModeSelectionScreen> {
     final t = AppText.of(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text(t.modes),
+        title: Text(
+          t.modes,
+          style: const TextStyle(
+            fontSize: 28,
+            fontWeight: FontWeight.w900,
+            letterSpacing: 0.5,
+          ),
+        ),
         actions: [
           WestIconButton(
             disablePressedShadow: true,
             onPressed: () => _roster.showRosterDialog(context),
-            icon: const Icon(Icons.person_add),
+            icon: const Icon(Icons.person_add, size: 28),
             tooltip: t.addPlayer,
           ),
         ],
@@ -127,15 +137,18 @@ class _ModeSelectionScreenState extends State<ModeSelectionScreen> {
                     );
                   },
                   child: SizedBox(
-                    height: 70,
+                    height: 106,
                     child: ListTile(
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 18, vertical: 4),
                       title: Transform.translate(
-                        offset: const Offset(0, 10), // Déplace le texte du mode vers le bas
+                        offset: const Offset(0, 10),
                         child: Text(
                           mode.label,
                           style: const TextStyle(
                             color: Colors.white,
-                            fontWeight: FontWeight.bold,
+                            fontWeight: FontWeight.w900,
+                            fontSize: 24,
+                            letterSpacing: 0.3,
                           ),
                         ),
                       ),
@@ -143,16 +156,16 @@ class _ModeSelectionScreenState extends State<ModeSelectionScreen> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Transform.translate(
-                            offset: const Offset(0, 7), // Déplace les icones
+                            offset: const Offset(0, 7),
                             child: _buildModeTrailingIcon(mode),
                           ),
-                          const SizedBox(width: 4),
+                          const SizedBox(width: 10),
                           Transform.translate(
-                            offset: const Offset(0, 9), // Déplace les flèches
+                            offset: const Offset(0, 9),
                             child: const Icon(
                               Icons.arrow_forward_ios,
                               color: Colors.white,
-                              size: 18,
+                              size: 24,
                             ),
                           ),
                         ],
@@ -212,18 +225,18 @@ class _ModePhysicalCardState extends State<_ModePhysicalCard> {
           final dy = 8 * t; // Cran de descente du bouton lorsqu'il est pressé
 
           return SizedBox(
-            height: 78,
+            height: 104,
             child: Stack(
               children: [
                 Positioned(
                   left: 0,
                   right: 0,
                   bottom: 0,
-                  height: 64,
+                  height: 86,
                   child: DecoratedBox(
                     decoration: BoxDecoration(
                       color: widget.platformColor,
-                      borderRadius: BorderRadius.circular(18),
+                      borderRadius: BorderRadius.circular(22),
                     ),
                   ),
                 ),
@@ -231,14 +244,14 @@ class _ModePhysicalCardState extends State<_ModePhysicalCard> {
                   left: 0,
                   right: 0,
                   top: 0,
-                  height: 70,
+                  height: 96,
                   child: Transform.translate(
-                    offset: Offset(0, dy), 
+                    offset: Offset(0, dy),
                     child: Material(
                       color: widget.buttonColor,
-                      borderRadius: BorderRadius.circular(18),
+                      borderRadius: BorderRadius.circular(22),
                       child: InkWell(
-                        borderRadius: BorderRadius.circular(18),
+                        borderRadius: BorderRadius.circular(22),
                         splashFactory: NoSplash.splashFactory,
                         splashColor: Colors.transparent,
                         highlightColor: Colors.transparent,
@@ -258,4 +271,5 @@ class _ModePhysicalCardState extends State<_ModePhysicalCard> {
     );
   }
 }
+
 

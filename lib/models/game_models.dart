@@ -5,7 +5,8 @@ enum GameMode {
   shesA10But('She\'s a 10 but...'),
   neverHaveIEver('Never have I ever...'),
   truthOrDare('Truth or Dare'),
-  wouldYouRather('Would you rather...');
+  wouldYouRather('Would you rather...'),
+  crazySituations('Crazy Situations');
 
   const GameMode(this.label);
   final String label;
@@ -28,3 +29,4 @@ class Player {
   int score;
   Uint8List? avatarBytes;
 }
+

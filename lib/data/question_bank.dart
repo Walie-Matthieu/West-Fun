@@ -23,7 +23,11 @@ const Map<PartyTheme, Map<GameMode, List<String>>> questionBank = {
       'Would you rather always be 10 minutes late OR 20 minutes early?',
       'Would you rather lose your phone OR lose your wallet?',
     ],
-  },
+      GameMode.crazySituations: [
+      'You can only use one app for a year: explain why your choice makes sense.',
+      'You wake up famous overnight: explain your first 3 moves to stay sane.',
+      'You can swap lives with one person for a week: explain why this is your best pick.',
+    ],},
   PartyTheme.couple: {
     GameMode.whoWould: [
       'Who would apologize first after an argument?',
@@ -45,7 +49,11 @@ const Map<PartyTheme, Map<GameMode, List<String>>> questionBank = {
       'Would you rather travel often OR save for a dream home?',
       'Would you rather always choose the movie OR always choose dinner?',
     ],
-  },
+      GameMode.crazySituations: [
+      'Your partner plans a surprise trip tomorrow: explain how you would organize everything tonight.',
+      'You both must live without your phones for one weekend: explain your plan to make it fun.',
+      'You can relive one date together: explain why that one deserves a remake.',
+    ],},
   PartyTheme.eighteenPlus: {
     GameMode.whoWould: [
       'Who would flirt with a stranger first?',
@@ -67,7 +75,11 @@ const Map<PartyTheme, Map<GameMode, List<String>>> questionBank = {
       'Would you rather have no first-date nerves OR no break-up sadness?',
       'Would you rather always text first OR never text first?',
     ],
-  },
+      GameMode.crazySituations: [
+      'You must send one honest voice note to your crush right now: explain what you would say and why.',
+      'You are stuck at a party with your ex and your current crush: explain your survival strategy.',
+      'You can erase one awkward moment from your dating history: explain your pick.',
+    ],},
 };
 
 const Map<PartyTheme, Map<String, List<String>>> truthOrDareBank = {
@@ -120,3 +132,4 @@ const Map<PartyTheme, Map<String, List<String>>> truthOrDareBank = {
     ],
   },
 };
+
