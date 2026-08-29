@@ -40,56 +40,32 @@ class _ModeSelectionScreenState extends State<ModeSelectionScreen> {
     );
   }
 
-  Widget _buildModeTrailingIcon(GameMode mode) {
-    const double iconFootprintSize = 84;
-    const double renderedIconSize = 114;
+  Widget _buildModeTrailingIcon(
+    GameMode mode, {
+    double scale = 1.0,
+    Offset offset = Offset.zero,
+  }) {
+    final assetPath = switch (mode) {
+      GameMode.whoWould => 'assets/images/main_mickey.png',
+      GameMode.shesA10But => 'assets/images/shes_a_ten.png',
+      GameMode.neverHaveIEver => 'assets/images/never_I_have_ever.png',
+      GameMode.truthOrDare => 'assets/images/truth_or_dare.png',
+      GameMode.wouldYouRather => 'assets/images/would_you_rather.png',
+      GameMode.crazySituations => 'assets/images/crazy_situations.png',
+    };
 
-    Widget buildAssetIcon(String assetPath) {
-      return SizedBox(
-        width: iconFootprintSize,
-        height: iconFootprintSize,
-        child: OverflowBox(
-          alignment: Alignment.centerRight,
-          minWidth: renderedIconSize,
-          maxWidth: renderedIconSize,
-          minHeight: renderedIconSize,
-          maxHeight: renderedIconSize,
-          child: Image.asset(
-            assetPath,
-            width: renderedIconSize,
-            height: renderedIconSize,
-            fit: BoxFit.contain,
-            alignment: Alignment.centerRight,
-          ),
+    return Transform.translate(
+      offset: offset,
+      child: Transform.scale(
+        scale: scale,
+        child: Image.asset(
+          assetPath,
+          width: 104,
+          height: 104,
+          fit: BoxFit.contain,
         ),
-      );
-    }
-
-    if (mode == GameMode.whoWould) {
-      return buildAssetIcon('assets/images/main_mickey.png');
-    }
-
-    if (mode == GameMode.shesA10But) {
-      return buildAssetIcon('assets/images/shes_a_ten.png');
-    }
-
-    if (mode == GameMode.neverHaveIEver) {
-      return buildAssetIcon('assets/images/never_I_have_ever.png');
-    }
-
-    if (mode == GameMode.truthOrDare) {
-      return buildAssetIcon('assets/images/truth_or_dare.png');
-    }
-
-    if (mode == GameMode.wouldYouRather) {
-      return buildAssetIcon('assets/images/would_you_rather.png');
-    }
-
-    if (mode == GameMode.crazySituations) {
-      return buildAssetIcon('assets/images/crazy_situations.png');
-    }
-
-    return const SizedBox.shrink();
+      ),
+    );
   }
 
   @override
@@ -100,7 +76,7 @@ class _ModeSelectionScreenState extends State<ModeSelectionScreen> {
         title: Text(
           t.modes,
           style: const TextStyle(
-            fontSize: 28,
+            fontSize: 28, // Titre dans la barre du haut
             fontWeight: FontWeight.w900,
             letterSpacing: 0.5,
           ),
@@ -157,7 +133,38 @@ class _ModeSelectionScreenState extends State<ModeSelectionScreen> {
                         children: [
                           Transform.translate(
                             offset: const Offset(0, 7),
-                            child: _buildModeTrailingIcon(mode),
+                            child: switch (mode) {
+                              GameMode.whoWould => _buildModeTrailingIcon(
+                                  mode,
+                                  scale: 1.40, // Taille de l'icone de mode "Who Would"
+                                  offset: const Offset(-15, 10), // Déplacement de l'icone de mode "Who Would"
+                                ),
+                              GameMode.shesA10But => _buildModeTrailingIcon(
+                                  mode,
+                                  scale: 1.60, // Taille de l'icone de mode "She's a 10 But"
+                                  offset: const Offset(-2, 10), // Déplacement de l'icone de mode "She's a 10 But"
+                                ),
+                              GameMode.neverHaveIEver => _buildModeTrailingIcon(
+                                  mode,
+                                  scale: 1.40, // Taille de l'icone de mode "Never Have I Ever"
+                                  offset: const Offset(-4, -5), // Déplacement de l'icone de mode "Never Have I Ever"
+                                ),
+                              GameMode.truthOrDare => _buildModeTrailingIcon(
+                                  mode,
+                                  scale: 1.40, // Taille de l'icone de mode "Truth or Dare"
+                                  offset: const Offset(-4, 7), // Déplacement de l'icone de mode "Truth or Dare"
+                                ),
+                              GameMode.wouldYouRather => _buildModeTrailingIcon(
+                                  mode,
+                                  scale: 1.40, // Taille de l'icone de mode "Would You Rather"
+                                  offset: const Offset(-6, -7), // Déplacement de l'icone de mode "Would You Rather"
+                                ),
+                              GameMode.crazySituations => _buildModeTrailingIcon(
+                                  mode,
+                                  scale: 1.60, // Taille de l'icone de mode "Crazy Situations"
+                                  offset: const Offset(-4, 10), // Déplacement de l'icone de mode "Crazy Situations"
+                                ),
+                            },
                           ),
                           const SizedBox(width: 10),
                           Transform.translate(
@@ -271,5 +278,6 @@ class _ModePhysicalCardState extends State<_ModePhysicalCard> {
     );
   }
 }
+
 
 
