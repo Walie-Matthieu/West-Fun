@@ -26,6 +26,97 @@ class GameplayScreen extends StatefulWidget {
   State<GameplayScreen> createState() => _GameplayScreenState();
 }
 
+class _WouldYouRatherOptionButton extends StatefulWidget {
+  const _WouldYouRatherOptionButton({
+    required this.label,
+    required this.color,
+    required this.size,
+    required this.onPressed,
+  });
+
+  final String label;
+  final Color color;
+  final double size;
+  final VoidCallback onPressed;
+
+  @override
+  State<_WouldYouRatherOptionButton> createState() =>
+      _WouldYouRatherOptionButtonState();
+}
+
+class _WouldYouRatherOptionButtonState extends State<_WouldYouRatherOptionButton> {
+  bool _pressed = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTapDown: (_) => setState(() => _pressed = true),
+      onTapUp: (_) {
+        setState(() => _pressed = false);
+        widget.onPressed();
+      },
+      onTapCancel: () => setState(() => _pressed = false),
+      child: TweenAnimationBuilder<double>(
+        tween: Tween<double>(end: _pressed ? 1 : 0),
+        duration: const Duration(milliseconds: 120),
+        curve: Curves.easeOutCubic,
+        builder: (context, t, _) {
+          final scale = 1 - (0.08 * t);
+
+          return SizedBox(
+            width: widget.size,
+            height: widget.size,
+            child: DecoratedBox(
+              decoration: const BoxDecoration(
+                shape: BoxShape.circle,
+                color: Colors.black,
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(6),
+                child: DecoratedBox(
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.black,
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(4),
+                    child: Transform.scale(
+                      scale: scale,
+                      alignment: Alignment.center,
+                      child: DecoratedBox(
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: widget.color,
+                        ),
+                        child: Center(
+                          child: Padding(
+                            padding: const EdgeInsets.all(10),
+                            child: Text(
+                              widget.label,
+                              textAlign: TextAlign.center,
+                              maxLines: 3,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.w700,
+                                fontSize: 14,
+                                height: 1.1,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+
 class _GameplayScreenState extends State<GameplayScreen> {
   static const Color _modePlatformColor = Color(0xFF0F172A);
   static const Color _modeButtonColor = Color.fromARGB(255, 6, 35, 102);
@@ -883,143 +974,28 @@ class _GameplayScreenState extends State<GameplayScreen> {
                                       ? constraints.maxWidth
                                       : 326.0;
                                   final buttonGap = availableWidth > 340 ? 22.0 : 12.0;
-                                  final outerButtonSize =
+                                  final buttonSize =
                                       ((availableWidth - buttonGap) / 2).clamp(96.0, 152.0).toDouble();
-                                  final innerButtonSize = outerButtonSize - 12;
 
                                   return Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      SizedBox(
-                                        width: outerButtonSize,
-                                        height: outerButtonSize,
-                                    child: DecoratedBox(
-                                      decoration: const BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: Colors.black,
-                                      ),
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(6),
-                                        child: SizedBox(
-                                          width: innerButtonSize,
-                                          height: innerButtonSize,
-                                          child: WestElevatedButton(
-                                            borderRadius: BorderRadius.circular(999),
-                                            style: ElevatedButton.styleFrom(
-                                              backgroundColor: Colors.transparent,
-                                              foregroundColor: Colors.white,
-                                              shadowColor: Colors.transparent,
-                                              surfaceTintColor: Colors.transparent,
-                                              elevation: 0,
-                                              padding: EdgeInsets.zero,
-                                              shape: const CircleBorder(),
-                                            ),
-                                            onPressed: () => _applyWouldYouRatherAndAdvance(
-                                              chooseRightOption: false,
-                                            ),
-                                            child: DecoratedBox(
-                                              decoration: const BoxDecoration(
-                                                shape: BoxShape.circle,
-                                                border: Border.fromBorderSide(
-                                                  BorderSide(color: Colors.black, width: 4), // Couleur de la bordure du bouton gauche
-                                                ),
-                                              ),
-                                              child: Padding(
-                                                padding: const EdgeInsets.all(3),
-                                                child: DecoratedBox(
-                                                  decoration: const BoxDecoration(
-                                                    shape: BoxShape.circle,
-                                                    color: Color(0xFFC62828), // Couleur de fond du bouton gauche
-                                                  ),
-                                                  child: Center(
-                                                    child: Padding(
-                                                      padding: const EdgeInsets.all(10),
-                                                      child: Text(
-                                                        options[0],
-                                                        textAlign: TextAlign.center,
-                                                        maxLines: 3,
-                                                        overflow: TextOverflow.ellipsis,
-                                                        style: const TextStyle(
-                                                          fontWeight: FontWeight.w700,
-                                                          fontSize: 14,
-                                                          height: 1.1,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
+                                      _WouldYouRatherOptionButton(
+                                        label: options[0],
+                                        color: const Color(0xFFC62828), // Couleur bouton de gauche
+                                        size: buttonSize,
+                                        onPressed: () => _applyWouldYouRatherAndAdvance(
+                                          chooseRightOption: false,
                                         ),
-                                      ),
-                                    ),
                                       ),
                                       SizedBox(width: buttonGap),
-                                      SizedBox(
-                                        width: outerButtonSize,
-                                        height: outerButtonSize,
-                                    child: DecoratedBox(
-                                      decoration: const BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: Colors.black,
-                                      ),
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(6),
-                                        child: SizedBox(
-                                          width: innerButtonSize,
-                                          height: innerButtonSize,
-                                          child: WestElevatedButton(
-                                            borderRadius: BorderRadius.circular(999),
-                                            style: ElevatedButton.styleFrom(
-                                              backgroundColor: Colors.transparent,
-                                              foregroundColor: Colors.white,
-                                              shadowColor: Colors.transparent,
-                                              surfaceTintColor: Colors.transparent,
-                                              elevation: 0,
-                                              padding: EdgeInsets.zero,
-                                              shape: const CircleBorder(),
-                                            ),
-                                            onPressed: () => _applyWouldYouRatherAndAdvance(
-                                              chooseRightOption: true,
-                                            ),
-                                            child: DecoratedBox(
-                                              decoration: const BoxDecoration(
-                                                shape: BoxShape.circle,
-                                                border: Border.fromBorderSide(
-                                                  BorderSide(color: Colors.black, width: 4), // Couleur de la bordure du bouton droit
-                                                ),
-                                              ),
-                                              child: Padding(
-                                                padding: const EdgeInsets.all(3),
-                                                child: DecoratedBox(
-                                                  decoration: const BoxDecoration(
-                                                    shape: BoxShape.circle,
-                                                    color: Color(0xFF2E7D32), // Couleur de fond du bouton droit
-                                                  ),
-                                                  child: Center(
-                                                    child: Padding(
-                                                      padding: const EdgeInsets.all(10),
-                                                      child: Text(
-                                                        options[1],
-                                                        textAlign: TextAlign.center,
-                                                        maxLines: 3,
-                                                        overflow: TextOverflow.ellipsis,
-                                                        style: const TextStyle(
-                                                          fontWeight: FontWeight.w700,
-                                                          fontSize: 14,
-                                                          height: 1.1,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
+                                      _WouldYouRatherOptionButton(
+                                        label: options[1],
+                                        color: const Color(0xFF2E7D32), // Couleur bouton de droite
+                                        size: buttonSize,
+                                        onPressed: () => _applyWouldYouRatherAndAdvance(
+                                          chooseRightOption: true,
                                         ),
-                                      ),
-                                    ),
                                       ),
                                     ],
                                   );
@@ -1233,7 +1209,6 @@ class _GameplayScreenState extends State<GameplayScreen> {
     );
   }
 }
-
 
 
 
