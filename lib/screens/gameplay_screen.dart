@@ -69,14 +69,14 @@ class _WouldYouRatherOptionButtonState extends State<_WouldYouRatherOptionButton
             child: DecoratedBox(
               decoration: const BoxDecoration(
                 shape: BoxShape.circle,
-                color: Colors.black,
+                color: Color.fromARGB(255, 9, 9, 9), // Couleur du socle des boutons
               ),
               child: Padding(
                 padding: const EdgeInsets.all(6),
                 child: DecoratedBox(
                   decoration: const BoxDecoration(
                     shape: BoxShape.circle,
-                    color: Colors.black,
+                    color: Color.fromARGB(255, 3, 3, 3), // Contour intérieur des boutons
                   ),
                   child: Padding(
                     padding: const EdgeInsets.all(4),
@@ -118,7 +118,7 @@ class _WouldYouRatherOptionButtonState extends State<_WouldYouRatherOptionButton
 }
 
 class _GameplayScreenState extends State<GameplayScreen> {
-  static const Color _modePlatformColor = Color(0xFF0F172A);
+  // static const Color _modePlatformColor = Color(0xFF0F172A);
   static const Color _modeButtonColor = Color.fromARGB(255, 6, 35, 102);
 
   late final GameEngine _engine;
@@ -646,7 +646,7 @@ class _GameplayScreenState extends State<GameplayScreen> {
                       : null,
                   elevation: widget.mode == GameMode.whoWould ? 0 : 14,
                   shadowColor: widget.mode == GameMode.whoWould
-                      ? _modePlatformColor
+                      ? const Color.fromARGB(255, 13, 63, 179)
                       : null,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(28)),
