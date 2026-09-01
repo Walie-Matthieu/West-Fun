@@ -97,6 +97,7 @@ class _WouldYouRatherOptionButtonState extends State<_WouldYouRatherOptionButton
                               maxLines: 3,
                               overflow: TextOverflow.ellipsis,
                               style: const TextStyle(
+                                color: Color.fromARGB(255, 240, 236, 236), // Couleur du texte des boutons
                                 fontWeight: FontWeight.w700,
                                 fontSize: 14,
                                 height: 1.1,

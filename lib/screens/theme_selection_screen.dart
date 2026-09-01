@@ -28,6 +28,42 @@ class ThemeSelectionScreen extends StatefulWidget {
 class _ThemeSelectionScreenState extends State<ThemeSelectionScreen> {
   late final PlayerRosterController _roster;
 
+  /// Taille des icones du mode "Themes"
+  Widget _buildThemeIcon(PartyTheme theme, {double size = 50}) {
+    final assetPath = switch (theme) {
+      PartyTheme.friendsNight => 'assets/images/friends_night.png',
+      _ => null,
+    };
+
+    if (assetPath != null) {
+      return Transform.translate(
+        offset: const Offset(0, 4), // Déplacement de l'icone "Friends night"
+        child: Image.asset(
+          assetPath,
+          width: size,
+          height: size,
+          fit: BoxFit.contain,
+        ),
+      );
+    }
+
+    final fallbackIcon = switch (theme) {
+      PartyTheme.couple => Icons.favorite,
+      PartyTheme.eighteenPlus => Icons.eighteen_up_rating,
+      PartyTheme.mix => Icons.shuffle,
+      PartyTheme.friendsNight => Icons.groups,
+    };
+
+    return Transform.translate(
+      offset: const Offset(0, 4), // Déplacement des autres icones du mode "Themes"
+      child: Icon(
+        fallbackIcon,
+        color: Colors.white, // Couleur des icones du mode "Themes"
+        size: size * 0.9,
+      ),
+    );
+  }
+
   Widget _buildThemeTile(BuildContext context, PartyTheme theme) {
     const shapeBorderRadius = BorderRadius.only(
       topLeft: Radius.circular(36),
@@ -68,8 +104,9 @@ class _ThemeSelectionScreenState extends State<ThemeSelectionScreen> {
         child: SizedBox(
           height: 70,
           child: ListTile(
+            contentPadding: const EdgeInsets.only(left: 18, right: 16), // Déplacement du titre des boutons du mode "Themes"
             title: Transform.translate(
-              offset: const Offset(0, 10), // Déplace le texte du mode vers le bas
+              offset: const Offset(0, 10),
               child: Text(
                 theme.label,
                 style: const TextStyle(
@@ -78,13 +115,20 @@ class _ThemeSelectionScreenState extends State<ThemeSelectionScreen> {
                 ),
               ),
             ),
-            trailing: Transform.translate(
-              offset: const Offset(0, 10), // Déplace les flèches
-              child: const Icon(
-                Icons.arrow_forward_ios,
-                color: Colors.white,
-                size: 18,
-              ),
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                _buildThemeIcon(theme),
+                const SizedBox(width: 10),
+                Transform.translate(
+                  offset: const Offset(0, 10),
+                  child: const Icon(
+                    Icons.arrow_forward_ios,
+                    color: Color.fromARGB(255, 239, 236, 236), // Couleur des flèches du mode "Themes"
+                    size: 18,
+                  ),
+                ),
+              ],
             ),
           ),
         ),
