@@ -97,7 +97,7 @@ class _WouldYouRatherOptionButtonState extends State<_WouldYouRatherOptionButton
                               maxLines: 3,
                               overflow: TextOverflow.ellipsis,
                               style: const TextStyle(
-                                color: Color.fromARGB(255, 240, 236, 236), // Couleur du texte des boutons
+                                color: Colors.black, // Couleur du texte des boutons
                                 fontWeight: FontWeight.w700,
                                 fontSize: 14,
                                 height: 1.1,
@@ -765,112 +765,61 @@ class _GameplayScreenState extends State<GameplayScreen> {
                                 ? const Color.fromARGB(255, 6, 35, 102) // Couleur de fond du conteneur pour le mode "Who Would"
                                 : (widget.mode == GameMode.truthOrDare && _todIsTruth != null
                                     ? (_todIsTruth!
-                                        ? const Color(0xFFE3F2FD)
-                                        : const Color(0xFFFCE4EC))
+                                       ? const Color(0xFFE3F2FD)
+                                       : const Color(0xFFFCE4EC))
                                     : const Color(0xFFF5F0FF)),
                             borderRadius: BorderRadius.circular(20),
                           ),
                           child: Padding(
                             padding: const EdgeInsets.symmetric(
                               horizontal: 24,
-                              vertical: 28,
+                              vertical: 16,
                             ),
                             child: ConstrainedBox(
                               constraints: const BoxConstraints(minHeight: 170),
-                              child: Center(
-                                child: widget.mode == GameMode.truthOrDare
-                                    ? (_todQuestion == null
-                                        ? Column(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              const Icon(Icons.help_outline,
-                                                  size: 48,
-                                                  color: Color(0xFF4A00E0)),
-                                              const SizedBox(height: 12),
-                                              Text(
-                                                t.chooseTruthOrDare,
-                                                textAlign: TextAlign.center,
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .titleMedium
-                                                    ?.copyWith(
-                                                      color: Colors.black54,
-                                                    ),
-                                              ),
-                                            ],
-                                          )
-                                        : Column(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              DecoratedBox(
-                                                decoration: BoxDecoration(
-                                                  color: _todIsTruth!
-                                                      ? const Color(0xFF1565C0)
-                                                      : const Color(0xFFC62828),
-                                                  borderRadius:
-                                                      BorderRadius.circular(999),
-                                                ),
-                                                child: Padding(
-                                                  padding: const EdgeInsets.symmetric(
-                                                      horizontal: 16, vertical: 4),
-                                                  child: Text(
-                                                    _todIsTruth! ? t.truth : t.dare,
-                                                    style: const TextStyle(
-                                                      color: Colors.white,
-                                                      fontWeight: FontWeight.bold,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                              const SizedBox(height: 16),
-                                              Text(
-                                                _todQuestion!,
-                                                textAlign: TextAlign.center,
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .titleLarge
-                                                    ?.copyWith(height: 1.3),
-                                              ),
-                                            ],
-                                          ))
-                                    : Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          Text(
-                                            _engine.currentQuestion,
-                                            textAlign: TextAlign.center,
-                                            style: (widget.mode == GameMode.whoWould
-                                                    ? Theme.of(context)
-                                                        .textTheme
-                                                        .titleLarge
-                                                        ?.copyWith(
-                                                            height: 1.3,
-                                                            color: Colors.white,  
-                                                          )
-                                                    : Theme.of(context)
-                                                        .textTheme
-                                                        .titleLarge
-                                                        ?.copyWith(height: 1.3)) ??
-                                                const TextStyle(height: 1.3),
-                                          ),
-                                          if (widget.mode == GameMode.whoWould &&
-                                              _selectedWhoWouldPlayerIndex != null) ...[
-                                            const SizedBox(height: 12),
-                                            Text(
-                                              _engine.players[_selectedWhoWouldPlayerIndex!].name,
-                                              textAlign: TextAlign.center,
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .titleMedium
-                                                  ?.copyWith(
-                                                    fontWeight: FontWeight.bold,
-                                                    color: Colors.white,
-                                                  ),
-                                            ),
-                                          ],
-                                        ],
-                                      ),
-                              ),
+                              child: widget.mode == GameMode.wouldYouRather
+                                  ? Center(
+                                     child: (() {
+                                       final options = _wouldYouRatherOptions();
+                                       return Column(
+                                         mainAxisSize: MainAxisSize.min,
+                                         crossAxisAlignment: CrossAxisAlignment.center,
+                                         children: [
+                                           Text(
+                                             options[0],
+                                             textAlign: TextAlign.center,
+                                             style: const TextStyle(
+                                               color: Colors.black, // Couleur du texte option A Would You Rather
+                                               fontSize: 18,
+                                               fontWeight: FontWeight.w800,
+                                             ),
+                                           ),
+                                           const SizedBox(height: 6),
+                                           const Text(
+                                             'OR',
+                                             textAlign: TextAlign.center,
+                                             style: TextStyle(
+                                               color: Colors.black, // Couleur du texte "OR" 
+                                               fontSize: 18,
+                                               fontWeight: FontWeight.w900,
+                                               letterSpacing: 1.2,
+                                             ),
+                                           ),
+                                           const SizedBox(height: 6),
+                                           Text(
+                                             options[1],
+                                             textAlign: TextAlign.center,
+                                             style: const TextStyle(
+                                               color: Colors.black, // Couleur du texte option B Would You Rather
+                                               fontSize: 18,
+                                               fontWeight: FontWeight.w800,
+                                             ),
+                                           ),
+                                         ],
+                                       );
+                                     })(),
+                                    )
+                                  : const SizedBox.shrink(),
                             ),
                           ),
                         ),
@@ -974,12 +923,13 @@ class _GameplayScreenState extends State<GameplayScreen> {
                                   final availableWidth = constraints.maxWidth.isFinite
                                       ? constraints.maxWidth
                                       : 326.0;
-                                  final buttonGap = availableWidth > 340 ? 22.0 : 12.0;
+                                  final buttonGap = availableWidth > 340 ? 18.0 : 10.0;
                                   final buttonSize =
                                       ((availableWidth - buttonGap) / 2).clamp(96.0, 152.0).toDouble();
 
                                   return Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
                                     children: [
                                       _WouldYouRatherOptionButton(
                                         label: options[0],
@@ -1210,7 +1160,6 @@ class _GameplayScreenState extends State<GameplayScreen> {
     );
   }
 }
-
 
 
 

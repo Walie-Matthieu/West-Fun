@@ -106,11 +106,11 @@ class _ThemeSelectionScreenState extends State<ThemeSelectionScreen> {
           child: ListTile(
             contentPadding: const EdgeInsets.only(left: 18, right: 16), // Déplacement du titre des boutons du mode "Themes"
             title: Transform.translate(
-              offset: const Offset(0, 10),
+              offset: const Offset(0, 10), // Déplacement du titre des boutons du mode "Themes"
               child: Text(
                 theme.label,
                 style: const TextStyle(
-                  color: Colors.white,
+                  color: Colors.white, // Couleur du texte des boutons du mode "Themes"
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -119,9 +119,9 @@ class _ThemeSelectionScreenState extends State<ThemeSelectionScreen> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 _buildThemeIcon(theme),
-                const SizedBox(width: 10),
+                const SizedBox(width: 10), // Déplacement de l'icône de flèche du mode "Themes"
                 Transform.translate(
-                  offset: const Offset(0, 10),
+                  offset: const Offset(0, 10), // Déplacement de l'icône de flèche du mode "Themes"
                   child: const Icon(
                     Icons.arrow_forward_ios,
                     color: Color.fromARGB(255, 239, 236, 236), // Couleur des flèches du mode "Themes"
