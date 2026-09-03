@@ -790,8 +790,8 @@ class _GameplayScreenState extends State<GameplayScreen> {
                                              textAlign: TextAlign.center,
                                              style: const TextStyle(
                                                color: Colors.black, // Couleur du texte option A Would You Rather
-                                               fontSize: 18,
-                                               fontWeight: FontWeight.w800,
+                                               fontSize: 20, // Taille du texte option A Would You Rather
+                                               fontWeight: FontWeight.w800, // Police du texte option A Would You Rather
                                              ),
                                            ),
                                            const SizedBox(height: 6),
@@ -800,8 +800,8 @@ class _GameplayScreenState extends State<GameplayScreen> {
                                              textAlign: TextAlign.center,
                                              style: TextStyle(
                                                color: Colors.black, // Couleur du texte "OR" 
-                                               fontSize: 18,
-                                               fontWeight: FontWeight.w900,
+                                               fontSize: 20, // Taille du texte "OR"
+                                               fontWeight: FontWeight.w900, // Police du texte "OR"
                                                letterSpacing: 1.2,
                                              ),
                                            ),
@@ -811,8 +811,8 @@ class _GameplayScreenState extends State<GameplayScreen> {
                                              textAlign: TextAlign.center,
                                              style: const TextStyle(
                                                color: Colors.black, // Couleur du texte option B Would You Rather
-                                               fontSize: 18,
-                                               fontWeight: FontWeight.w800,
+                                               fontSize: 20, // Taille du texte option B Would You Rather
+                                               fontWeight: FontWeight.w800, // Police du texte option B Would You Rather
                                              ),
                                            ),
                                          ],
