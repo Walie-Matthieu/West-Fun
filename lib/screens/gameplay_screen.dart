@@ -688,10 +688,10 @@ class _GameplayScreenState extends State<GameplayScreen> {
                                 widget.mode.label,
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
-                                  fontSize: 32,
+                                  fontSize: 32, // Taille du texte du mode "Who Would" dans le jeu
                                   fontWeight: FontWeight.bold,
                                   fontFamily: 'Nunito',
-                                  letterSpacing: 1.2,
+                                  letterSpacing: 1.2, 
                                   foreground: Paint()
                                     ..style = PaintingStyle.stroke
                                     ..strokeWidth = 5
@@ -730,10 +730,10 @@ class _GameplayScreenState extends State<GameplayScreen> {
                                   : Theme.of(context)
                                       .textTheme
                                       .bodyMedium
-                                      ?.copyWith(color: Colors.black54)) ??
+                                      ?.copyWith(color: Colors.black54)) ?? 
                               const TextStyle(),
                         ),
-                        const SizedBox(height: 12),
+                        const SizedBox(height: 12), 
                         if (widget.mode != GameMode.whoWould &&
                             widget.mode != GameMode.truthOrDare)
                           Row(
@@ -794,7 +794,7 @@ class _GameplayScreenState extends State<GameplayScreen> {
                                                fontWeight: FontWeight.w800, // Police du texte option A Would You Rather
                                              ),
                                            ),
-                                           const SizedBox(height: 6),
+                                           const SizedBox(height: 6), // Séparateur entre les choix A et B Would You Rather
                                            const Text(
                                              'OR',
                                              textAlign: TextAlign.center,
@@ -802,7 +802,7 @@ class _GameplayScreenState extends State<GameplayScreen> {
                                                color: Colors.black, // Couleur du texte "OR" 
                                                fontSize: 20, // Taille du texte "OR"
                                                fontWeight: FontWeight.w900, // Police du texte "OR"
-                                               letterSpacing: 1.2,
+                                               letterSpacing: 1.2, // Espacement des lettres du texte "OR"
                                              ),
                                            ),
                                            const SizedBox(height: 6),
