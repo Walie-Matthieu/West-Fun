@@ -119,8 +119,11 @@ class _WouldYouRatherOptionButtonState extends State<_WouldYouRatherOptionButton
 }
 
 class _GameplayScreenState extends State<GameplayScreen> {
-  // static const Color _modePlatformColor = Color(0xFF0F172A);
-  static const Color _modeButtonColor = Color.fromARGB(255, 6, 35, 102);
+  static const LinearGradient _whoWouldPlatformGradient = LinearGradient(
+    colors: [Color(0xFF2563EB), Color(0xFF0B1F4D)], // Mélange de couleurs pour le dégradé de la plateforme "Who Would"
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+  );
 
   late final GameEngine _engine;
   final ImagePicker _imagePicker = ImagePicker();
@@ -641,19 +644,24 @@ class _GameplayScreenState extends State<GameplayScreen> {
               padding: const EdgeInsets.all(24),
               child: ConstrainedBox(
                 constraints: const BoxConstraints(maxWidth: 560),
-                child: Card(
-                  color: widget.mode == GameMode.whoWould
-                      ? _modeButtonColor // Couleur de fond pour le mode "Who Would"
+                child: Container(
+                  decoration: widget.mode == GameMode.whoWould
+                      ? const BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(28)),
+                          gradient: _whoWouldPlatformGradient,
+                        )
                       : null,
-                  elevation: widget.mode == GameMode.whoWould ? 0 : 14,
-                  shadowColor: widget.mode == GameMode.whoWould
-                      ? const Color.fromARGB(255, 13, 63, 179)
-                      : null,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(28)),
-                  child: Padding(
-                    padding: const EdgeInsets.all(24),
-                    child: Column(
+                  child: Card(
+                    color: widget.mode == GameMode.whoWould ? Colors.transparent : null,
+                    elevation: widget.mode == GameMode.whoWould ? 0 : 14,
+                    shadowColor: widget.mode == GameMode.whoWould
+                        ? const Color.fromARGB(255, 13, 63, 179)
+                        : null,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(28)),
+                    child: Padding(
+                      padding: const EdgeInsets.all(24),
+                      child: Column(
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
@@ -688,6 +696,7 @@ class _GameplayScreenState extends State<GameplayScreen> {
                                 widget.mode.label,
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
+
                                   fontSize: 32, // Taille du texte du mode "Who Would" dans le jeu
                                   fontWeight: FontWeight.bold,
                                   fontFamily: 'Nunito',
@@ -762,7 +771,7 @@ class _GameplayScreenState extends State<GameplayScreen> {
                         DecoratedBox(
                           decoration: BoxDecoration(
                             color: widget.mode == GameMode.whoWould
-                                ? const Color.fromARGB(255, 6, 35, 102) // Couleur de fond du conteneur pour le mode "Who Would"
+                                ? const Color.fromARGB(255, 6, 35, 102)
                                 : (widget.mode == GameMode.truthOrDare && _todIsTruth != null
                                     ? (_todIsTruth!
                                        ? const Color(0xFFE3F2FD)
@@ -779,7 +788,7 @@ class _GameplayScreenState extends State<GameplayScreen> {
                               constraints: const BoxConstraints(minHeight: 170),
                               child: widget.mode == GameMode.wouldYouRather
                                   ? Center(
-                                     child: (() {
+                                    child: (() {
                                        final options = _wouldYouRatherOptions();
                                        return Column(
                                          mainAxisSize: MainAxisSize.min,
@@ -789,20 +798,20 @@ class _GameplayScreenState extends State<GameplayScreen> {
                                              options[0],
                                              textAlign: TextAlign.center,
                                              style: const TextStyle(
-                                               color: Colors.black, // Couleur du texte option A Would You Rather
-                                               fontSize: 20, // Taille du texte option A Would You Rather
-                                               fontWeight: FontWeight.w800, // Police du texte option A Would You Rather
+                                               color: Colors.white,
+                                               fontSize: 20,
+                                               fontWeight: FontWeight.w800,
                                              ),
                                            ),
-                                           const SizedBox(height: 6), // Séparateur entre les choix A et B Would You Rather
+                                           const SizedBox(height: 6),
                                            const Text(
                                              'OR',
                                              textAlign: TextAlign.center,
                                              style: TextStyle(
-                                               color: Colors.black, // Couleur du texte "OR" 
-                                               fontSize: 20, // Taille du texte "OR"
-                                               fontWeight: FontWeight.w900, // Police du texte "OR"
-                                               letterSpacing: 1.2, // Espacement des lettres du texte "OR"
+                                               color: Colors.white,
+                                               fontSize: 20,
+                                               fontWeight: FontWeight.w900,
+                                               letterSpacing: 1.2,
                                              ),
                                            ),
                                            const SizedBox(height: 6),
@@ -810,20 +819,19 @@ class _GameplayScreenState extends State<GameplayScreen> {
                                              options[1],
                                              textAlign: TextAlign.center,
                                              style: const TextStyle(
-                                               color: Colors.black, // Couleur du texte option B Would You Rather
-                                               fontSize: 20, // Taille du texte option B Would You Rather
-                                               fontWeight: FontWeight.w800, // Police du texte option B Would You Rather
+                                               color: Colors.white,
+                                               fontSize: 20,
+                                               fontWeight: FontWeight.w800,
                                              ),
                                            ),
                                          ],
                                        );
-                                     })(),
+                                    })(),
                                     )
                                   : const SizedBox.shrink(),
                             ),
                           ),
-                        ),
-                        const SizedBox(height: 24),
+                        ),                        const SizedBox(height: 24),
                         if (widget.mode == GameMode.shesA10But)
                           Row(
                             children: [
@@ -1154,6 +1162,7 @@ class _GameplayScreenState extends State<GameplayScreen> {
                 ),
               ),
             ),
+          ),
           ),
         ),
       ),
