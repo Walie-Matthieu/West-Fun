@@ -647,9 +647,9 @@ class _GameplayScreenState extends State<GameplayScreen> {
                     gradient: _whoWouldPlatformGradient,
                   ),
                   child: Card(
-                    color: Colors.transparent,
+                    color: Colors.transparent, // Couleur de fond de la carte
                     elevation: 0,
-                    shadowColor: const Color.fromARGB(255, 13, 63, 179),
+                    shadowColor: const Color.fromARGB(255, 13, 63, 179), // Couleur de l'ombre de la carte
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(28)),
                     child: Padding(
@@ -695,7 +695,7 @@ class _GameplayScreenState extends State<GameplayScreen> {
                                 foreground: Paint()
                                   ..style = PaintingStyle.stroke
                                   ..strokeWidth = 5
-                                  ..color = const Color.fromARGB(255, 42, 10, 130),
+                                  ..color = const Color.fromARGB(255, 42, 10, 130), // Couleur du contour du texte du mode
                               ),
                             ),
                             Text(
@@ -706,7 +706,7 @@ class _GameplayScreenState extends State<GameplayScreen> {
                                 fontWeight: FontWeight.bold,
                                 fontFamily: 'Nunito',
                                 letterSpacing: 1.2,
-                                color: Color.fromARGB(255, 236, 234, 239),
+                                color: Color.fromARGB(255, 236, 234, 239), // Couleur du texte du mode
                               ),
                             ),
                           ],
@@ -715,7 +715,7 @@ class _GameplayScreenState extends State<GameplayScreen> {
                           widget.theme.label,
                           textAlign: TextAlign.center,
                           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                color: Colors.white70,
+                                color: const Color.fromARGB(179, 197, 189, 189), // Couleur du texte du thème du style du jeux
                               ) ??
                               const TextStyle(),
                         ),
@@ -747,7 +747,7 @@ class _GameplayScreenState extends State<GameplayScreen> {
                         const SizedBox(height: 24),
                         DecoratedBox(
                           decoration: BoxDecoration(
-                            color: const Color.fromARGB(255, 6, 35, 102),
+                            color: const Color.fromARGB(255, 6, 35, 102), // Couleur de fond du conteneur de la question
                             borderRadius: BorderRadius.circular(20),
                           ),
                           child: Padding(
@@ -805,7 +805,7 @@ class _GameplayScreenState extends State<GameplayScreen> {
                                         textAlign: TextAlign.center,
                                         style: Theme.of(context).textTheme.titleLarge?.copyWith(
                                               height: 1.3,
-                                              color: Colors.white,
+                                              color: Colors.white, // Couleur du texte de la question
                                             ),
                                       ),
                                     ),
