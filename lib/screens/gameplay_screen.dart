@@ -769,7 +769,7 @@ class _GameplayScreenState extends State<GameplayScreen> {
                                              options[0],
                                              textAlign: TextAlign.center,
                                              style: const TextStyle(
-                                               color: Color.fromARGB(255, 12, 12, 12), // Couleur du choix A de "Would You Rather"
+                                               color: Color.fromARGB(255, 236, 234, 239), // Couleur du choix A de "Would You Rather"
                                                fontSize: 20,
                                                fontWeight: FontWeight.w800,
                                              ),
@@ -779,7 +779,7 @@ class _GameplayScreenState extends State<GameplayScreen> {
                                              'OR', // Séparateur entre les deux choix de "Would You Rather"
                                              textAlign: TextAlign.center,
                                              style: TextStyle(
-                                               color: Color.fromARGB(255, 12, 12, 12), // Couleur du séparateur "OR" de "Would You Rather"
+                                               color: Color.fromARGB(255, 236, 234, 239), // Couleur du séparateur "OR" de "Would You Rather"
                                                fontSize: 20,
                                                fontWeight: FontWeight.w900,
                                                letterSpacing: 1.2,
@@ -790,7 +790,7 @@ class _GameplayScreenState extends State<GameplayScreen> {
                                              options[1],
                                              textAlign: TextAlign.center,
                                              style: const TextStyle(
-                                               color: Color.fromARGB(255, 12, 12, 12), // Couleur du choix B de "Would You Rather"
+                                               color: Color.fromARGB(255, 236, 234, 239), // Couleur du choix B de "Would You Rather"
                                                fontSize: 20,
                                                fontWeight: FontWeight.w800,
                                              ),
