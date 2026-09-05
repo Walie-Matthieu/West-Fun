@@ -37,11 +37,11 @@ class _ThemeSelectionScreenState extends State<ThemeSelectionScreen> {
 
     if (assetPath != null) {
       return Transform.translate(
-        offset: const Offset(0, 4), // Déplacement de l'icone "Friends night"
+        offset: const Offset(0, 9), // Déplacement de l'icone "Friends night"
         child: Image.asset(
           assetPath,
-          width: 100,
-          height: size,
+          width: 100, // Taille de l'icone "Friends night" dans le mode "Themes"
+          height: 90, // Taille en hauteur de l'icone "Friends night" dans le mode "Themes"
           fit: BoxFit.contain,
         ),
       );
