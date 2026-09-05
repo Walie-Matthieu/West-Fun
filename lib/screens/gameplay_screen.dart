@@ -120,7 +120,7 @@ class _WouldYouRatherOptionButtonState extends State<_WouldYouRatherOptionButton
 
 class _GameplayScreenState extends State<GameplayScreen> {
   static const LinearGradient _whoWouldPlatformGradient = LinearGradient(
-    colors: [Color(0xFF2563EB), Color(0xFF0B1F4D)], // Mélange de couleurs pour le dégradé de la plateforme "Who Would"
+    colors: [Color(0xFF2563EB), Color(0xFF0B1F4D)], // Mélange de couleurs pour le dégradé de la plateforme de tout les jeux
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
   );
