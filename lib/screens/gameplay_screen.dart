@@ -799,16 +799,29 @@ class _GameplayScreenState extends State<GameplayScreen> {
                                        );
                                     })(),
                                     )
-                                  : Center(
-                                      child: Text(
-                                        _engine.currentQuestion,
-                                        textAlign: TextAlign.center,
-                                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                                              height: 1.3,
-                                              color: Colors.white, // Couleur du texte de la question
-                                            ),
-                                      ),
-                                    ),
+                                  : widget.mode == GameMode.truthOrDare
+                                      ? (_todQuestion == null
+                                          ? const SizedBox.shrink()
+                                          : Center(
+                                              child: Text(
+                                                _todQuestion!,
+                                                textAlign: TextAlign.center,
+                                                style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                                                      height: 1.3,
+                                                      color: Colors.white,
+                                                    ),
+                                              ),
+                                            ))
+                                      : Center(
+                                          child: Text(
+                                            _engine.currentQuestion,
+                                            textAlign: TextAlign.center,
+                                            style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                                                  height: 1.3,
+                                                  color: Colors.white, // Couleur du texte de la question
+                                                ),
+                                          ),
+                                        ),
                             ),
                           ),
                         ),                        const SizedBox(height: 24),

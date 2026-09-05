@@ -23,11 +23,24 @@ const Map<PartyTheme, Map<GameMode, List<String>>> questionBank = {
       'Would you rather always be 10 minutes late OR 20 minutes early?',
       'Would you rather lose your phone OR lose your wallet?',
     ],
-      GameMode.crazySituations: [
+    GameMode.truthOrDare: [
+      'What is your most embarrassing nickname?',
+      'Speak in an accent for the next two minutes.',
+      'What is a harmless lie you tell often?',
+      'Do your best celebrity impression.',
+      'What is the most childish thing you still do?',
+      'Let someone send one message from your phone.',
+      'What is the worst gift you have ever received?',
+      'Do 10 push-ups right now.',
+      'What is a secret talent no one knows about?',
+      'Speak only in questions for the next round.',
+    ],
+    GameMode.crazySituations: [
       'You can only use one app for a year: explain why your choice makes sense.',
       'You wake up famous overnight: explain your first 3 moves to stay sane.',
       'You can swap lives with one person for a week: explain why this is your best pick.',
-    ],},
+    ],
+  },
   PartyTheme.couple: {
     GameMode.whoWould: [
       'Who would apologize first after an argument?',
@@ -49,11 +62,24 @@ const Map<PartyTheme, Map<GameMode, List<String>>> questionBank = {
       'Would you rather travel often OR save for a dream home?',
       'Would you rather always choose the movie OR always choose dinner?',
     ],
-      GameMode.crazySituations: [
+    GameMode.truthOrDare: [
+      'What little habit of mine do you secretly like?',
+      'Give your best romantic movie speech.',
+      'What was your first impression of me?',
+      'Recreate our first date in 30 seconds.',
+      'What song reminds you of us?',
+      'Serenade your partner with any song.',
+      'What is the sweetest thing I have ever done for you?',
+      'Write a 3-line poem about your partner right now.',
+      'What would you change about our first date?',
+      'Recreate your most romantic memory in mime.',
+    ],
+    GameMode.crazySituations: [
       'Your partner plans a surprise trip tomorrow: explain how you would organize everything tonight.',
       'You both must live without your phones for one weekend: explain your plan to make it fun.',
       'You can relive one date together: explain why that one deserves a remake.',
-    ],},
+    ],
+  },
   PartyTheme.eighteenPlus: {
     GameMode.whoWould: [
       'Who would flirt with a stranger first?',
@@ -75,11 +101,24 @@ const Map<PartyTheme, Map<GameMode, List<String>>> questionBank = {
       'Would you rather have no first-date nerves OR no break-up sadness?',
       'Would you rather always text first OR never text first?',
     ],
-      GameMode.crazySituations: [
+    GameMode.truthOrDare: [
+      'What is your biggest dating red flag?',
+      'Send a funny compliment to your last chat contact.',
+      'What is your wildest first-date story?',
+      'Do your best flirty wink and say a cheesy pickup line.',
+      'What is the most embarrassing thing you have searched online?',
+      'Call someone and sing happy birthday, even if it is not their birthday.',
+      'What is your most awkward flirting attempt?',
+      'Text your crush an emoji — nothing else.',
+      'What is the boldest thing you have done to impress someone?',
+      'Read out the last thing you searched on your phone.',
+    ],
+    GameMode.crazySituations: [
       'You must send one honest voice note to your crush right now: explain what you would say and why.',
       'You are stuck at a party with your ex and your current crush: explain your survival strategy.',
       'You can erase one awkward moment from your dating history: explain your pick.',
-    ],},
+    ],
+  },
 };
 
 const Map<PartyTheme, Map<String, List<String>>> truthOrDareBank = {
