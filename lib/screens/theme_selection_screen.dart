@@ -40,7 +40,7 @@ class _ThemeSelectionScreenState extends State<ThemeSelectionScreen> {
         offset: const Offset(0, 4), // Déplacement de l'icone "Friends night"
         child: Image.asset(
           assetPath,
-          width: size,
+          width: 100,
           height: size,
           fit: BoxFit.contain,
         ),
