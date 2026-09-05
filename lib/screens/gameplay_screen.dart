@@ -130,7 +130,6 @@ class _GameplayScreenState extends State<GameplayScreen> {
   int _agreeVotes = 0;
   int? _selectedWhoWouldPlayerIndex;
   String? _todQuestion;
-  bool? _todIsTruth;
 
   Widget _buildAvatar(Uint8List? avatarBytes, {double radius = 16}) {
     return CircleAvatar(
@@ -498,7 +497,6 @@ class _GameplayScreenState extends State<GameplayScreen> {
 
   void _pickTruthOrDare(bool isTruth) {
     setState(() {
-      _todIsTruth = isTruth;
       _todQuestion = _engine.drawTruthOrDareQuestion(isTruth);
     });
   }
@@ -519,7 +517,6 @@ class _GameplayScreenState extends State<GameplayScreen> {
     }
     setState(() {
       _todQuestion = null;
-      _todIsTruth = null;
     });
   }
 
@@ -645,18 +642,14 @@ class _GameplayScreenState extends State<GameplayScreen> {
               child: ConstrainedBox(
                 constraints: const BoxConstraints(maxWidth: 560),
                 child: Container(
-                  decoration: widget.mode == GameMode.whoWould
-                      ? const BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(28)),
-                          gradient: _whoWouldPlatformGradient,
-                        )
-                      : null,
+                  decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(28)),
+                    gradient: _whoWouldPlatformGradient,
+                  ),
                   child: Card(
-                    color: widget.mode == GameMode.whoWould ? Colors.transparent : null,
-                    elevation: widget.mode == GameMode.whoWould ? 0 : 14,
-                    shadowColor: widget.mode == GameMode.whoWould
-                        ? const Color.fromARGB(255, 13, 63, 179)
-                        : null,
+                    color: Colors.transparent,
+                    elevation: 0,
+                    shadowColor: const Color.fromARGB(255, 13, 63, 179),
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(28)),
                     child: Padding(
@@ -688,58 +681,42 @@ class _GameplayScreenState extends State<GameplayScreen> {
                           ),
                         ),
                         const SizedBox(height: 8),
-                        if (widget.mode == GameMode.whoWould)
-                          Stack(
-                            alignment: Alignment.center,
-                            children: [
-                              Text(
-                                widget.mode.label,
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-
-                                  fontSize: 32, // Taille du texte du mode "Who Would" dans le jeu
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily: 'Nunito',
-                                  letterSpacing: 1.2, 
-                                  foreground: Paint()
-                                    ..style = PaintingStyle.stroke
-                                    ..strokeWidth = 5
-                                    ..color = const Color.fromARGB(255, 42, 10, 130), // Couleur du contour du texte du mode "Who Would" dans le jeu
-                                ),
+                        Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            Text(
+                              widget.mode.label,
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 32,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: 'Nunito',
+                                letterSpacing: 1.2,
+                                foreground: Paint()
+                                  ..style = PaintingStyle.stroke
+                                  ..strokeWidth = 5
+                                  ..color = const Color.fromARGB(255, 42, 10, 130),
                               ),
-                              Text(
-                                widget.mode.label,
-                                textAlign: TextAlign.center,
-                                style: const TextStyle(
-                                  fontSize: 32,
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily: 'Nunito',
-                                  letterSpacing: 1.2,
-                                  color: Color.fromARGB(255, 236, 234, 239), // Couleur du Titre du mode "Who Would" dans le jeu
-                                ),
+                            ),
+                            Text(
+                              widget.mode.label,
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(
+                                fontSize: 32,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: 'Nunito',
+                                letterSpacing: 1.2,
+                                color: Color.fromARGB(255, 236, 234, 239),
                               ),
-                            ],
-                          )
-                        else
-                          Text(
-                            widget.mode.label,
-                            textAlign: TextAlign.center,
-                            style: Theme.of(context)
-                                .textTheme
-                                .headlineSmall
-                                ?.copyWith(fontWeight: FontWeight.bold),
-                          ),
+                            ),
+                          ],
+                        ),
                         Text(
                           widget.theme.label,
                           textAlign: TextAlign.center,
-                          style: (widget.mode == GameMode.whoWould
-                                  ? Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                      color: Colors.white70,
-                                    )
-                                  : Theme.of(context)
-                                      .textTheme
-                                      .bodyMedium
-                                      ?.copyWith(color: Colors.black54)) ?? 
+                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                color: Colors.white70,
+                              ) ??
                               const TextStyle(),
                         ),
                         const SizedBox(height: 12), 
@@ -770,13 +747,7 @@ class _GameplayScreenState extends State<GameplayScreen> {
                         const SizedBox(height: 24),
                         DecoratedBox(
                           decoration: BoxDecoration(
-                            color: widget.mode == GameMode.whoWould
-                                ? const Color.fromARGB(255, 6, 35, 102)
-                                : (widget.mode == GameMode.truthOrDare && _todIsTruth != null
-                                    ? (_todIsTruth!
-                                       ? const Color(0xFFE3F2FD)
-                                       : const Color(0xFFFCE4EC))
-                                    : const Color(0xFFF5F0FF)),
+                            color: const Color.fromARGB(255, 6, 35, 102),
                             borderRadius: BorderRadius.circular(20),
                           ),
                           child: Padding(
@@ -834,9 +805,7 @@ class _GameplayScreenState extends State<GameplayScreen> {
                                         textAlign: TextAlign.center,
                                         style: Theme.of(context).textTheme.titleLarge?.copyWith(
                                               height: 1.3,
-                                              color: widget.mode == GameMode.whoWould
-                                                  ? Colors.white
-                                                  : Colors.black,
+                                              color: Colors.white,
                                             ),
                                       ),
                                     ),
@@ -1180,8 +1149,6 @@ class _GameplayScreenState extends State<GameplayScreen> {
     );
   }
 }
-
-
 
 
 
