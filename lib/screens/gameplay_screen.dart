@@ -798,17 +798,17 @@ class _GameplayScreenState extends State<GameplayScreen> {
                                              options[0],
                                              textAlign: TextAlign.center,
                                              style: const TextStyle(
-                                               color: Colors.white,
+                                               color: Color.fromARGB(255, 12, 12, 12), // Couleur du choix A de "Would You Rather"
                                                fontSize: 20,
                                                fontWeight: FontWeight.w800,
                                              ),
                                            ),
                                            const SizedBox(height: 6),
                                            const Text(
-                                             'OR',
+                                             'OR', // Séparateur entre les deux choix de "Would You Rather"
                                              textAlign: TextAlign.center,
                                              style: TextStyle(
-                                               color: Colors.white,
+                                               color: Color.fromARGB(255, 12, 12, 12), // Couleur du séparateur "OR" de "Would You Rather"
                                                fontSize: 20,
                                                fontWeight: FontWeight.w900,
                                                letterSpacing: 1.2,
@@ -819,7 +819,7 @@ class _GameplayScreenState extends State<GameplayScreen> {
                                              options[1],
                                              textAlign: TextAlign.center,
                                              style: const TextStyle(
-                                               color: Colors.white,
+                                               color: Color.fromARGB(255, 12, 12, 12), // Couleur du choix B de "Would You Rather"
                                                fontSize: 20,
                                                fontWeight: FontWeight.w800,
                                              ),
@@ -828,7 +828,18 @@ class _GameplayScreenState extends State<GameplayScreen> {
                                        );
                                     })(),
                                     )
-                                  : const SizedBox.shrink(),
+                                  : Center(
+                                      child: Text(
+                                        _engine.currentQuestion,
+                                        textAlign: TextAlign.center,
+                                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                                              height: 1.3,
+                                              color: widget.mode == GameMode.whoWould
+                                                  ? Colors.white
+                                                  : Colors.black,
+                                            ),
+                                      ),
+                                    ),
                             ),
                           ),
                         ),                        const SizedBox(height: 24),
