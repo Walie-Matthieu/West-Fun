@@ -2,28 +2,54 @@ import 'package:west_fun/models/game_models.dart';
 
 const Map<PartyTheme, Map<GameMode, List<String>>> questionBank = {
   PartyTheme.friendsNight: {
-    GameMode.whoWould: [
+    GameMode.whoWould: [ //Du mode friends night
       'Who would survive the longest on a desert island?',
       'Who would accidentally start a fire while cooking?',
       'Who would become famous first?',
+      'Who would become rich by accident?',
+      'Who would wins an argument abouth a topic he/she doesn\'t know anything about?',
+      'Who would wake-up in a random place?',
+      'Who would say no to a million dollar?',
+      'Who would say yes to punch the person who said "no" to a million dollar?',
+      'Who would adopt a random animal?',
+      'Who would adopt the person who\'ve just adopted a random animal?',
+      'Who would win an ugly pageant?',
+      'Who would win a beauty pageant?',
+      'Who would become famous if she/he starts a career on social medias?',
     ],
-    GameMode.shesA10But: [
+    GameMode.shesA10But: [ //Du mode friends night
       'She\'s a 10 but she claps when the plane lands.',
       'She\'s a 10 but she replies after 3 business days.',
       'She\'s a 10 but she sings loudly in every store.',
       'She\'s a 10 but she hates your parents.',
+      'She\'s a 10 but thinks Superman beats Goku.',
+      'She\'s a 10 but she\'s always traveling',
+      'She\'s a 10 but she\'s your brother/sister ',
+      'She\'s a 10 but she\'s you! ',
+      'She\'s a 10 but she doesn\'t know how to use the three shells  ',
+      'She\'s a 6 but she\'s finished San Andreas two times ',
+      'She\'s a 3 but she\'s two times richer than Elon Musk ',
+      'She\'s a 4 but she\'s okay for you to play GTA VI whenever you want ',
+      'She\'s a 10 but she has the same name and family names as you.',
+      'She\'s a 7 but she always cook the same dishes, but perfectly.',
     ],
-    GameMode.neverHaveIEver: [
+    GameMode.neverHaveIEver: [ //Du mode friends night
       'Never have I ever pretended to know a song I didn\'t know.',
       'Never have I ever sent a text to the wrong person.',
       'Never have I ever laughed at the wrong moment.',
+      'Never have I ever lied about my origin ethnicity.',
+      'Never have I ever drive a plane.',
+      'Never have I ever revealed a big secret from someone else.',
+      'Never have I ever spoiled a movie/serie just to piss off someone.',
+      'Never have I ever pretend to not remember someone.',
+      'Never have I ever tell a kid Santa Claus is not real.',
     ],
-    GameMode.wouldYouRather: [
+    GameMode.wouldYouRather: [ //Du mode friends night
       'Would you rather never use social media again OR never watch movies again?',
       'Would you rather always be 10 minutes late OR 20 minutes early?',
       'Would you rather lose your phone OR lose your wallet?',
     ],
-    GameMode.truthOrDare: [
+    GameMode.truthOrDare: [ //Du mode friends night
       'What is your most embarrassing nickname?',
       'Speak in an accent for the next two minutes.',
       'What is a harmless lie you tell often?',
@@ -35,34 +61,36 @@ const Map<PartyTheme, Map<GameMode, List<String>>> questionBank = {
       'What is a secret talent no one knows about?',
       'Speak only in questions for the next round.',
     ],
-    GameMode.crazySituations: [
+    GameMode.crazySituations: [ //Du mode friends night
       'You can only use one app for a year: explain why your choice makes sense.',
       'You wake up famous overnight: explain your first 3 moves to stay sane.',
       'You can swap lives with one person for a week: explain why this is your best pick.',
+      'Suddenly everyone around you turn into vampire, except the person in your right, explain what would be your plan to survive ',
     ],
   },
   PartyTheme.couple: {
-    GameMode.whoWould: [
+    GameMode.whoWould: [ //Du mode couple
       'Who would apologize first after an argument?',
       'Who would plan the perfect weekend getaway?',
       'Who would cry first during a sad movie?',
     ],
-    GameMode.shesA10But: [
+    GameMode.shesA10But: [ //Du mode couple
       'She\'s a 10 but she steals your fries every time.',
       'She\'s a 10 but she says "we\'re almost there" for 40 minutes.',
       'She\'s a 10 but she sleeps diagonally on the bed.',
+      'She\'s a 10 but she never remembers to water the plants.',
     ],
-    GameMode.neverHaveIEver: [
+    GameMode.neverHaveIEver: [ //Du mode couple
       'Never have I ever forgotten an important anniversary date.',
       'Never have I ever checked my partner\'s playlist secretly.',
       'Never have I ever watched our series without my partner.',
     ],
-    GameMode.wouldYouRather: [
+    GameMode.wouldYouRather: [ //Du mode couple
       'Would you rather have date night at home OR go out every week?',
       'Would you rather travel often OR save for a dream home?',
       'Would you rather always choose the movie OR always choose dinner?',
     ],
-    GameMode.truthOrDare: [
+    GameMode.truthOrDare: [ //Du mode couple
       'What little habit of mine do you secretly like?',
       'Give your best romantic movie speech.',
       'What was your first impression of me?',
@@ -74,34 +102,58 @@ const Map<PartyTheme, Map<GameMode, List<String>>> questionBank = {
       'What would you change about our first date?',
       'Recreate your most romantic memory in mime.',
     ],
-    GameMode.crazySituations: [
+    GameMode.crazySituations: [ //Du mode couple
       'Your partner plans a surprise trip tomorrow: explain how you would organize everything tonight.',
       'You both must live without your phones for one weekend: explain your plan to make it fun.',
       'You can relive one date together: explain why that one deserves a remake.',
+      'Your partner surpise you with a guest pass to see your favorite celebrity: explain two reason to cheat on him/her .',
+      'Your discover that your partner has been hiding a secret hobby from you: explain how you would react and why it matters to you.',
+      'Your partner forgets an important date: explain how you would handle it and why it matters to you.',
+      'Your partner surprises you with a spontaneous adventure: explain how you would react and why it excites you.',
+      'Your partner plans a themed date night: explain how you would contribute to making it memorable.',
+      'Your partner wants to try a new hobby together: explain how you would approach it and why it excites you.',
+      'Your partner wants to redecorate a room together: explain how you would contribute and why it excites you.',
+      'Your partner wants to cook a new recipe together: explain how you would approach it and why it excites you.',
+      'Your partner wants to start a new fitness routine together: explain how you would participate and why it excites you.',
+      'Your partner wants to take a spontaneous weekend trip: explain how you would prepare and why it excites you.',
+      'Your discover that your partner is a secret super hero: explain how you would react and why it excites you.',
+      'Your partner wants to adopt a pet together: explain how you would contribute and why it excites you.',
+      'Your partner wants to sell your pet or your belongings: explain how you would react and why it matters to you.',
     ],
   },
   PartyTheme.eighteenPlus: {
-    GameMode.whoWould: [
+    GameMode.whoWould: [ //Du mode interdit -18 
       'Who would flirt with a stranger first?',
       'Who would send the boldest late-night text?',
       'Who would keep a secret crush the longest?',
+      'Who would have sex with itself from another dimension?',
+      'Who would have sex with the person holding the phone?',
+      'Who would pay an onlyfan/Meem?',
+      'Who would create an onlyfan/Meem?',
+      'Who would use a gun as a sex toy?',
+      'Who would use a sex toy as a gun?',
     ],
-    GameMode.shesA10But: [
+    GameMode.shesA10But: [ //Du mode interdit -18 
       'She\'s a 10 but she asks for your zodiac chart on the first date.',
       'She\'s a 10 but she writes "seen" and nothing else.',
       'She\'s a 10 but she still stalks her ex online.',
+      'She\'s a 10 but she wants to wait for marriage.', 
+      'She\'s a 10 but she doesn\'t wants to wait for marriage.',
+      'She\'s a 3 but she\'s okay for you to do it with other people.',
     ],
-    GameMode.neverHaveIEver: [
+    GameMode.neverHaveIEver: [ //Du mode interdit -18 
       'Never have I ever gone on two dates in one day.',
       'Never have I ever kissed someone in a public place.',
       'Never have I ever sent a risky message and regretted it.',
+      'Never have I ever kissed someone from the opposite sex.',
     ],
-    GameMode.wouldYouRather: [
+    GameMode.wouldYouRather: [ //Du mode interdit -18 
       'Would you rather reveal your crush OR reveal your last awkward message?',
       'Would you rather have no first-date nerves OR no break-up sadness?',
       'Would you rather always text first OR never text first?',
+      'Would you rather have sex every day OR one time in a year?',
     ],
-    GameMode.truthOrDare: [
+    GameMode.truthOrDare: [ //Du mode interdit -18 
       'What is your biggest dating red flag?',
       'Send a funny compliment to your last chat contact.',
       'What is your wildest first-date story?',
@@ -112,11 +164,14 @@ const Map<PartyTheme, Map<GameMode, List<String>>> questionBank = {
       'Text your crush an emoji — nothing else.',
       'What is the boldest thing you have done to impress someone?',
       'Read out the last thing you searched on your phone.',
+      'Tell one person or everyone what\'s your most asahmed kink',
     ],
-    GameMode.crazySituations: [
+    GameMode.crazySituations: [ //Du mode interdit -18 
       'You must send one honest voice note to your crush right now: explain what you would say and why.',
       'You are stuck at a party with your ex and your current crush: explain your survival strategy.',
       'You can erase one awkward moment from your dating history: explain your pick.',
+      'Your crush accept to have a funny time with you, but he wants his/her friend to watch: explain what would be your answer',
+      'The person in front of you invite you to have sex, what would you tell him/her?.',
     ],
   },
 };

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:west_fun/widgets/west_buttons.dart';
 import 'package:flutter/services.dart';
@@ -127,9 +129,26 @@ class _GameplayScreenState extends State<GameplayScreen> {
 
   late final GameEngine _engine;
   final ImagePicker _imagePicker = ImagePicker();
+  static const List<String> _todWaitingMessages = [ //Zone de texte pour le message d'attente du jeu "Truth or Dare"
+    'Truth or Dare?',
+    'Choose your fate',
+    'Make your choice',
+    'Your move',
+    'Pick a side',
+    'Choose wisely',
+    'Choose well',
+    'Be careful because one of them is really hard!',
+  ];
+
   int _agreeVotes = 0;
   int? _selectedWhoWouldPlayerIndex;
   String? _todQuestion;
+  String _todWaitingMessage = _todWaitingMessages.first;
+
+  void _refreshTodWaitingMessage() {
+    final randomIndex = Random().nextInt(_todWaitingMessages.length);
+    _todWaitingMessage = _todWaitingMessages[randomIndex];
+  }
 
   Widget _buildAvatar(Uint8List? avatarBytes, {double radius = 16}) {
     return CircleAvatar(
@@ -517,6 +536,7 @@ class _GameplayScreenState extends State<GameplayScreen> {
     }
     setState(() {
       _todQuestion = null;
+      _refreshTodWaitingMessage();
     });
   }
 
@@ -601,6 +621,7 @@ class _GameplayScreenState extends State<GameplayScreen> {
   @override
   void initState() {
     super.initState();
+    _refreshTodWaitingMessage();
     _engine = GameEngine(
       players: widget.playerNames.asMap().entries.map((entry) {
         final avatar = widget.playerAvatars != null &&
@@ -801,7 +822,16 @@ class _GameplayScreenState extends State<GameplayScreen> {
                                     )
                                   : widget.mode == GameMode.truthOrDare
                                       ? (_todQuestion == null
-                                          ? const SizedBox.shrink()
+                                          ? Center(
+                                              child: Text(
+                                                _todWaitingMessage,
+                                                textAlign: TextAlign.center,
+                                                style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                                                      height: 1.3,
+                                                      color: Colors.white,
+                                                    ),
+                                              ),
+                                            )
                                           : Center(
                                               child: Text(
                                                 _todQuestion!,
