@@ -14,6 +14,7 @@ class GameEngine {
   })  : assert(players.length > 1, 'At least 2 players are required'),
         totalTurns = max(players.length * 3, 1),
         _random = random ?? Random() {
+    activePlayerIndex = _random.nextInt(players.length); // Permet de rendre la séléction du joueur actif aléatoire
     _currentQuestion = _drawNextQuestion();
   }
 
