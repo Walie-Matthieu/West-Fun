@@ -128,10 +128,11 @@ const Map<PartyTheme, Map<GameMode, List<String>>> questionBank = {
       'Who would keep a secret crush the longest?',
       'Who would have sex with itself from another dimension?',
       'Who would have sex with the person holding the phone?',
-      'Who would pay an onlyfan/Meem?',
+      'Who would pay for an onlyfan/Meem?',
       'Who would create an onlyfan/Meem?',
       'Who would use a gun as a sex toy?',
       'Who would use a sex toy as a gun?',
+      'Who would have sex with a person in this room?',
     ],
     GameMode.shesA10But: [ //Du mode interdit -18 
       'She\'s a 10 but she asks for your zodiac chart on the first date.',
