@@ -748,7 +748,14 @@ class _GameplayScreenState extends State<GameplayScreen> {
                             children: [
                               _buildAvatar(_engine.activePlayer.avatarBytes, radius: 18),
                               const SizedBox(width: 8),
-                              Text('${t.activePlayer}: ${_engine.activePlayer.name}'),
+                              Text(
+                                _engine.activePlayer.name,
+                                style: const TextStyle(
+                                  fontSize: 20, // Taille du texte du nom du joueur actif
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                ),
+                              ),
                             ],
                           ),
                         if (widget.mode == GameMode.truthOrDare) ...[
