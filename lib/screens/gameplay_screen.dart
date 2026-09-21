@@ -746,7 +746,7 @@ class _GameplayScreenState extends State<GameplayScreen> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              _buildAvatar(_engine.activePlayer.avatarBytes, radius: 18),
+                              _buildAvatar(_engine.activePlayer.avatarBytes, radius: 18), // Taille de l'avatar
                               const SizedBox(width: 8),
                               Text(
                                 _engine.activePlayer.name,
