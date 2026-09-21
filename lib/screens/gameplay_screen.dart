@@ -1120,6 +1120,73 @@ class _GameplayScreenState extends State<GameplayScreen> {
                               ),
                             ],
                           )
+                        else if (widget.mode == GameMode.crazySituations)
+                          Row(
+                            children: [
+                              Expanded(
+                                child: SizedBox(
+                                  height: 42,
+                                  child: WestElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: const Color.fromARGB(255, 6, 35, 102),
+                                      foregroundColor: Colors.white,
+                                      padding: const EdgeInsets.symmetric(vertical: 10),
+                                      textStyle: Theme.of(context).textTheme.titleSmall,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(16),
+                                      ),
+                                    ),
+                                    onPressed: _openVoteDialog,
+                                    child: Text(voteButtonLabel),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: 12),
+                              Expanded(
+                                child: SizedBox(
+                                  height: 42,
+                                  child: WestElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: const Color.fromARGB(255, 6, 35, 102),
+                                      foregroundColor: Colors.white,
+                                      padding: const EdgeInsets.symmetric(vertical: 10),
+                                      textStyle: Theme.of(context).textTheme.titleSmall,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(16),
+                                      ),
+                                    ),
+                                    onPressed: () {
+                                      _engine.applyVote(
+                                        agreeVotes: _agreeVotes,
+                                        voterCount: voterCount,
+                                      );
+                                      if (_engine.isFinished) {
+                                        Navigator.of(context).pushReplacement(
+                                          MaterialPageRoute(
+                                            builder: (_) => EndGameScreen(
+                                              players: _engine.ranking,
+                                              replayPlayerNames: _engine.players
+                                                  .map((player) => player.name)
+                                                  .toList(),
+                                              replayPlayerAvatars: _engine.players
+                                                  .map((player) => player.avatarBytes)
+                                                  .toList(),
+                                            ),
+                                          ),
+                                        );
+                                        return;
+                                      }
+                                      setState(() {
+                                        _agreeVotes = 0;
+                                        _selectedWhoWouldPlayerIndex = null;
+                                      });
+                                    },
+                                    child: Text(t.next),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          )
                         else
                           Row(
                           children: [
