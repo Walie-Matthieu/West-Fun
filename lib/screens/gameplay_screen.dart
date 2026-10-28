@@ -168,7 +168,8 @@ class _GameplayScreenState extends State<GameplayScreen> {
       if (picked == null) {
         return null;
       }
-      return picked.readAsBytes();
+      // return picked.readAsBytes();
+        return await picked.readAsBytes();
     } on PlatformException {
       if (!mounted) {
         return null;
